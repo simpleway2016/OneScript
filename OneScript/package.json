@@ -1,0 +1,14 @@
+{
+  "name": "onescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "Jack",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.7.5",
+    "vue": "^2.6.10"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "jack-one-script",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jack",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.7.5",
+    "vue": "^2.6.10"
+  }
+}

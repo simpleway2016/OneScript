@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5",
+    "declaration": true,
+    "types": [
+      "./node_modules/@types/node",
+      "./node_modules/vue/types"
+    ]
+  }
+}
