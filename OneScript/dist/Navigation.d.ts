@@ -9,12 +9,10 @@ export declare class Navigation extends Component {
     /**目前显示的队列*/
     queue: Component[];
     private pushing;
-    private keyindex;
+    private static keyindex;
     private eventHandlers;
-    private keyframNames;
-    private keyframeStyle;
+    private static keyframNames;
     constructor();
-    dispose(): void;
     /**
      * 触发一个事件
      * @param eventType
@@ -34,7 +32,7 @@ export declare class Navigation extends Component {
     private unload;
     private moveComponentTogether;
     /**加入动画的keyframes到head */
-    private initAnimationKeyframe;
+    private static initAnimationKeyframe;
     private moveComponent;
     /**
      * 把component提到最前面显示
