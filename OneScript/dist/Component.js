@@ -31,18 +31,25 @@ var Component = /** @class */ (function () {
         get: function () {
             if (!this.element)
                 return false;
-            return this.element.style.visibility !== "hidden";
+            //return this.element.style.visibility !== "hidden";
+            return this.element.style.display !== "none";
         },
         set: function (value) {
             if (!this.element)
                 return;
+            //if (value) {
+            //    this.element.style.visibility = "";
+            //}
+            //else {
+            //    this.element.style.display = "none";
+            //    this.element.style.visibility = "hidden";
+            //    this.element.style.display = "";
+            //}
             if (value) {
-                this.element.style.visibility = "";
+                this.element.style.display = "";
             }
             else {
                 this.element.style.display = "none";
-                this.element.style.visibility = "hidden";
-                this.element.style.display = "";
             }
         },
         enumerable: true,
