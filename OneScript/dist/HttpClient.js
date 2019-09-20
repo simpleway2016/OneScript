@@ -64,7 +64,7 @@ var HttpClient = /** @class */ (function () {
                             cb(null, "http aborted");
                         }
                         else {
-                            cb(null, { status: http.status });
+                            cb(null, { status: http.status, msg: http.responseText });
                         }
                     }
                 }
