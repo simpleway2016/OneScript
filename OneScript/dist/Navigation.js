@@ -33,24 +33,13 @@ var Navigation = /** @class */ (function (_super) {
         var _this = _super.call(this, "") || this;
         /**目前显示的队列*/
         _this.queue = [];
-        _this.keyindex = 1;
         _this.eventHandlers = [];
-        _this.keyframNames = {
-            "100%to0%": "",
-            "0%to100%": "",
-            "-20%to0%": "",
-            "0%to-20%": ""
-        };
         _this.element.style.width = "100%";
         _this.element.style.height = "100%";
         _this.element.style.position = "relative";
-        _this.initAnimationKeyframe();
+        Navigation.initAnimationKeyframe();
         return _this;
     }
-    Navigation.prototype.dispose = function () {
-        _super.prototype.dispose.call(this);
-        document.head.removeChild(this.keyframeStyle);
-    };
     /**
      * 触发一个事件
      * @param eventType
@@ -166,51 +155,53 @@ var Navigation = /** @class */ (function (_super) {
         animationFrame(action);
     };
     /**加入动画的keyframes到head */
-    Navigation.prototype.initAnimationKeyframe = function () {
+    Navigation.initAnimationKeyframe = function () {
+        if (Navigation.keyindex > 1)
+            return;
         //100% to 0%
         var from = "100%";
         var to = "0%";
-        var keyname = "_animation_keyframe_" + (this.keyindex++) + "_" + new Date().getTime();
-        this.keyframeStyle = document.createElement("STYLE");
+        var keyname = "_animation_keyframe_" + (Navigation.keyindex++) + "_" + new Date().getTime();
+        var keyframeStyle = document.createElement("STYLE");
         var innerHTML = "@keyframes " + keyname + " {from {transform: translate3d(" + from + ", 0px,0);}to{transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-moz-keyframes " + keyname + " {from {-moz-transform: translate3d(" + from + ", 0px,0);}to{-moz-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-webkit-keyframes " + keyname + " {from {-webkit-transform: translate3d(" + from + ", 0px,0);}to{-webkit-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-o-keyframes " + keyname + " {from {-o-transform: translate3d(" + from + ", 0px,0);}to{-o-transform: translate3d(" + to + ", 0px,0);}}\r\n";
-        this.keyframNames["100%to0%"] = keyname;
+        Navigation.keyframNames["100%to0%"] = keyname;
         //0% to 100%
         from = "0%";
         to = "100%";
-        keyname = "_animation_keyframe_" + (this.keyindex++) + "_" + new Date().getTime();
+        keyname = "_animation_keyframe_" + (Navigation.keyindex++) + "_" + new Date().getTime();
         innerHTML += "@keyframes " + keyname + " {from {transform: translate3d(" + from + ", 0px,0);}to{transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-moz-keyframes " + keyname + " {from {-moz-transform: translate3d(" + from + ", 0px,0);}to{-moz-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-webkit-keyframes " + keyname + " {from {-webkit-transform: translate3d(" + from + ", 0px,0);}to{-webkit-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-o-keyframes " + keyname + " {from {-o-transform: translate3d(" + from + ", 0px,0);}to{-o-transform: translate3d(" + to + ", 0px,0);}}\r\n";
-        this.keyframNames["0%to100%"] = keyname;
+        Navigation.keyframNames["0%to100%"] = keyname;
         //0% to -20%
         from = "0%";
         to = "-20%";
-        keyname = "_animation_keyframe_" + (this.keyindex++) + "_" + new Date().getTime();
+        keyname = "_animation_keyframe_" + (Navigation.keyindex++) + "_" + new Date().getTime();
         innerHTML += "@keyframes " + keyname + " {from {transform: translate3d(" + from + ", 0px,0);}to{transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-moz-keyframes " + keyname + " {from {-moz-transform: translate3d(" + from + ", 0px,0);}to{-moz-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-webkit-keyframes " + keyname + " {from {-webkit-transform: translate3d(" + from + ", 0px,0);}to{-webkit-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-o-keyframes " + keyname + " {from {-o-transform: translate3d(" + from + ", 0px,0);}to{-o-transform: translate3d(" + to + ", 0px,0);}}\r\n";
-        this.keyframNames["0%to-20%"] = keyname;
+        Navigation.keyframNames["0%to-20%"] = keyname;
         // -20% to 0% 
         from = "-20%";
         to = "0%";
-        keyname = "_animation_keyframe_" + (this.keyindex++) + "_" + new Date().getTime();
+        keyname = "_animation_keyframe_" + (Navigation.keyindex++) + "_" + new Date().getTime();
         innerHTML += "@keyframes " + keyname + " {from {transform: translate3d(" + from + ", 0px,0);}to{transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-moz-keyframes " + keyname + " {from {-moz-transform: translate3d(" + from + ", 0px,0);}to{-moz-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-webkit-keyframes " + keyname + " {from {-webkit-transform: translate3d(" + from + ", 0px,0);}to{-webkit-transform: translate3d(" + to + ", 0px,0);}}\r\n" +
             "@-o-keyframes " + keyname + " {from {-o-transform: translate3d(" + from + ", 0px,0);}to{-o-transform: translate3d(" + to + ", 0px,0);}}\r\n";
-        this.keyframNames["-20%to0%"] = keyname;
-        this.keyframeStyle.innerHTML = innerHTML;
-        document.head.appendChild(this.keyframeStyle);
+        Navigation.keyframNames["-20%to0%"] = keyname;
+        keyframeStyle.innerHTML = innerHTML;
+        document.head.appendChild(keyframeStyle);
     };
     Navigation.prototype.moveComponent = function (component, from, to, keepValue, callback) {
         component.element.style.transform = "translate3d(" + from + ",0px,0)";
         component.element.style.webkitTransform = "translate3d(" + from + ",0px,0)";
-        var keyname = this.keyframNames[from + "to" + to];
+        var keyname = Navigation.keyframNames[from + "to" + to];
         var funcEnd = function () {
             if (keepValue) {
                 component.element.style.transform = "translate3d(" + to + ",0px,0)";
@@ -426,6 +417,13 @@ var Navigation = /** @class */ (function (_super) {
             //    preComponent.animationOnNavigation ? preComponent : null, -20, 0,
             //    animationEndFunc);
         }
+    };
+    Navigation.keyindex = 1;
+    Navigation.keyframNames = {
+        "100%to0%": "",
+        "0%to100%": "",
+        "-20%to0%": "",
+        "0%to-20%": ""
     };
     return Navigation;
 }(Component));
