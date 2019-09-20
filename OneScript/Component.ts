@@ -246,8 +246,11 @@ export class Component implements IHttpClientUsing {
     /**
      * 设置element的parentElement
      */
-    setParent(parentEle: HTMLElement): void {
-        parentEle.appendChild(this.element);
+    setParent(parentEle: Element | string): void {
+        if (typeof parentEle === "string")
+            parentEle = <any>document.body.querySelector(parentEle);
+
+        (<HTMLElement>parentEle).appendChild(this.element);
         this.onViewReady();
     }
 

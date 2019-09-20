@@ -46,7 +46,7 @@ export declare class Component implements IHttpClientUsing {
     /**
      * 设置element的parentElement
      */
-    setParent(parentEle: HTMLElement): void;
+    setParent(parentEle: Element | string): void;
     /**在外部调用setParent后，内部会调用此方法 */
     onViewReady(): void;
     /**Navigation push完成后，调用此方法 */
