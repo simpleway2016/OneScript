@@ -9,9 +9,11 @@ import { IHttpClientUsing } from "./IHttpClientUsing";
 
 import { Component } from "./Component";
 import { registerLoading } from "./VueComponents/Loading";
+import { AnimationHelper } from "./AnimationHelper";
 
 
 export {
+    AnimationHelper,
     Navigation,
     NavigationEvent,
     PullToRefresh,
