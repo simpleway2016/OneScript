@@ -211,6 +211,8 @@ var Component = /** @class */ (function () {
      * 设置element的parentElement
      */
     Component.prototype.setParent = function (parentEle) {
+        if (typeof parentEle === "string")
+            parentEle = document.body.querySelector(parentEle);
         parentEle.appendChild(this.element);
         this.onViewReady();
     };
