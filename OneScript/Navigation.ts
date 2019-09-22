@@ -296,6 +296,9 @@ export class Navigation extends Component {
      * @param callback 动画完成后的回调方法
      */
     push(curComponent: Component, animation: boolean = true, callback: () => void = null): void {
+        //需要设置zIndex，否则，如果另一个Component里面的子元素有更高zIndex，则会覆盖这个curComponent
+        curComponent.element.style.zIndex = "1";
+
         if (this.pushing) {
             if (this.pushing.constructor == curComponent.constructor)//禁止同一个component被连续push
                 return;

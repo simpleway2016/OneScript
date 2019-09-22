@@ -257,6 +257,8 @@ var Navigation = /** @class */ (function (_super) {
         var _this = this;
         if (animation === void 0) { animation = true; }
         if (callback === void 0) { callback = null; }
+        //需要设置zIndex，否则，如果另一个Component里面的子元素有更高zIndex，则会覆盖这个curComponent
+        curComponent.element.style.zIndex = "1";
         if (this.pushing) {
             if (this.pushing.constructor == curComponent.constructor) //禁止同一个component被连续push
                 return;
