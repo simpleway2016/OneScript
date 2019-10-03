@@ -108,7 +108,6 @@ var Navigation = /** @class */ (function (_super) {
         if (index < 0)
             return;
         this.queue.splice(index, 1);
-        component.onNavigationPoped();
     };
     Navigation.prototype.moveComponentTogether = function (c1, start1, end1, c2, start2, end2, callback) {
         var animationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
@@ -406,7 +405,6 @@ var Navigation = /** @class */ (function (_super) {
             }
         };
         if (!animation) {
-            this.unload(component);
             animationEndFunc();
         }
         else {
@@ -419,6 +417,45 @@ var Navigation = /** @class */ (function (_super) {
             //    preComponent.animationOnNavigation ? preComponent : null, -20, 0,
             //    animationEndFunc);
         }
+    };
+    /**
+     * unload指定component
+     * @param component
+     */
+    Navigation.prototype.unloadComponent = function (component) {
+        if (this.queue.length === 0)
+            return;
+        for (var i = 0; i < this.eventHandlers.length; i++) {
+            try {
+                if (this.eventHandlers[i].event == NavigationEvent.OnBeforePop) {
+                    var handled = this.eventHandlers[i].action(component);
+                    if (handled === true) {
+                        return;
+                    }
+                }
+            }
+            catch (e) {
+            }
+        }
+        var animation = false;
+        component.onNavigationUnActived(true);
+        component.onBeforeNavigationPoped();
+        this.unload(component);
+        try {
+            component.onNavigationPoped();
+        }
+        catch (e) {
+        }
+        for (var i = 0; i < this.eventHandlers.length; i++) {
+            try {
+                if (this.eventHandlers[i].event == NavigationEvent.OnComponentPoped)
+                    this.eventHandlers[i].action(component);
+            }
+            catch (e) {
+            }
+        }
+        component.owner = undefined;
+        component.dispose();
     };
     Navigation.keyindex = 1;
     Navigation.keyframNames = {

@@ -117,7 +117,6 @@ export class Navigation extends Component {
             return;
 
         this.queue.splice(index, 1);
-        (<Component>component).onNavigationPoped();
     }
 
     private moveComponentTogether(c1: Component, start1: number, end1: number, c2: Component, start2: number, end2: number, callback: () => void) {
@@ -483,8 +482,6 @@ export class Navigation extends Component {
         };
 
         if (!animation) {
-
-            this.unload(component);
             animationEndFunc();
         }
         else {
@@ -498,5 +495,56 @@ export class Navigation extends Component {
             //    preComponent.animationOnNavigation ? preComponent : null, -20, 0,
             //    animationEndFunc);
         }
+    }
+
+
+    /**
+     * unload指定component
+     * @param component
+     */
+    unloadComponent(component: Component): void {
+        if (this.queue.length === 0)
+            return;
+
+        for (var i = 0; i < this.eventHandlers.length; i++) {
+            try {
+                if (this.eventHandlers[i].event == NavigationEvent.OnBeforePop) {
+                    var handled = this.eventHandlers[i].action(component);
+                    if (handled === true) {
+                        return;
+                    }
+                }
+            }
+            catch (e) {
+
+            }
+        }
+
+        var animation = false;
+
+        component.onNavigationUnActived(true);
+        component.onBeforeNavigationPoped();
+
+        this.unload(component);
+
+        try {
+            component.onNavigationPoped();
+        }
+        catch (e) {
+
+        }
+
+        for (var i = 0; i < this.eventHandlers.length; i++) {
+            try {
+                if (this.eventHandlers[i].event == NavigationEvent.OnComponentPoped)
+                    this.eventHandlers[i].action(component);
+            }
+            catch (e) {
+
+            }
+        }
+
+        component.owner = undefined;
+        component.dispose();
     }
 }

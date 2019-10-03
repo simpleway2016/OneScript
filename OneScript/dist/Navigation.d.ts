@@ -52,4 +52,9 @@ export declare class Navigation extends Component {
      * @param callback 动画完成后的回调方法
      */
     pop(animation?: boolean, callback?: () => void): void;
+    /**
+     * unload指定component
+     * @param component
+     */
+    unloadComponent(component: Component): void;
 }
