@@ -425,6 +425,10 @@ var Navigation = /** @class */ (function (_super) {
     Navigation.prototype.unloadComponent = function (component) {
         if (this.queue.length === 0)
             return;
+        if (this.queue[this.queue.length - 1] === component) {
+            this.pop(false);
+            return;
+        }
         for (var i = 0; i < this.eventHandlers.length; i++) {
             try {
                 if (this.eventHandlers[i].event == NavigationEvent.OnBeforePop) {

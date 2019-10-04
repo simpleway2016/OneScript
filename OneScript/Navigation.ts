@@ -505,6 +505,11 @@ export class Navigation extends Component {
     unloadComponent(component: Component): void {
         if (this.queue.length === 0)
             return;
+        if (this.queue[this.queue.length - 1] === component) {
+            this.pop(false);
+            return;
+        }
+            
 
         for (var i = 0; i < this.eventHandlers.length; i++) {
             try {
