@@ -258,6 +258,11 @@ var Navigation = /** @class */ (function (_super) {
         if (callback === void 0) { callback = null; }
         //需要设置zIndex，否则，如果另一个Component里面的子元素有更高zIndex，则会覆盖这个curComponent
         curComponent.element.style.zIndex = "1";
+        curComponent.element.style.position = "absolute";
+        curComponent.element.style.left = "0px";
+        curComponent.element.style.top = "0px";
+        curComponent.element.style.width = "100%";
+        curComponent.element.style.height = "100%";
         if (this.pushing) {
             if (this.pushing.constructor == curComponent.constructor) //禁止同一个component被连续push
                 return;

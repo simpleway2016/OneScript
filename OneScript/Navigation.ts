@@ -297,6 +297,11 @@ export class Navigation extends Component {
     push(curComponent: Component, animation: boolean = true, callback: () => void = null): void {
         //需要设置zIndex，否则，如果另一个Component里面的子元素有更高zIndex，则会覆盖这个curComponent
         curComponent.element.style.zIndex = "1";
+        curComponent.element.style.position = "absolute";
+        curComponent.element.style.left = "0px";
+        curComponent.element.style.top = "0px";
+        curComponent.element.style.width = "100%";
+        curComponent.element.style.height = "100%";
 
         if (this.pushing) {
             if (this.pushing.constructor == curComponent.constructor)//禁止同一个component被连续push

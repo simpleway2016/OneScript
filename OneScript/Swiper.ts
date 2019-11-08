@@ -114,16 +114,22 @@ export class Swiper {
             this.init();
         }
         else {
-            var nodeAddedCallback = (e)=> {
-                //检查container是否已经被添加到body
-                var p = this.container.parentElement;
-                while (p && p !== document.body) {
-                    p = p.parentElement;
+            var nodeAddedCallback = (e) => {
+                try {
+                    //检查container是否已经被添加到body
+                    var p = this.container.parentElement;
+                    while (p && p !== document.body) {
+                        p = p.parentElement;
+                    }
+                    if (p === document.body) {
+                        document.body.removeEventListener("DOMNodeInserted", nodeAddedCallback);
+                        this.init();
+                    }
                 }
-                if (p === document.body) {
-                    document.body.removeEventListener("DOMNodeInserted", nodeAddedCallback);
-                    this.init();
+                catch (e) {
+
                 }
+               
             }
             document.body.addEventListener("DOMNodeInserted", nodeAddedCallback, false);
         }

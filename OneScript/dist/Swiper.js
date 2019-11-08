@@ -44,14 +44,18 @@ var Swiper = /** @class */ (function () {
         }
         else {
             var nodeAddedCallback = function (e) {
-                //检查container是否已经被添加到body
-                var p = _this.container.parentElement;
-                while (p && p !== document.body) {
-                    p = p.parentElement;
+                try {
+                    //检查container是否已经被添加到body
+                    var p = _this.container.parentElement;
+                    while (p && p !== document.body) {
+                        p = p.parentElement;
+                    }
+                    if (p === document.body) {
+                        document.body.removeEventListener("DOMNodeInserted", nodeAddedCallback);
+                        _this.init();
+                    }
                 }
-                if (p === document.body) {
-                    document.body.removeEventListener("DOMNodeInserted", nodeAddedCallback);
-                    _this.init();
+                catch (e) {
                 }
             };
             document.body.addEventListener("DOMNodeInserted", nodeAddedCallback, false);
