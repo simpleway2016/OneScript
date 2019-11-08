@@ -115,6 +115,9 @@ export class Swiper {
         }
         else {
             var nodeAddedCallback = (e) => {
+                if (this.inited)
+                    return;
+
                 try {
                     //检查container是否已经被添加到body
                     var p = this.container.parentElement;
@@ -536,6 +539,7 @@ export class Swiper {
         if (this.inited || this.option.imgPaths.length == 0)
             return;
         this.inited = true;
+        
 
         this.setevent();
 

@@ -44,6 +44,8 @@ var Swiper = /** @class */ (function () {
         }
         else {
             var nodeAddedCallback = function (e) {
+                if (_this.inited)
+                    return;
                 try {
                     //检查container是否已经被添加到body
                     var p = _this.container.parentElement;
