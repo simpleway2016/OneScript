@@ -55,7 +55,10 @@ export class Component implements IHttpClientUsing {
         return this._actived;
     }
 
-
+    private _disposed = false;
+    get disposed(): boolean {
+        return this._disposed;
+    }
     /**
      * 
      * @param html view的html内容
@@ -215,6 +218,7 @@ export class Component implements IHttpClientUsing {
     /**销毁Component，如果某个属性具有$destroy方法，也会被同时调用 */
     dispose(): void {
         this._actived = false;
+        this._disposed = true;
         this.abortHttps();
 
         try {

@@ -8,6 +8,7 @@ var Component = /** @class */ (function () {
     function Component(html) {
         if (html === void 0) { html = undefined; }
         this._actived = false;
+        this._disposed = false;
         this.usingHttpClients = [];
         this.element = document.createElement("DIV");
         this.element.style.width = "100%";
@@ -58,6 +59,13 @@ var Component = /** @class */ (function () {
     Object.defineProperty(Component.prototype, "actived", {
         get: function () {
             return this._actived;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Component.prototype, "disposed", {
+        get: function () {
+            return this._disposed;
         },
         enumerable: true,
         configurable: true
@@ -186,6 +194,7 @@ var Component = /** @class */ (function () {
     /**销毁Component，如果某个属性具有$destroy方法，也会被同时调用 */
     Component.prototype.dispose = function () {
         this._actived = false;
+        this._disposed = true;
         this.abortHttps();
         try {
             if (this.element.parentElement)

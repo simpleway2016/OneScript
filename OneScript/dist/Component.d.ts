@@ -13,6 +13,8 @@ export declare class Component implements IHttpClientUsing {
     visible: boolean;
     private _actived;
     readonly actived: boolean;
+    private _disposed;
+    readonly disposed: boolean;
     /**
      *
      * @param html view的html内容
