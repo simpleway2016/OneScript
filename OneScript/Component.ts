@@ -254,6 +254,14 @@ export class Component implements IHttpClientUsing {
         if (typeof parentEle === "string")
             parentEle = <any>document.body.querySelector(parentEle);
 
+        //为了兼容android 5.0 flex布局，这里做些处理
+        var position = (<HTMLElement>parentEle).style.position;
+        if (position === "relative" || position === "absolute" || position === "fixed") {
+            this.element.style.position = "absolute";
+            this.element.style.left = "0px";
+            this.element.style.top = "0px";
+        }
+
         (<HTMLElement>parentEle).appendChild(this.element);
         this.onViewReady();
     }

@@ -222,6 +222,13 @@ var Component = /** @class */ (function () {
     Component.prototype.setParent = function (parentEle) {
         if (typeof parentEle === "string")
             parentEle = document.body.querySelector(parentEle);
+        //为了兼容android 5.0 flex布局，这里做些处理
+        var position = parentEle.style.position;
+        if (position === "relative" || position === "absolute" || position === "fixed") {
+            this.element.style.position = "absolute";
+            this.element.style.left = "0px";
+            this.element.style.top = "0px";
+        }
         parentEle.appendChild(this.element);
         this.onViewReady();
     };
