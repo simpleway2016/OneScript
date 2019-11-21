@@ -149,10 +149,18 @@ export class Swiper {
         var positionChanged = true;
         var canMoveForward = true;
         var canMoveBack = true;
+        var touchStartTime;
+
+        var animationing = false;
 
         this.touchStartAction = (ev) => {
             ev.stopPropagation();
             ev.preventDefault();
+
+            if (animationing)
+                return;
+
+            touchStartTime = new Date().getTime();
             if (this.option.canRepeat == false && this.currentIndex === this.option.imgPaths.length - 1)
                 canMoveForward = false;
             else
@@ -242,7 +250,7 @@ export class Swiper {
                 positionChanged = true;
                 if (lastX != startX) {
                     if (lastX < startX) {
-                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4) {
+                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)  ) {
                             moveToLeft();
                         }
                         else {
@@ -251,7 +259,7 @@ export class Swiper {
                         }
                     }
                     else {
-                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4) {
+                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)   ) {
                             moveToRight();
                         }
                         else {
@@ -368,6 +376,7 @@ export class Swiper {
         };
 
         var moveToLeft = () => {
+           
             positionChanged = true;
             var tomoveEles = [this.imgDivs[0], this.imgDivs[1], this.imgDivs[2], this.imgDivs[this.imgDivs.length - 1]];
             var completedCount = 0;
@@ -376,8 +385,14 @@ export class Swiper {
                 completedCount++;
                 if (completedCount == tomoveEles.length) {
                     onMoveCompleted(true);
+                    animationing = false;
                 }
             };
+
+            if (tomoveEles.length > 0) {
+                animationing = true;
+            }
+
             for (var i = 0; i < tomoveEles.length; i++) {
                 var div = tomoveEles[i];
                 var toX = (<any>div)._left - (this.eleImgWidth - this.moveleftFlag);
@@ -389,11 +404,13 @@ export class Swiper {
                 else if (i == 0) {
                     toScale = 0.8;
                 }
+               
                 AnimationHelper.moveElement(div, "0.25s linear", undefined, toX + "px", "0", "0", undefined, toScale, true, completeCallBack);
             }
         };
 
         var moveToRight = () => {
+           
             positionChanged = true;
             var tomoveEles = [this.imgDivs[0], this.imgDivs[1], this.imgDivs[this.imgDivs.length - 1], this.imgDivs[this.imgDivs.length - 2]];
             var completedCount = 0;
@@ -402,8 +419,14 @@ export class Swiper {
                 completedCount++;
                 if (completedCount == tomoveEles.length) {
                     onMoveCompleted(false);
+                    animationing = false;
                 }
             };
+
+            if (tomoveEles.length > 0) {
+                animationing = true;
+            }
+
             for (var i = 0; i < tomoveEles.length; i++) {
                 var div = tomoveEles[i];
                 var toX = (<any>div)._left + (this.eleImgWidth - this.moveleftFlag);
@@ -417,6 +440,8 @@ export class Swiper {
         };
 
         var restore = () => {
+            
+
             positionChanged = false;
             var tomoveEles = [this.imgDivs[0], this.imgDivs[1], this.imgDivs[2], this.imgDivs[this.imgDivs.length - 1], this.imgDivs[this.imgDivs.length - 2]];
             var completedCount = 0;
@@ -425,8 +450,13 @@ export class Swiper {
                 completedCount++;
                 if (completedCount == tomoveEles.length) {
                     onMoveCompleted(false);
+                    animationing = false;
                 }
             };
+
+            if (tomoveEles.length > 0) {
+                animationing = true;
+            }
 
             for (var i = 0; i < tomoveEles.length; i++) {
                 var div = tomoveEles[i];

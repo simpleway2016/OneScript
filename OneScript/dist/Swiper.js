@@ -99,9 +99,14 @@ var Swiper = /** @class */ (function () {
         var positionChanged = true;
         var canMoveForward = true;
         var canMoveBack = true;
+        var touchStartTime;
+        var animationing = false;
         this.touchStartAction = function (ev) {
             ev.stopPropagation();
             ev.preventDefault();
+            if (animationing)
+                return;
+            touchStartTime = new Date().getTime();
             if (_this.option.canRepeat == false && _this.currentIndex === _this.option.imgPaths.length - 1)
                 canMoveForward = false;
             else
@@ -180,7 +185,7 @@ var Swiper = /** @class */ (function () {
                 positionChanged = true;
                 if (lastX != startX) {
                     if (lastX < startX) {
-                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4) {
+                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)) {
                             moveToLeft();
                         }
                         else {
@@ -189,7 +194,7 @@ var Swiper = /** @class */ (function () {
                         }
                     }
                     else {
-                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4) {
+                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)) {
                             moveToRight();
                         }
                         else {
@@ -295,8 +300,12 @@ var Swiper = /** @class */ (function () {
                 completedCount++;
                 if (completedCount == tomoveEles.length) {
                     onMoveCompleted(true);
+                    animationing = false;
                 }
             };
+            if (tomoveEles.length > 0) {
+                animationing = true;
+            }
             for (var i = 0; i < tomoveEles.length; i++) {
                 var div = tomoveEles[i];
                 var toX = div._left - (_this.eleImgWidth - _this.moveleftFlag);
@@ -318,8 +327,12 @@ var Swiper = /** @class */ (function () {
                 completedCount++;
                 if (completedCount == tomoveEles.length) {
                     onMoveCompleted(false);
+                    animationing = false;
                 }
             };
+            if (tomoveEles.length > 0) {
+                animationing = true;
+            }
             for (var i = 0; i < tomoveEles.length; i++) {
                 var div = tomoveEles[i];
                 var toX = div._left + (_this.eleImgWidth - _this.moveleftFlag);
@@ -338,8 +351,12 @@ var Swiper = /** @class */ (function () {
                 completedCount++;
                 if (completedCount == tomoveEles.length) {
                     onMoveCompleted(false);
+                    animationing = false;
                 }
             };
+            if (tomoveEles.length > 0) {
+                animationing = true;
+            }
             for (var i = 0; i < tomoveEles.length; i++) {
                 var div = tomoveEles[i];
                 var toX = div._left;
