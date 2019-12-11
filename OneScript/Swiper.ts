@@ -105,6 +105,9 @@ export class Swiper {
         else {
             this.container = <HTMLElement>container;
         }
+
+       
+
         for (var p in option) {
             if (option[p] !== undefined)
                 this.option[p] = option[p];
@@ -154,8 +157,10 @@ export class Swiper {
         var animationing = false;
 
         this.touchStartAction = (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
+            if (ev.cancelable) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
 
             if (animationing)
                 return;
@@ -227,8 +232,11 @@ export class Swiper {
 
       
         this.touchMoveAction = (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
+            if (ev.cancelable) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
+           
             if (touching) {
                 if (this.option.onlyForward) {
                     if (ev.touches[0].clientX > startX) {
@@ -241,8 +249,10 @@ export class Swiper {
             }
         };
         this.touchEndAction = (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
+            if (ev.cancelable) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
 
             if (touching) {
                 touching = false;
@@ -250,7 +260,7 @@ export class Swiper {
                 positionChanged = true;
                 if (lastX != startX) {
                     if (lastX < startX) {
-                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)  ) {
+                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 200)  ) {
                             moveToLeft();
                         }
                         else {
@@ -259,7 +269,7 @@ export class Swiper {
                         }
                     }
                     else {
-                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)   ) {
+                        if (Math.abs(lastX - startX) > this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 200)   ) {
                             moveToRight();
                         }
                         else {
@@ -572,6 +582,8 @@ export class Swiper {
         
 
         this.setevent();
+
+        this.container.style.overflow = "hidden";
 
         if (this.option.marginPercent <= 0 || this.option.defaultScale == 1) {
             this.option.defaultScale = 1;

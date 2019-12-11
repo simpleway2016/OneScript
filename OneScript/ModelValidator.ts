@@ -32,14 +32,27 @@ export class ModelValidator {
      */
     static verify(model: any, validates: ModelValidate[]): ModelValidate[] {
         var errors: ModelValidate[] = [];
+        var data = model;
+
         validates.forEach((validate) => {
             if (validate.validateType == undefined)
                 validate.validateType = ValidateType.Required;
 
             var value;
-            eval("value=model." + validate.propertyName);
+            try {
+                eval("value=data." + validate.propertyName);
+            } catch (e) {
+
+            }
+           
             var othervalue;
-            eval("othervalue=validate.otherPorpertyName ? model." + validate.otherPorpertyName +" : undefined");
+
+            try {
+                eval("othervalue=validate.otherPorpertyName ? data." + validate.otherPorpertyName + " : undefined");
+            } catch (e) {
+
+            }
+           
             var func: any = ModelValidator;
             eval("func = func.verify_" + validate.validateType);
             var result = func(value, othervalue, validate);
@@ -59,19 +72,25 @@ export class ModelValidator {
      * @param resultPropertyName
      */
     static verifyToProperty(model: any, validates: ModelValidate[], resultPropertyName: string) {
+
+        for (var i = 0; i < validates.length; i++) {
+            eval("model." + resultPropertyName + "." + validates[i].propertyName + "=false");
+        }
+
         var arr = ModelValidator.verify(model, validates);
+        var ret = false;
         if (arr.length > 0) {
-            var obj : any = {};
             for (var i = 0; i < arr.length; i++) {
-                obj[arr[i].propertyName] = true;
+                eval("model." + resultPropertyName + "." + arr[i].propertyName + "=true");
             }
-            eval("model." + resultPropertyName + "=obj");
-            return false;
+            ret = false;
         }
         else {
-            eval("model." + resultPropertyName + "={}");
+           
+            ret = true;
         }
-        return true;
+        eval("model." + resultPropertyName + "=JSON.parse(JSON.stringify(model." + resultPropertyName + "))"); 
+        return ret;
     }
 
     private static verify_Required(value: any, otherValue: any, validate: ModelValidate): boolean{

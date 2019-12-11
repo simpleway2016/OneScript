@@ -102,8 +102,10 @@ var Swiper = /** @class */ (function () {
         var touchStartTime;
         var animationing = false;
         this.touchStartAction = function (ev) {
-            ev.stopPropagation();
-            ev.preventDefault();
+            if (ev.cancelable) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
             if (animationing)
                 return;
             touchStartTime = new Date().getTime();
@@ -164,8 +166,10 @@ var Swiper = /** @class */ (function () {
             }
         };
         this.touchMoveAction = function (ev) {
-            ev.stopPropagation();
-            ev.preventDefault();
+            if (ev.cancelable) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
             if (touching) {
                 if (_this.option.onlyForward) {
                     if (ev.touches[0].clientX > startX) {
@@ -178,14 +182,16 @@ var Swiper = /** @class */ (function () {
             }
         };
         this.touchEndAction = function (ev) {
-            ev.stopPropagation();
-            ev.preventDefault();
+            if (ev.cancelable) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            }
             if (touching) {
                 touching = false;
                 positionChanged = true;
                 if (lastX != startX) {
                     if (lastX < startX) {
-                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)) {
+                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 200)) {
                             moveToLeft();
                         }
                         else {
@@ -194,7 +200,7 @@ var Swiper = /** @class */ (function () {
                         }
                     }
                     else {
-                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 800)) {
+                        if (Math.abs(lastX - startX) > _this.eleImgWidth / 4 || (Math.abs(lastX - startX) > 5 && new Date().getTime() - touchStartTime < 200)) {
                             moveToRight();
                         }
                         else {
@@ -454,6 +460,7 @@ var Swiper = /** @class */ (function () {
             return;
         this.inited = true;
         this.setevent();
+        this.container.style.overflow = "hidden";
         if (this.option.marginPercent <= 0 || this.option.defaultScale == 1) {
             this.option.defaultScale = 1;
             this.option.marginPercent = 0;

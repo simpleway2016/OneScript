@@ -21,13 +21,22 @@ var ModelValidator = /** @class */ (function () {
      */
     ModelValidator.verify = function (model, validates) {
         var errors = [];
+        var data = model;
         validates.forEach(function (validate) {
             if (validate.validateType == undefined)
                 validate.validateType = ValidateType.Required;
             var value;
-            eval("value=model." + validate.propertyName);
+            try {
+                eval("value=data." + validate.propertyName);
+            }
+            catch (e) {
+            }
             var othervalue;
-            eval("othervalue=validate.otherPorpertyName ? model." + validate.otherPorpertyName + " : undefined");
+            try {
+                eval("othervalue=validate.otherPorpertyName ? data." + validate.otherPorpertyName + " : undefined");
+            }
+            catch (e) {
+            }
             var func = ModelValidator;
             eval("func = func.verify_" + validate.validateType);
             var result = func(value, othervalue, validate);
@@ -46,19 +55,22 @@ var ModelValidator = /** @class */ (function () {
      * @param resultPropertyName
      */
     ModelValidator.verifyToProperty = function (model, validates, resultPropertyName) {
+        for (var i = 0; i < validates.length; i++) {
+            eval("model." + resultPropertyName + "." + validates[i].propertyName + "=false");
+        }
         var arr = ModelValidator.verify(model, validates);
+        var ret = false;
         if (arr.length > 0) {
-            var obj = {};
             for (var i = 0; i < arr.length; i++) {
-                obj[arr[i].propertyName] = true;
+                eval("model." + resultPropertyName + "." + arr[i].propertyName + "=true");
             }
-            eval("model." + resultPropertyName + "=obj");
-            return false;
+            ret = false;
         }
         else {
-            eval("model." + resultPropertyName + "={}");
+            ret = true;
         }
-        return true;
+        eval("model." + resultPropertyName + "=JSON.parse(JSON.stringify(model." + resultPropertyName + "))");
+        return ret;
     };
     ModelValidator.verify_Required = function (value, otherValue, validate) {
         if (value == undefined || value == null || value == "")
