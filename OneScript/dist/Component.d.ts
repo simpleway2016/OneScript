@@ -9,12 +9,13 @@ export declare class Component implements IHttpClientUsing {
     /**样式表id名字 */
     private static StyleFlag;
     /**导航时，是否支持动画 */
-    readonly animationOnNavigation: boolean;
-    visible: boolean;
+    get animationOnNavigation(): boolean;
+    get visible(): boolean;
+    set visible(value: boolean);
     private _actived;
-    readonly actived: boolean;
+    get actived(): boolean;
     private _disposed;
-    readonly disposed: boolean;
+    get disposed(): boolean;
     /**
      *
      * @param html view的html内容

@@ -36,7 +36,8 @@ export declare class Swiper {
     container: HTMLElement;
     currentIndexChange: (sender: any, index: any) => void;
     option: SwiperOption;
-    currentIndex: number;
+    set currentIndex(value: number);
+    get currentIndex(): number;
     private _currentIndex;
     private eleImgWidth;
     private imgDivs;

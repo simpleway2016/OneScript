@@ -336,13 +336,16 @@ export class Swiper {
                 var myImg = [];
                 var imgs = [];
                 this.option.imgPaths.forEach((item) => myImg.push(item));
-                //把图片补齐5张
-                for (var i = 0, index = len - 1; i < 5 - len; i++) {
-                    var img = <string>myImg[index];
-                    index++;
-                    if (index >= len)
-                        index = 0;
-                    myImg.push(img);
+                //把图片补齐3张
+                if (myImg.length < 3) {
+                    var startindex = 0;
+                    var docount = myImg.length - 3;
+                    for (var i = 0; i < docount; i++) {
+                        myImg.push(myImg[startindex]);
+                        startindex++;
+                        if (startindex == myImg.length)
+                            startindex = 0;
+                    }
                 }
 
                 imgs = [myImg[0],
@@ -621,13 +624,16 @@ export class Swiper {
         var imgs = [];
         this.option.imgPaths.forEach((item) => myImg.push(item));
 
-        //把图片补齐5张
-        for (var i = 0, index = len - 1; i < 5 - len; i++) {
-            var img = myImg[index];
-            index++;
-            if (index >= len)
-                index = 0;
-            myImg.push(img);
+        //把图片补齐3张
+        if (myImg.length < 3) {
+            var startindex = 0;
+            var docount = myImg.length - 3;
+            for (var i = 0; i < docount; i++) {
+                myImg.push(myImg[startindex]);
+                startindex++;
+                if (startindex == myImg.length)
+                    startindex = 0;
+            }
         }
 
         imgs = [myImg[0],
