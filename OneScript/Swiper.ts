@@ -339,7 +339,7 @@ export class Swiper {
                 //把图片补齐3张
                 if (myImg.length < 3) {
                     var startindex = 0;
-                    var docount = myImg.length - 3;
+                    var docount = 3 - myImg.length;
                     for (var i = 0; i < docount; i++) {
                         myImg.push(myImg[startindex]);
                         startindex++;
@@ -627,7 +627,7 @@ export class Swiper {
         //把图片补齐3张
         if (myImg.length < 3) {
             var startindex = 0;
-            var docount = myImg.length - 3;
+            var docount = 3 - myImg.length;
             for (var i = 0; i < docount; i++) {
                 myImg.push(myImg[startindex]);
                 startindex++;
