@@ -8,9 +8,8 @@ import { HttpClient } from "./HttpClient";
 import { IHttpClientUsing } from "./IHttpClientUsing";
 
 import { Component } from "./Component";
-import { registerLoading } from "./VueComponents/Loading";
+import { VueComponents } from "./VueComponents/VueComponents";
 import { AnimationHelper } from "./AnimationHelper";
-
 
 export {
     AnimationHelper,
@@ -23,5 +22,5 @@ export {
     HttpClient,
     IHttpClientUsing,
     Component,
-    registerLoading
+    VueComponents
 }

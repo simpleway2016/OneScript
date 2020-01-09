@@ -1,14 +1,23 @@
 {
-  "name": "onescript",
+  "name": "OneScript",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "test.config.js",
   "scripts": {
+    "test": "webpack --config test.config.js --mode development"
   },
-  "author": "Jack",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^12.7.5",
-    "vue": "^2.6.10"
+    "ts-loader": "^6.0.2",
+    "typescript": "^3.5.1",
+    "vue": "^2.6.10",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-merge": "^4.2.1",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "jack-html-loader": "^1.0.6"
   }
 }

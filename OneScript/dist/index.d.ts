@@ -5,6 +5,6 @@ import { ModelValidator, ModelValidate, ValidateType } from "./ModelValidator";
 import { HttpClient } from "./HttpClient";
 import { IHttpClientUsing } from "./IHttpClientUsing";
 import { Component } from "./Component";
-import { registerLoading } from "./VueComponents/Loading";
+import { VueComponents } from "./VueComponents/VueComponents";
 import { AnimationHelper } from "./AnimationHelper";
-export { AnimationHelper, Navigation, NavigationEvent, PullToRefresh, Swiper, ModelValidator, ModelValidate, ValidateType, HttpClient, IHttpClientUsing, Component, registerLoading };
+export { AnimationHelper, Navigation, NavigationEvent, PullToRefresh, Swiper, ModelValidator, ModelValidate, ValidateType, HttpClient, IHttpClientUsing, Component, VueComponents };

@@ -93,6 +93,11 @@
     <Content Include="dist\StyleParser.js" />
     <Content Include="dist\Swiper.js" />
     <Content Include="dist\VueComponents\Loading.js" />
+    <Content Include="test.config.js" />
+    <Content Include="test\dist\main.html" />
+    <Content Include="test\dist\bundle.js" />
+    <Content Include="test\selectorTest.html" />
+    <Content Include="VueComponents\selector.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +129,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="AnimationHelper.ts" />
     <TypeScriptCompile Include="Component.ts" />
+    <None Include="dist\.npmignore" />
     <TypeScriptCompile Include="dist\AnimationHelper.d.ts" />
     <TypeScriptCompile Include="dist\Component.d.ts" />
     <TypeScriptCompile Include="dist\HttpClient.d.ts" />
@@ -143,7 +149,11 @@
     <TypeScriptCompile Include="PullToRefresh.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
+    <TypeScriptCompile Include="test\main.ts" />
+    <TypeScriptCompile Include="test\SelectorTest.ts" />
     <TypeScriptCompile Include="VueComponents\Loading.ts" />
+    <TypeScriptCompile Include="VueComponents\Selector.ts" />
+    <TypeScriptCompile Include="VueComponents\VueComponents.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
