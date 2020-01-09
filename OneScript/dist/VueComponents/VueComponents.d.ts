@@ -7,15 +7,19 @@ export declare class VueComponents {
  * bgcoloropacity: 颜色透明度，默认0.5
      * @param tagname html标签名字，默认<selector>
      */
-    static useSelector(tagname?: string): void;
+    static useLoading(tagname?: string): void;
     /**
      * 组件属性：
      * options 对象数组，对象属性包括： { text:"" , value : "" }
      * canceltext 取消文本
-     * textcolor  文字颜色
-     * selectedtextcolor
+     * selectedtextcolor 选中的项的文字颜色
+     * bgcolor 底色
      * title 标题
+     * titleclass 标题文字的样式
+     * optionclass 选项的样式
+     * border-radius 圆角大小，默认10px
+     * margin 与屏幕的间距
      * @param tagname html标签名字，默认<loading>
      */
-    static useLoading(tagname?: string): void;
+    static useSelector(tagname?: string): void;
 }

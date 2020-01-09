@@ -2,6 +2,9 @@ import { Component } from "jack-one-script";
 import Vue from "vue";
 var html = require("./selector.html");
 export function registerSelector(tagname) {
+    var styleEle = document.createElement("STYLE");
+    styleEle.innerHTML = "\n.jack-one-script-selector-title\n{\ntext-align:center;\nfont-weight:bold;\n    color:#8F8E94;\nfont-size:13px;\nheight:36px;\nline-height:36px;\n    \n}\n.jack-one-script-selector-option\n{\ntext-align:center;\nfont-weight:bold;\n    color:#BCA66A;\nfont-size:16px;\nheight:40px;\nline-height:40px;\n    \n}\n";
+    document.head.appendChild(styleEle);
     Vue.component(tagname, {
         template: Component.requireHtml(html, { constructor: { name: "OneScript_Components_Selector" } }),
         model: {
@@ -34,9 +37,13 @@ export function registerSelector(tagname) {
                 type: String,
                 default: "Cancel"
             },
-            textcolor: {
+            bgcolor: {
                 type: String,
-                default: "#BCA66A"
+                default: "#fff"
+            },
+            optionclass: {
+                type: String,
+                default: "jack-one-script-selector-option"
             },
             selectedtextcolor: {
                 type: String,
@@ -45,6 +52,18 @@ export function registerSelector(tagname) {
             title: {
                 type: String,
                 default: "选单操作说明文字"
+            },
+            titleclass: {
+                type: String,
+                default: "jack-one-script-selector-title"
+            },
+            borderRadius: {
+                type: String,
+                default: "10px"
+            },
+            margin: {
+                type: String,
+                default: "5px"
             },
         },
         methods: {
