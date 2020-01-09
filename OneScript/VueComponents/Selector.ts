@@ -85,7 +85,7 @@ line-height:40px;
             },
             margin: {
                 type: String,
-                default: "5px"
+                default: "10px"
             },
         },
         methods: {

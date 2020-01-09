@@ -18,7 +18,7 @@ export declare class VueComponents {
      * titleclass 标题文字的样式
      * optionclass 选项的样式
      * border-radius 圆角大小，默认10px
-     * margin 与屏幕的间距
+     * margin 与屏幕的间距,默认10px
      * @param tagname html标签名字，默认<loading>
      */
     static useSelector(tagname?: string): void;
