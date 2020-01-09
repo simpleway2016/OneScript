@@ -1,68 +1,6 @@
 ﻿import { Component } from "../Component";
 import Vue from "vue";
-var html = `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-    <style>
-        .ani {
-            transform-origin: 50% 50%;
-            animation: _onescript_loading_keyframe 2s linear infinite;
-            -moz-animation: _onescript_loading_keyframe 2s linear infinite; /* Firefox */
-            -webkit-animation: _onescript_loading_keyframe 2s linear infinite; /* Safari 和 Chrome */
-            -o-animation: _onescript_loading_keyframe 2s linear infinite; /* Opera */
-        }
-        @keyframes _onescript_loading_keyframe {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @-moz-keyframes _onescript_loading_keyframe {
-            from {
-                -moz-transform: rotate(0deg);
-            }
-
-            to {
-                -moz-transform: rotate(360deg);
-            }
-        }
-
-        @-webkit-keyframes _onescript_loading_keyframe {
-            from {
-                -webkit-transform: rotate(0deg);
-            }
-
-            to {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @-o-keyframes _onescript_loading_keyframe {
-            from {
-                -o-transform: rotate(0deg);
-            }
-
-            to {
-                -o-transform: rotate(360deg);
-            }
-        }
-    </style>
-</head>
-<body>
-    <svg style="width:100%;height:100%;" viewBox="0 0 100 100">
-        <rect width="80" height="80" rx="40" ry="40" x="10" y="10" fill="none" v-bind:stroke="bgcolor" v-bind:opacity="bgcoloropacity" stroke-width="15"></rect>
-        <rect class="ani" width="80" height="80" rx="40" ry="40" x="10" y="10" fill="none" v-bind:stroke="color" v-bind:opacity="coloropacity" stroke-width="15" stroke-dasharray="40,800"></rect>
-    </svg>
-</body>
-</html>
-`;
+var html = require("./loading.html");
 var registered = false;
 
 /**

@@ -4,13 +4,7 @@ import { Swiper } from "./Swiper";
 import { ModelValidator, ValidateType } from "./ModelValidator";
 import { HttpClient } from "./HttpClient";
 import { Component } from "./Component";
-import { registerLoading } from "./VueComponents/Loading";
-import { registerSelector } from "./VueComponents/Selector";
+import { VueComponents } from "./VueComponents/VueComponents";
 import { AnimationHelper } from "./AnimationHelper";
-var VueComponents = {
-    UseSelector: function () {
-        registerSelector();
-    },
-};
-export { AnimationHelper, Navigation, NavigationEvent, PullToRefresh, Swiper, ModelValidator, ValidateType, HttpClient, Component, registerLoading, VueComponents };
+export { AnimationHelper, Navigation, NavigationEvent, PullToRefresh, Swiper, ModelValidator, ValidateType, HttpClient, Component, VueComponents };
 //# sourceMappingURL=index.js.map

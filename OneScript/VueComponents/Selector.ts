@@ -1,30 +1,6 @@
 ﻿import { Component } from "jack-one-script";
 import Vue from "vue";
-//var html = require("./selector.html");
-var html = `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <div @click="open" style="width:100%;height:100%;background-color:#000;">
-        <div @click.stop="cancelClick" id="layer" class="display-flex flex-direction-column" style="position:fixed;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.2);z-index:999999;visibility:hidden;">
-            <div style="position:fixed;bottom:0;left:0;width:100%;">
-                <div style="background-color:#fff;border-radius:0.45rem;margin:0.27rem 0.3rem 0 0.3rem;">
-                    <div id="divTitle" style="height: 1.35rem; line-height: 1.35rem; text-align: center; font-size: 0.39rem;font-weight: bold;color:#8F8E94;border-bottom:1px solid #c7c7c7;">{{title}}</div>
-                    <div id="divContainer" style="-webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto;" :style="{maxHeight:bodyHeight,webkitMaskImage:maskFinally}">
-                        <div @click.stop="optionClick(option)" :_selected="option.value!=curValue?0:1" v-for="option in options" style="height: 1.35rem; line-height: 1.35rem; text-align: center; font-size: 0.6rem;font-weight: bold;" :style="{color:option.value!=curValue?textcolor:selectedtextcolor,borderBottom:option!==options[options.length-1]?'1px solid #c7c7c7':''}">{{option.text}}</div>
-                    </div>
-                </div>
-                <div @click.stop="cancelClick" id="btnCancel" style="background-color:#fff;border-radius:0.45rem;margin:0.27rem 0.3rem 0.27rem 0.3rem;height:1.71rem;line-height:1.71rem;text-align:center;font-size:0.6rem;font-weight:bold;" :style="{color:textcolor}">{{canceltext}}</div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-`;
+var html = require("./selector.html");
 export function registerSelector(tagname: string) {
     
    Vue.component(tagname, {

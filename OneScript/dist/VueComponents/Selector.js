@@ -1,10 +1,9 @@
 import { Component } from "jack-one-script";
 import Vue from "vue";
-//var html = require("./selector.html");
-var html = "\n<div @click=\"open\" style=\"width:100%;height:100%;background-color:#000;\">\n        <div @click.stop=\"cancelClick\" id=\"layer\" class=\"display-flex flex-direction-column\" style=\"position:fixed;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.2);z-index:999999;visibility:hidden;\">\n            <div style=\"position:fixed;bottom:0;left:0;width:100%;\">\n                <div style=\"background-color:#fff;border-radius:0.45rem;margin:0.27rem 0.3rem 0 0.3rem;\">\n                    <div id=\"divTitle\" style=\"height: 1.35rem; line-height: 1.35rem; text-align: center; font-size: 0.39rem;font-weight: bold;color:#8F8E94;border-bottom:1px solid #c7c7c7;\">{{title}}</div>\n                    <div id=\"divContainer\" style=\"-webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto;\" :style=\"{maxHeight:bodyHeight,webkitMaskImage:maskFinally}\">\n                        <div @click.stop=\"optionClick(option)\" :_selected=\"option.value!=curValue?0:1\" v-for=\"option in options\" style=\"height: 1.35rem; line-height: 1.35rem; text-align: center; font-size: 0.6rem;font-weight: bold;\" :style=\"{color:option.value!=curValue?textcolor:selectedtextcolor,borderBottom:option!==options[options.length-1]?'1px solid #c7c7c7':''}\">{{option.text}}</div>\n                    </div>\n                </div>\n                <div @click.stop=\"cancelClick\" id=\"btnCancel\" style=\"background-color:#fff;border-radius:0.45rem;margin:0.27rem 0.3rem 0.27rem 0.3rem;height:1.71rem;line-height:1.71rem;text-align:center;font-size:0.6rem;font-weight:bold;\" :style=\"{color:textcolor}\">{{canceltext}}</div>\n            </div>\n        </div>\n    </div>\n";
-export function registerSelector() {
-    Vue.component("selector", {
-        template: Component.requireHtml(html, { constructor: { name: "Selector" } }),
+var html = require("./selector.html");
+export function registerSelector(tagname) {
+    Vue.component(tagname, {
+        template: Component.requireHtml(html, { constructor: { name: "OneScript_Components_Selector" } }),
         model: {
             prop: 'value',
             event: 'change'
