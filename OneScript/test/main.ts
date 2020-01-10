@@ -6,7 +6,9 @@ import { AlertTest } from "./AlertTest";
 
 VueComponents.useSelector();
 VueComponents.useLoading();
-VueComponents.useAlertWindow();
+VueComponents.useAlertWindow("alert-window", {
+    titleclass:"alert-title",
+});
 
 var page = new AlertTest();
 page.setParent(document.body.querySelector("#main"));

@@ -1,6 +1,6 @@
 ﻿import { registerSelector } from "./VueComponents/Selector"
 import { registerLoading } from "./VueComponents/Loading";
-import { registerAlertWindow } from "./VueComponents/AlertWindow";
+import { registerAlertWindow, AlertWindowOption } from "./VueComponents/AlertWindow";
 
 export class VueComponents {
 
@@ -145,10 +145,9 @@ export class VueComponents {
 
     /**
      * 组件属性:
+     * boxclass 主显示框的样式
      * title 标题
      * titleclass 标题文字的样式
-     * bgcolor 底色 默认白色
-     * border-radius 圆角大小，默认10px
      * contentclass 内容的样式
      * buttons 对象数组，对象属性包括：{ text: "", textClass: "" , bold:true , click: function(){  }  }
      * 
@@ -160,8 +159,8 @@ export class VueComponents {
         </alert-window>
      * @param tagname html标签名字，默认<alert-window>
      */
-    static useAlertWindow(tagname: string = "alert-window") {
+    static useAlertWindow(tagname: string = "alert-window", option: AlertWindowOption = {}) {
         VueComponents.addStyleToBody();
-        registerAlertWindow(tagname);
+        registerAlertWindow(tagname, option);
     }
 }
