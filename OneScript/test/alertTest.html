@@ -3,24 +3,29 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    
+    <link rel="stylesheet" href="../css/flex.css">
 </head>
 <body>
     <div>
         <button @click="show=true">show</button>
         <alert-window v-model="show" title="my title" :buttons="buttons">
             <template>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
-                <div style="font-size:100px;">你的弹出框内容</div>
+                <div class="display-flex flex-direction-column align-items-center">
+                    <loading style="width:50px;height:50px;"></loading>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+                    <div style="font-size:100px;">你的弹出框内容</div>
+
+                </div>
+                
             </template>
         </alert-window>
     </div>

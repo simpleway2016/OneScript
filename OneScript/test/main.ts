@@ -7,10 +7,12 @@ import { AlertTest } from "./AlertTest";
 VueComponents.useSelector({
     titleclass: "alert-title",
 });
-VueComponents.useLoading();
+VueComponents.useLoading({
+    color:"#006600"
+});
 VueComponents.useAlertWindow({
     titleclass: "alert-title",
 });
 
-var page = new SelectorTest();
+var page = new AlertTest();
 page.setParent(document.body.querySelector("#main"));
