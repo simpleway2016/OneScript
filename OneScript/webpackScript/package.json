@@ -1,0 +1,17 @@
+{
+  "name": "jack-one-script",
+  "version": "",
+  "description": "",
+  "main": "index.js",
+  "scripts": { "test": "echo \"Error: no test specified\" && exit 1" },
+  "author": "Jack",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simpleway2016/OneScript.git"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.5",
+    "vue": "^2.6.10"
+  }
+}

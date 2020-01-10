@@ -1,5 +1,7 @@
 ﻿var fs = require('fs');
 var path = require('path');
+var packageContent = require('./package.json');
+
 const { exec } = require('child_process');
 
 
@@ -30,8 +32,6 @@ function start() {
 
     //修改版本号
     //package.json
-    var packageContent = fs.readFileSync("./dist/package.json", { encoding: "utf8" });
-    packageContent = JSON.parse(packageContent);
     console.log("原始版本号：" + packageContent.version);
     var arr = packageContent.version.split('.');
     for (var i = arr.length - 1; i >= 0; i--) {
@@ -60,18 +60,32 @@ function start() {
     });
 }
 
+function doTsc() {
+    var proPath = path.join(__dirname, "../OneScript.csproj");
+    console.log(proPath);
+    console.log("开始编译 如果缺少tsc命令，安装：npm install -g typescript");
+    exec('tsc',
+        function (err, outstr, errstr) {
+            console.log("编译结束");
 
+            if (errstr)
+                console.log(errstr);
+            else {
+                start();
+            }
+        });
+}
 
-
-var proPath = path.join(__dirname, "../OneScript.csproj");
-console.log(proPath);
-console.log("开始编译 如果缺少tsc命令，安装：npm install -g typescript");
-exec('tsc',
+//查询当前版本号
+exec('npm view jack-one-script',
     function (err, outstr, errstr) {
-        console.log("编译结束");
-        if (outstr)
-            console.log(outstr);
+        if (outstr) {
+            var match = /latest\u001b\[39m\u001b\[22m: ([0-9|\.]+)/.exec(outstr);
+            packageContent.version = match[1];
+            doTsc();
+        }
         if (errstr)
             console.log(errstr);
-        start();
     });
+
+
