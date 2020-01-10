@@ -2,12 +2,52 @@
 import Vue from "vue";
 
 var html = require("./selector.html");
-export function registerSelector(tagname: string) {
+
+
+export interface SelectorOption {
+    /**取消文本 */
+    canceltext?: string;
+    /**选中的项的文字颜色 */
+    selectedtextcolor?: string;
+    /**底色 默认白色 */
+    bgcolor?: string;
+    /**标题 */
+    title?: string;
+    /**标题文字的样式 */
+    titleclass?: string;
+    /**选项的样式 */
+    optionclass?: string;
+    /**圆角大小，默认10px */
+    borderRadius?: string;
+    /**与屏幕的间距,默认10px */
+    margin?: string;
+}
+
+export function registerSelector(tagname: string, option: SelectorOption) {
 
     var mycomponent: Component = <any>{ constructor: { name: "OneScript_Components_Selector" } };
 
     var myhtml = Component.requireHtml(html, mycomponent);
     var rootClassName = (<any>mycomponent).constructor._onescriptClassName;
+
+    var myOption: SelectorOption = {
+        canceltext: "Cancel",
+        bgcolor:"#fff",
+        optionclass: "jack-one-script-selector-option",
+        selectedtextcolor: "#A8202B",
+        titleclass: "jack-one-script-selector-title",
+        borderRadius: "10px",
+        margin:"10px",
+    };
+    if (option) {
+        for (var p in option) {
+            var val = option[p];
+            if (typeof val !== "undefined") {
+                myOption[p] = val;
+            }
+        }
+    }
+
 
    Vue.component(tagname, {
        template: myhtml,
@@ -39,35 +79,35 @@ export function registerSelector(tagname: string) {
             },
             canceltext: {
                 type: String,
-                default: "Cancel"
+                default: myOption.canceltext
             },
             bgcolor: {
                 type: String,
-                default: "#fff"
+                default: myOption.bgcolor,
             },
             optionclass: {
                 type: String,
-                default: "jack-one-script-selector-option"
+                default: myOption.optionclass,
             },
             selectedtextcolor: {
                 type: String,
-                default: "#A8202B"
+                default: myOption.selectedtextcolor
             },
             title: {
                 type: String,
-                default: "title"
+                default: ""
             },
             titleclass: {
                 type: String,
-                default: "jack-one-script-selector-title"
+                default: myOption.titleclass
             },
             borderRadius: {
                 type: String,
-                default: "10px"
+                default: myOption.borderRadius
             },
             margin: {
                 type: String,
-                default: "10px"
+                default: myOption.margin
             },
         },
         methods: {

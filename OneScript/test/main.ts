@@ -4,11 +4,13 @@ import { registerSelector } from "../VueComponents/Selector";
 import { SelectorTest } from "./SelectorTest";
 import { AlertTest } from "./AlertTest";
 
-VueComponents.useSelector();
+VueComponents.useSelector({
+    titleclass: "alert-title",
+});
 VueComponents.useLoading();
-VueComponents.useAlertWindow("alert-window", {
-    titleclass:"alert-title",
+VueComponents.useAlertWindow({
+    titleclass: "alert-title",
 });
 
-var page = new AlertTest();
+var page = new SelectorTest();
 page.setParent(document.body.querySelector("#main"));

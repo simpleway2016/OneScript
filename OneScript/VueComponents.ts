@@ -1,5 +1,5 @@
-﻿import { registerSelector } from "./VueComponents/Selector"
-import { registerLoading } from "./VueComponents/Loading";
+﻿import { registerSelector, SelectorOption } from "./VueComponents/Selector"
+import { registerLoading, LoadingOption } from "./VueComponents/Loading";
 import { registerAlertWindow, AlertWindowOption } from "./VueComponents/AlertWindow";
 
 export class VueComponents {
@@ -112,16 +112,17 @@ export class VueComponents {
     }
 
     /**
- * 注册loading组件，组件属性：
+ * 组件属性：
  * color : 颜色，默认 #f1b748
  * bgcolor : 背景色，默认 #fff
  * coloropacity: 颜色透明度，默认0.9
  * bgcoloropacity: 颜色透明度，默认0.5
-     * @param tagname html标签名字，默认<selector>
+ * @param option
+     * @param tagname html标签名字，默认<loading>
      */
-    static useLoading(tagname: string = "loading") {
+    static useLoading(option: LoadingOption = {}, tagname: string = "loading") {
         VueComponents.addStyleToBody();
-        registerLoading(tagname);
+        registerLoading(option,tagname);
     }
    
 
@@ -136,11 +137,12 @@ export class VueComponents {
      * optionclass 选项的样式
      * border-radius 圆角大小，默认10px
      * margin 与屏幕的间距,默认10px
-     * @param tagname html标签名字，默认<loading>
+     * @param option
+     * @param tagname html标签名字，默认<selector>
      */
-    static useSelector(tagname: string = "selector") {
+    static useSelector(option: SelectorOption = {}, tagname: string = "selector") {
         VueComponents.addStyleToBody();
-        registerSelector(tagname);
+        registerSelector(tagname, option);
     }
 
     /**
@@ -157,9 +159,10 @@ export class VueComponents {
                 你的弹出框内容
             </template>
         </alert-window>
+     * @param option
      * @param tagname html标签名字，默认<alert-window>
      */
-    static useAlertWindow(tagname: string = "alert-window", option: AlertWindowOption = {}) {
+    static useAlertWindow(option: AlertWindowOption = {} , tagname: string = "alert-window") {
         VueComponents.addStyleToBody();
         registerAlertWindow(tagname, option);
     }
