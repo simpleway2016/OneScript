@@ -3,7 +3,9 @@ var path = require('path');
 var packageContent = require('./package.json');
 
 const { exec } = require('child_process');
+const readline = require('readline');
 
+var oldversion = "1";
 
 function start() {
 
@@ -32,6 +34,7 @@ function start() {
 
     //修改版本号
     //package.json
+    oldversion = packageContent.version;
     console.log("原始版本号：" + packageContent.version);
     var arr = packageContent.version.split('.');
     for (var i = arr.length - 1; i >= 0; i--) {
@@ -53,23 +56,52 @@ function start() {
             cwd : "./dist",
         },
         function (err, outstr, errstr) {
-        if (outstr)
-            console.log(outstr);
-        if (errstr)
-            console.log(errstr);
+            if (outstr) {
+                console.log(outstr);
+                console.log(errstr);//errstr包含了一些notice信息
+                deleteOldVersion();
+            }
+            else if (errstr) {
+                console.log(errstr);
+            }
+        });
+
+}
+
+function deleteOldVersion() {
+    console.log("是否删除上一个版本？(y/n)");
+
+    var rl = readline.createInterface({
+        input: process.stdin,
     });
+    rl.on('line', function (input) {
+
+        rl.close();
+        if (input == "y") {
+            exec("npm unpublish jack-one-script@" + oldversion,
+                function (err, outstr, errstr) {
+                    if (outstr) {
+                        console.log(outstr);
+                    }
+                    if (errstr)
+                        console.log(errstr);
+                });
+        }
+    });
+
 }
 
 function doTsc() {
     var proPath = path.join(__dirname, "../OneScript.csproj");
     console.log(proPath);
-    console.log("开始编译 如果缺少tsc命令，安装：npm install -g typescript");
-    exec('tsc',
-        function (err, outstr, errstr) {
-            console.log("编译结束");
+    console.log("开始编译");
+    exec('tsc', 
+        function (err, outstr, errstr) {          
 
-            if (errstr)
+            if (errstr) {
+                console.log("编译失败，如果缺少tsc命令，安装：npm install -g typescript");
                 console.log(errstr);
+            }                
             else {
                 start();
             }
@@ -87,5 +119,6 @@ exec('npm view jack-one-script',
         if (errstr)
             console.log(errstr);
     });
+
 
 
