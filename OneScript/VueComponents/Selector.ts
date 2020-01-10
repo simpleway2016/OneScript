@@ -55,7 +55,7 @@ export function registerSelector(tagname: string) {
             },
             title: {
                 type: String,
-                default: "选单操作说明文字"
+                default: "title"
             },
             titleclass: {
                 type: String,
