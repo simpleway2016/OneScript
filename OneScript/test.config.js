@@ -40,6 +40,12 @@ module.exports = {
                     {
                         loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
                     },
+                    //{
+                    //    loader: 'postcss-loader', // 自动补齐css前缀，增强项目兼容性
+                    //    options: {
+                    //        plugins: () => [require('autoprefixer')({ overrideBrowserslist: ['last 2 version', '>1%', 'ios 7'] })]
+                    //    }
+                    //},
                     {
                         loader: "sass-loader" // 将 Sass 编译成 CSS
                     }

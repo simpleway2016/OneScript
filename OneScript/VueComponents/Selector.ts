@@ -1,34 +1,16 @@
-﻿import { Component } from "jack-one-script";
+﻿import { Component } from "../Component";
 import Vue from "vue";
+
 var html = require("./selector.html");
 export function registerSelector(tagname: string) {
-    var styleEle = document.createElement("STYLE");
-    styleEle.innerHTML = `
-.jack-one-script-selector-title
-{
-text-align:center;
-font-weight:bold;
-    color:#8F8E94;
-font-size:13px;
-height:36px;
-line-height:36px;
-    
-}
-.jack-one-script-selector-option
-{
-text-align:center;
-font-weight:bold;
-    color:#BCA66A;
-font-size:16px;
-height:40px;
-line-height:40px;
-    
-}
-`;
-    document.head.appendChild(styleEle);
+
+    var mycomponent: Component = <any>{ constructor: { name: "OneScript_Components_Selector" } };
+
+    var myhtml = Component.requireHtml(html, mycomponent);
+    var rootClassName = (<any>mycomponent).constructor._onescriptClassName;
 
    Vue.component(tagname, {
-        template: Component.requireHtml(html, <any>{ constructor: { name: "OneScript_Components_Selector" } }),
+       template: myhtml,
         model: {
             prop: 'value',
             event: 'change'
@@ -164,6 +146,8 @@ line-height:40px;
         mounted: function () {
             var layerEle: HTMLElement = this.$el.querySelector("#layer");
             layerEle.parentElement.removeChild(layerEle);
+            //给layerEle设置根部样式，这样，html <header> 里面的style才能作用到layerEle上
+            layerEle.className = rootClassName + " " + layerEle.className;
             document.body.appendChild(layerEle);
 
             this.layerEle = layerEle;
