@@ -1,8 +1,7 @@
-import { registerSelector } from "./Selector";
-import { registerLoading } from "./Loading";
-var VueComponents = /** @class */ (function () {
-    function VueComponents() {
-    }
+﻿import { registerSelector } from "./VueComponents/Selector"
+import { registerLoading } from "./VueComponents/Loading";
+
+export class VueComponents {
     /**
  * 注册loading组件，组件属性：
  * color : 颜色，默认 #f1b748
@@ -11,10 +10,11 @@ var VueComponents = /** @class */ (function () {
  * bgcoloropacity: 颜色透明度，默认0.5
      * @param tagname html标签名字，默认<selector>
      */
-    VueComponents.useLoading = function (tagname) {
-        if (tagname === void 0) { tagname = "loading"; }
+    static useLoading(tagname: string = "loading") {
         registerLoading(tagname);
-    };
+    }
+   
+
     /**
      * 组件属性：
      * options 对象数组，对象属性包括： { text:"" , value : "" }
@@ -25,14 +25,10 @@ var VueComponents = /** @class */ (function () {
      * titleclass 标题文字的样式
      * optionclass 选项的样式
      * border-radius 圆角大小，默认10px
-     * margin 与屏幕的间距
+     * margin 与屏幕的间距,默认10px
      * @param tagname html标签名字，默认<loading>
      */
-    VueComponents.useSelector = function (tagname) {
-        if (tagname === void 0) { tagname = "selector"; }
+    static useSelector(tagname: string = "selector") {
         registerSelector(tagname);
-    };
-    return VueComponents;
-}());
-export { VueComponents };
-//# sourceMappingURL=VueComponents.js.map
+    }
+}

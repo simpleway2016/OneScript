@@ -8,7 +8,7 @@ import { HttpClient } from "./HttpClient";
 import { IHttpClientUsing } from "./IHttpClientUsing";
 
 import { Component } from "./Component";
-import { VueComponents } from "./VueComponents/VueComponents";
+import { VueComponents } from "./VueComponents";
 import { AnimationHelper } from "./AnimationHelper";
 
 export {

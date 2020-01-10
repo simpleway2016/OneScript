@@ -1,7 +1,7 @@
 ﻿
 import Vue from "vue";
 import { Component } from "../Component";
-import { VueComponents } from "../VueComponents/VueComponents";
+import { VueComponents } from "../VueComponents";
 var html = require("./selectorTest.html");
 
 export class SelectorTest extends Component {

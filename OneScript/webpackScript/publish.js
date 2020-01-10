@@ -65,8 +65,8 @@ function start() {
 
 var proPath = path.join(__dirname, "../OneScript.csproj");
 console.log(proPath);
-console.log("开始编译");
-exec('"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\IDE\\devenv.exe" \"' + proPath + '\" /build "Debug"',
+console.log("开始编译 如果缺少tsc命令，安装：npm install -g typescript");
+exec('tsc',
     function (err, outstr, errstr) {
         console.log("编译结束");
         if (outstr)

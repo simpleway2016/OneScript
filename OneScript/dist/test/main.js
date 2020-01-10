@@ -1,4 +1,4 @@
-import { VueComponents } from "../VueComponents/VueComponents";
+import { VueComponents } from "../VueComponents";
 import { SelectorTest } from "./SelectorTest";
 VueComponents.useSelector();
 VueComponents.useLoading();

@@ -1,12 +1,14 @@
-import { Component } from "jack-one-script";
-import Vue from "vue";
+"use strict";
+exports.__esModule = true;
+var jack_one_script_1 = require("jack-one-script");
+var vue_1 = require("vue");
 var html = require("./selector.html");
-export function registerSelector(tagname) {
+function registerSelector(tagname) {
     var styleEle = document.createElement("STYLE");
     styleEle.innerHTML = "\n.jack-one-script-selector-title\n{\ntext-align:center;\nfont-weight:bold;\n    color:#8F8E94;\nfont-size:13px;\nheight:36px;\nline-height:36px;\n    \n}\n.jack-one-script-selector-option\n{\ntext-align:center;\nfont-weight:bold;\n    color:#BCA66A;\nfont-size:16px;\nheight:40px;\nline-height:40px;\n    \n}\n";
     document.head.appendChild(styleEle);
-    Vue.component(tagname, {
-        template: Component.requireHtml(html, { constructor: { name: "OneScript_Components_Selector" } }),
+    vue_1["default"].component(tagname, {
+        template: jack_one_script_1.Component.requireHtml(html, { constructor: { name: "OneScript_Components_Selector" } }),
         model: {
             prop: 'value',
             event: 'change'
@@ -18,53 +20,53 @@ export function registerSelector(tagname) {
                 maskBottom: "-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)),color-stop(0.8,rgba(0,0,0,1)))",
                 maskTopBottom: "-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,0)),color-stop(0.2,rgba(0,0,0,1)),color-stop(0.8,rgba(0,0,0,1)))",
                 maskTop: "-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,1)),color-stop(0.2,rgba(0,0,0,1)))",
-                maskFinally: "",
+                maskFinally: ""
             };
         },
         props: {
             /**要使用v-model绑定变量，不要直接用value，因为v-model才是双向绑定*/
             value: {
                 type: String,
-                default: ""
+                "default": ""
             },
             options: {
                 type: Array,
-                default: function () {
+                "default": function () {
                     return [];
                 }
             },
             canceltext: {
                 type: String,
-                default: "Cancel"
+                "default": "Cancel"
             },
             bgcolor: {
                 type: String,
-                default: "#fff"
+                "default": "#fff"
             },
             optionclass: {
                 type: String,
-                default: "jack-one-script-selector-option"
+                "default": "jack-one-script-selector-option"
             },
             selectedtextcolor: {
                 type: String,
-                default: "#A8202B"
+                "default": "#A8202B"
             },
             title: {
                 type: String,
-                default: "选单操作说明文字"
+                "default": "选单操作说明文字"
             },
             titleclass: {
                 type: String,
-                default: "jack-one-script-selector-title"
+                "default": "jack-one-script-selector-title"
             },
             borderRadius: {
                 type: String,
-                default: "10px"
+                "default": "10px"
             },
             margin: {
                 type: String,
-                default: "10px"
-            },
+                "default": "10px"
+            }
         },
         methods: {
             optionClick: function (option) {
@@ -150,4 +152,4 @@ export function registerSelector(tagname) {
         }
     });
 }
-//# sourceMappingURL=Selector.js.map
+exports.registerSelector = registerSelector;
