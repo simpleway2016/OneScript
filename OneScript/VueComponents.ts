@@ -1,7 +1,116 @@
 ﻿import { registerSelector } from "./VueComponents/Selector"
 import { registerLoading } from "./VueComponents/Loading";
+import { registerAlertWindow } from "./VueComponents/AlertWindow";
 
 export class VueComponents {
+
+    private static addedStyleToBody = false;
+    private static addStyleToBody() {
+        if (VueComponents.addedStyleToBody)
+            return;
+
+        VueComponents.addedStyleToBody = true;
+        var style = `
+.OneScript .flex-shrink-0 {
+    flex-shrink: 0;
+}
+.OneScript .flex-shrink-1 {
+    flex-shrink: 1;
+}
+
+.OneScript .display-flex {
+    display: box; /* OLD - Android 4.4- */
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
+    display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+.OneScript .flex-direction-row {
+    -webkit-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    -o-flex-direction: row;
+    flex-direction: row;
+}
+
+.OneScript .flex-direction-column {
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+}
+
+.OneScript .flex-1 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+.OneScript .flex-0-5 {
+    -webkit-box-flex: 0.5;
+    -webkit-flex: 0.5;
+    flex: 0.5;
+}
+.OneScript .flex-0-25 {
+    -webkit-box-flex: 0.25;
+    -webkit-flex: 0.25;
+    flex: 0.25;
+}
+.OneScript .justify-content-center {
+
+    -webkit-box-pack: center;
+
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+    justify-content: center;
+}
+.OneScript .justify-content-space-between {
+    -webkit-box-pack: space-between;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    -o-justify-content: space-between;
+    justify-content: space-between;
+}
+.OneScript .justify-content-end {
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -moz-justify-content: flex-end;
+    -ms-justify-content: flex-end;
+    -o-justify-content: flex-end;
+    justify-content: flex-end;
+}
+.OneScript .align-items-center {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;
+}
+
+.OneScript .align-items-end {
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+}
+.OneScript .align-items-start {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}
+`;
+        var styleEle = document.createElement("STYLE");
+        styleEle.innerHTML = style;
+        document.head.appendChild(styleEle);
+    }
+
     /**
  * 注册loading组件，组件属性：
  * color : 颜色，默认 #f1b748
@@ -11,6 +120,7 @@ export class VueComponents {
      * @param tagname html标签名字，默认<selector>
      */
     static useLoading(tagname: string = "loading") {
+        VueComponents.addStyleToBody();
         registerLoading(tagname);
     }
    
@@ -20,7 +130,7 @@ export class VueComponents {
      * options 对象数组，对象属性包括： { text:"" , value : "" }
      * canceltext 取消文本
      * selectedtextcolor 选中的项的文字颜色
-     * bgcolor 底色
+     * bgcolor 底色 默认白色
      * title 标题
      * titleclass 标题文字的样式
      * optionclass 选项的样式
@@ -29,6 +139,29 @@ export class VueComponents {
      * @param tagname html标签名字，默认<loading>
      */
     static useSelector(tagname: string = "selector") {
+        VueComponents.addStyleToBody();
         registerSelector(tagname);
+    }
+
+    /**
+     * 组件属性:
+     * title 标题
+     * titleclass 标题文字的样式
+     * bgcolor 底色 默认白色
+     * border-radius 圆角大小，默认10px
+     * contentclass 内容的样式
+     * buttons 对象数组，对象属性包括：{ text: "", textClass: "" , bold:true , click: function(){  }  }
+     * 
+     * 例子：
+     * <alert-window v-model="show" :buttons="buttons">
+            <template>
+                你的弹出框内容
+            </template>
+        </alert-window>
+     * @param tagname html标签名字，默认<alert-window>
+     */
+    static useAlertWindow(tagname: string = "alert-window") {
+        VueComponents.addStyleToBody();
+        registerAlertWindow(tagname);
     }
 }

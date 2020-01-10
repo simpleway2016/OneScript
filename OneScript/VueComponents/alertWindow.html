@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../css/flex.css">
+   
+    <style>
+        .jack-one-script-alertwindow-title {
+            text-align: center;
+            font-weight: bold;
+            color: #030303;
+            font-size: 15px;
+            height: 36px;
+            line-height: 36px;
+        }
+
+        .jack-one-script-alertwindow-content {
+            margin: 0 20px 30px 20px;
+            min-width: 100px;
+            font-size: 15px;
+            color: #030303;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .borderRight {
+            border-right: 1px solid #eae5e5;
+        }
+
+        .jack-one-script-alertwindow-btntext {
+            color: #8E683A;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .main {
+        }
+    </style>
+</head>
+<body>
+    <div class="OneScript" v-show="visible" id="layer" style="position:fixed;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.4);z-index:999999;">
+        <div style="width:100%;height:100%;" class="display-flex flex-direction-column align-items-center justify-content-center">
+            <div class="flex-1" style="min-height:10px;"></div>
+            <div class="main display-flex flex-direction-column flex-shrink-0" style="align-items:stretch;max-height:90%;"  :style="{backgroundColor:bgcolor,borderRadius:borderRadius}">
+
+                <div :class="'flex-shrink-0 ' + titleclass">{{title}}</div>
+                <div class="flex-shrink-1" style="-webkit-overflow-scrolling:touch;overflow:hidden auto;">
+                    <div :class="contentclass"> <slot></slot></div>
+                </div>
+
+                <div class="display-flex flex-direction-row align-items-cente flex-shrink-0" style="border-top:1px solid #eae5e5;">
+                    <div @click="btnClick(btn)" v-for="btn,index in buttons" :class="'flex-1 ' + (btn.textClass?btn.textClass:'jack-one-script-alertwindow-btntext') + (btn.bold?' bold':'') + (index<buttons.length-1?' borderRight':'')">{{btn.text}}</div>
+                </div>
+
+            </div>
+            <div class="flex-1" style="min-height:10px;"></div>
+        </div>
+        
+    </div>
+</body>
+</html>

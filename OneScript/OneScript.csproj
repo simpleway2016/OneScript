@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\flex.css" />
     <Content Include="dist\AnimationHelper.js" />
     <Content Include="dist\Component.js" />
     <Content Include="dist\HttpClient.js" />
@@ -96,7 +97,9 @@
     <Content Include="test.config.js" />
     <Content Include="test\dist\main.html" />
     <Content Include="test\dist\bundle.js" />
+    <Content Include="test\alertTest.html" />
     <Content Include="test\selectorTest.html" />
+    <Content Include="VueComponents\alertWindow.html" />
     <Content Include="VueComponents\loading.html" />
     <Content Include="VueComponents\selector.html" />
     <Content Include="Web.config" />
@@ -153,7 +156,9 @@
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
     <TypeScriptCompile Include="test\main.ts" />
+    <TypeScriptCompile Include="test\AlertTest.ts" />
     <TypeScriptCompile Include="test\SelectorTest.ts" />
+    <TypeScriptCompile Include="VueComponents\AlertWindow.ts" />
     <TypeScriptCompile Include="VueComponents\Loading.ts" />
     <TypeScriptCompile Include="VueComponents\Selector.ts" />
     <TypeScriptCompile Include="VueComponents.ts" />
