@@ -159,6 +159,7 @@
     <TypeScriptCompile Include="test\AlertTest.ts" />
     <TypeScriptCompile Include="test\SelectorTest.ts" />
     <TypeScriptCompile Include="TouchClickHandler.ts" />
+    <TypeScriptCompile Include="VerifyPattern.ts" />
     <TypeScriptCompile Include="VueComponents\AlertWindow.ts" />
     <TypeScriptCompile Include="VueComponents\Loading.ts" />
     <TypeScriptCompile Include="VueComponents\Selector.ts" />

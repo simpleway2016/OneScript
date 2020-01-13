@@ -2,6 +2,7 @@
 import { registerLoading, LoadingOption } from "./VueComponents/Loading";
 import { registerAlertWindow, AlertWindowOption } from "./VueComponents/AlertWindow";
 import { registerTouchClick } from "./TouchClickHandler";
+import { registerVerifyPattern } from "./VerifyPattern";
 
 export class VueComponents {
 
@@ -110,6 +111,15 @@ export class VueComponents {
         var styleEle = document.createElement("STYLE");
         styleEle.innerHTML = style;
         document.head.appendChild(styleEle);
+    }
+
+    /**
+     * 开启input元素的数据验证
+     * 例子：
+     * <input jpattern="([0-9]|\.){1,6}">  表示只能输入6位以下的数字
+     * */
+    static useInputJPattern() {
+        registerVerifyPattern();
     }
 
     /**

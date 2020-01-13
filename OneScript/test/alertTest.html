@@ -8,6 +8,7 @@
 <body>
     <div>
         <button @click="show=true">show</button>
+        <input jpattern="([0-9]|\.){1,6}" v-model="time">{{time}}
         <alert-window v-model="show" :buttonclick="buttonClick" title="my title" :buttons="buttons">
             <template>
                 <div class="display-flex flex-direction-column align-items-center">
@@ -25,9 +26,11 @@
                     <div style="font-size:100px;">你的弹出框内容</div>
 
                 </div>
-                
+
             </template>
         </alert-window>
     </div>
+
 </body>
+
 </html>

@@ -8,7 +8,8 @@ export class AlertTest extends Component {
     vm: Vue;
     model = {
         myname: "from AlertTest",
-        show:false,
+        show: false,
+        time:123,
         buttons: [
             {
                 text: "确定",
@@ -35,7 +36,11 @@ export class AlertTest extends Component {
             data: this.model,
             methods: this.getMethodObjectForVue(),
             watch: {
+                time: (newvalue) => {
+                    console.log("time changed,newvalue:" + newvalue);
+                }
             },
         });
+
     }
 }
