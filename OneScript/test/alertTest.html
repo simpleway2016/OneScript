@@ -8,7 +8,7 @@
 <body>
     <div>
         <button @click="show=true">show</button>
-        <alert-window v-model="show" title="my title" :buttons="buttons">
+        <alert-window v-model="show" :buttonclick="buttonClick" title="my title" :buttons="buttons">
             <template>
                 <div class="display-flex flex-direction-column align-items-center">
                     <loading style="width:50px;height:50px;"></loading>

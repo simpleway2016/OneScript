@@ -1,6 +1,7 @@
 ﻿import { registerSelector, SelectorOption } from "./VueComponents/Selector"
 import { registerLoading, LoadingOption } from "./VueComponents/Loading";
 import { registerAlertWindow, AlertWindowOption } from "./VueComponents/AlertWindow";
+import { registerTouchClick } from "./TouchClickHandler";
 
 export class VueComponents {
 
@@ -112,6 +113,15 @@ export class VueComponents {
     }
 
     /**
+     * 开启touch触发click事件的支持
+     * 只要元素使用了标签属性touchmode，就开启这个功能 如：<div touchmode> 或者 <div touchmode='ontouchclass'> ，表示touch down时，样式ontouchclass生效，touch up时，ontouchclass样式消失
+     * vue 绑定长按功能:v-on:longtouch="alert(2)"
+     * */
+    static useTouchClick() {
+        registerTouchClick();
+    }
+
+    /**
  * 组件属性：
  * color : 颜色，默认 #f1b748
  * bgcolor : 背景色，默认 #fff
@@ -150,6 +160,7 @@ export class VueComponents {
      * boxclass 主显示框的样式
      * title 标题
      * titleclass 标题文字的样式
+     * buttonclick 所有按钮点击后的触发事件，函数原型： function(button) {}
      * contentclass 内容的样式
      * buttons 对象数组，对象属性包括：{ text: "", textClass: "" , bold:true , click: function(){  }  }
      * 

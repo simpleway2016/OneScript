@@ -21,6 +21,9 @@ export class AlertTest extends Component {
                 text: "取消"
             }
         ],
+        buttonClick: () => {
+            console.log("buttonClick raise");
+        }
     };
 
     constructor() {

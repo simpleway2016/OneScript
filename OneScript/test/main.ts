@@ -4,6 +4,7 @@ import { registerSelector } from "../VueComponents/Selector";
 import { SelectorTest } from "./SelectorTest";
 import { AlertTest } from "./AlertTest";
 
+VueComponents.useTouchClick();
 VueComponents.useSelector({
     titleclass: "alert-title",
 });

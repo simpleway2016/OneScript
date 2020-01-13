@@ -21,6 +21,8 @@ export interface AlertWindowOption {
     titleclass?: string;
     /**内容的样式 */
     contentclass?: string;
+    /**按钮被按下时的附加样式 */
+    touchdownclass?: string;
     buttons?: AlertWindowButton[];
 }
 
@@ -35,6 +37,7 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
         boxclass: "jack-one-script-alertwindow-box",
         titleclass: "jack-one-script-alertwindow-title",
         contentclass: "jack-one-script-alertwindow-content",
+        touchdownclass:"jack-one-script-alertwindow-touchdown",
         buttons: [
             {
                 text: "OK",
@@ -71,7 +74,7 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
             },
             visible: {
                 type: Boolean,
-                default: false
+                default: true
             },
             title: {
                 type: String,
@@ -85,9 +88,16 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
                 type: String,
                 default: myOption.contentclass
             },
+            touchdownclass: {
+                type: String,
+                default: myOption.touchdownclass
+            },
             buttons: {
                 type: Array,
                 default: myOption.buttons
+            },
+            buttonclick: {
+                default: undefined
             },
         },
         methods: {
@@ -102,9 +112,12 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
             },
             btnClick: function (btn) {
                 this.$emit('change', false);
-
+                
                 if (btn.click && typeof btn.click === "function") {
                     btn.click();
+                }
+                if (this.buttonclick) {
+                    this.buttonclick(btn);
                 }
             }
         },
@@ -126,6 +139,12 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
         },
         destroyed: function () {
             window.removeEventListener("resize", this.getBodyHeight, false);
+
+            if (this.layerEle) {
+                document.body.removeChild(this.layerEle);
+                delete this.layerEle;
+                console.log("alert-window destroyed");
+            }
         }
     });
 }

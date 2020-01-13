@@ -9,28 +9,20 @@ var oldversion = "1";
 
 function start() {
 
-    var copys = [
-        {
-            src: "./VueComponents/selector.html",
-            dst: "./dist/VueComponents/selector.html"
-        },
-        {
-            src: "./VueComponents/loading.html",
-            dst: "./dist/VueComponents/loading.html"
+
+    let files = fs.readdirSync("./VueComponents");//读取目录中的所有文件及文件夹（同步操作）
+    files.forEach(file => {
+
+        //file是文件名，不包含目录
+        if (file.endsWith(".html")) {
+            var readStream = fs.createReadStream("./VueComponents/" + file);
+            var dstPath = "./dist/VueComponents/" + file;
+            var writeStream = fs.createWriteStream(dstPath);
+            readStream.pipe(writeStream);
+            console.log(dstPath + "拷贝完毕")
         }
-    ];
-
-    copys.forEach(m => {
-        //__dirname表示当前js所在目录
-        //var sourceFile = path.join(__dirname, m.src);
-        //var destPath = path.join(__dirname, m.dst);
-
-
-        var readStream = fs.createReadStream(m.src);
-        var writeStream = fs.createWriteStream(m.dst);
-        readStream.pipe(writeStream);
-        console.log(m.src + "拷贝完毕")
     });
+
 
     //修改版本号
     //package.json
