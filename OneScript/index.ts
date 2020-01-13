@@ -11,6 +11,9 @@ import { Component } from "./Component";
 import { VueComponents } from "./VueComponents";
 import { AnimationHelper } from "./AnimationHelper";
 
+import {  SelectorOption } from "./VueComponents/Selector"
+import {  LoadingOption } from "./VueComponents/Loading";
+import { AlertWindowOption, AlertWindowButton } from "./VueComponents/AlertWindow";
 
 export {
     AnimationHelper,
@@ -23,5 +26,9 @@ export {
     HttpClient,
     IHttpClientUsing,
     Component,
-    VueComponents
+    VueComponents,
+    SelectorOption,
+    LoadingOption,
+    AlertWindowOption,
+    AlertWindowButton
 }
