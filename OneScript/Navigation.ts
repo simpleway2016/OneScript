@@ -1,7 +1,9 @@
 ﻿import { Component } from "./Component";
 
 export class NavigationEvent {
+    /**返回true，则停止push*/
     static OnBeforePush = 3;
+/**返回true，则停止pop*/
     static OnBeforePop = 4;
     static OnComponentPushed = 1;
     static OnComponentPoped = 2;
