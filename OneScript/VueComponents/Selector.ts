@@ -128,7 +128,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             optionClick: function (option) {
                 this.curValue = option.value.toString();
                 this.$emit('change', this.curValue);
-                this.cancelClick();
+                this.layerEle.style.visibility = "hidden";
             },
             getBodyHeight: function () {
                 if (this.bodyHeight === 0) {
