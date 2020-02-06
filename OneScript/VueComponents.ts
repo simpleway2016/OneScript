@@ -151,6 +151,8 @@ export class VueComponents {
      * canceltext 取消文本
      * selectedtextcolor 选中的项的文字颜色
      * bgcolor 底色 默认白色
+     * cancelbgcolor 取消按钮的底色 默认白色
+     * maskcolor 遮盖层颜色，默认rgba(0,0,0,0.4)
      * title 标题
      * titleclass 标题文字的样式
      * optionclass 选项的样式
