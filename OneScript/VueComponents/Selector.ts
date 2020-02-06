@@ -23,6 +23,8 @@ export interface SelectorOption {
     margin?: string;
     /**初始化后，是否直接弹出显示框 */
     showOptionOnInit?: boolean;
+    /**取消时的回调 */
+    oncancel?: () => void;
 }
 
 export function registerSelector(tagname: string, option: SelectorOption) {
@@ -40,7 +42,8 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         titleclass: "jack-one-script-selector-title",
         borderRadius: "10px",
         margin: "10px",
-        showOptionOnInit:false,
+        showOptionOnInit: false,
+        oncancel: undefined,
     };
     if (option) {
         for (var p in option) {
@@ -116,6 +119,10 @@ export function registerSelector(tagname: string, option: SelectorOption) {
                 type: Boolean,
                 default: myOption.showOptionOnInit
             },
+            oncancel: {
+                type: Function,
+                default: myOption.oncancel,
+            }
         },
         methods: {
             optionClick: function (option) {
@@ -165,6 +172,8 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             },
             cancelClick: function () {
                 this.layerEle.style.visibility = "hidden";
+                if (this.oncancel)
+                    this.oncancel();
             },
             open: function () {
                 var selectedEle: HTMLElement = (<HTMLElement>this.layerEle).querySelector("div[_selected='1']");
