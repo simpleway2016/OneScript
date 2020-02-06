@@ -21,6 +21,8 @@ export interface SelectorOption {
     borderRadius?: string;
     /**与屏幕的间距,默认10px */
     margin?: string;
+    /**初始化后，是否直接弹出显示框 */
+    showOptionOnInit?: boolean;
 }
 
 export function registerSelector(tagname: string, option: SelectorOption) {
@@ -37,7 +39,8 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         selectedtextcolor: "#A8202B",
         titleclass: "jack-one-script-selector-title",
         borderRadius: "10px",
-        margin:"10px",
+        margin: "10px",
+        showOptionOnInit:false,
     };
     if (option) {
         for (var p in option) {
@@ -108,6 +111,10 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             margin: {
                 type: String,
                 default: myOption.margin
+            },
+            showOptionOnInit: {
+                type: Boolean,
+                default: myOption.showOptionOnInit
             },
         },
         methods: {
@@ -196,6 +203,10 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             this.optionContainer.addEventListener("scroll", this.checkOnScroll, false);
             window.addEventListener("resize", this.getBodyHeight, false);
             this.checkOnScroll();
+
+            if (this.showOptionOnInit) {
+                this.open();
+            }
         },
         destroyed: function () {
             window.removeEventListener("resize", this.getBodyHeight, false);

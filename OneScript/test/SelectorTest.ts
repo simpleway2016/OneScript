@@ -10,6 +10,7 @@ export class SelectorTest extends Component {
         options: [],
         selectedText: undefined,
         selectedValue: undefined,
+        showOptionOnInit:true,
     };
 
     constructor() {

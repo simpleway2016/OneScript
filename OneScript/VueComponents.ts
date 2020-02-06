@@ -156,6 +156,7 @@ export class VueComponents {
      * optionclass 选项的样式
      * border-radius 圆角大小，默认10px
      * margin 与屏幕的间距,默认10px
+     * show-option-on-init 初始化后，是否直接弹出显示框，默认false
      * @param option
      * @param tagname html标签名字，默认<selector>
      */
