@@ -148,7 +148,6 @@ export class VueComponents {
 
     /**
      * 组件属性：
-     * options 对象数组，对象属性包括： { text:"" , value : "" }
      * canceltext 取消文本
      * selectedtextcolor 选中的项的文字颜色
      * bgcolor 底色 默认白色
