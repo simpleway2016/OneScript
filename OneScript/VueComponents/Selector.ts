@@ -15,6 +15,8 @@ export interface SelectorOption {
     cancelbgcolor?: string;
     /**遮盖层颜色，默认rgba(0,0,0,0.4) */
     maskcolor?: string;
+    /**间隔线颜色 默认#C7C7C9 */
+    linecolor?: string;
     /**标题 */
     title?: string;
     /**标题文字的样式 */
@@ -42,7 +44,8 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         canceltext: "Cancel",
         bgcolor: "#fff",
         cancelbgcolor: "#fff",
-        maskcolor:"rgba(0,0,0,0.4)",
+        maskcolor: "rgba(0,0,0,0.4)",
+        linecolor:"#C7C7C9",
         optionclass: "jack-one-script-selector-option",
         selectedtextcolor: "#A8202B",
         titleclass: "jack-one-script-selector-title",
@@ -100,6 +103,10 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             maskcolor: {
                 type: String,
                 default: myOption.maskcolor,
+            },
+            linecolor: {
+                type: String,
+                default: myOption.linecolor,
             },
             cancelbgcolor: {
                 type: String,

@@ -30,7 +30,7 @@
                 <div :style="{borderRadius:borderRadius,margin:margin,backgroundColor:bgcolor}">
                     <div id="divTitle"  :class="titleclass" :style="{height:title?'':'0px',borderBottom:title?'1px solid #c7c7c7':''}">{{title}}</div>
                     <div id="divContainer" style="-webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto;" :style="{maxHeight:bodyHeight,webkitMaskImage:maskFinally}">
-                        <div touchmode @click.stop="optionClick(option)" :class="optionclass" :_selected="option.value!=curValue?0:1" v-for="option in options" :style="{color:option.value!=curValue?'':selectedtextcolor,borderBottom:option!==options[options.length-1]?'1px solid #c7c7c7':''}">{{option.text}}</div>
+                        <div touchmode @click.stop="optionClick(option)" :class="optionclass" :_selected="option.value!=curValue?0:1" v-for="option in options" :style="{color:option.value!=curValue?'':selectedtextcolor,borderBottom:option!==options[options.length-1]?'1px solid ' + linecolor:''}">{{option.text}}</div>
                     </div>
                 </div>
                 <div touchmode @click.stop="cancelClick" id="btnCancel"  :class="optionclass" :style="{borderRadius:borderRadius,margin:margin,marginTop:'0px',backgroundColor:cancelbgcolor}">{{canceltext}}</div>
