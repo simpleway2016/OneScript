@@ -15,8 +15,8 @@ export interface AlertWindowButton {
 export interface AlertWindowOption {
     /**主显示框的样式 */
     boxclass?: string;
-    /**标题 */
-    title?: string;
+    /**按钮样式 */
+    buttonclass?: string;
     /**标题文字的样式 */
     titleclass?: string;
     /**内容的样式 */
@@ -34,14 +34,13 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
     var rootClassName = (<any>mycomponent).constructor._onescriptClassName;
 
     var myOption: AlertWindowOption = {
-        boxclass: "jack-one-script-alertwindow-box",
-        titleclass: "jack-one-script-alertwindow-title",
-        contentclass: "jack-one-script-alertwindow-content",
-        touchdownclass:"jack-one-script-alertwindow-touchdown",
+        boxclass: "",
+        titleclass: "",
+        contentclass: "",
+        touchdownclass: "jack-one-script-alertwindow-touchdown",
         buttons: [
             {
                 text: "OK",
-                textClass: "",
                 bold: true
             }
         ],
@@ -78,7 +77,11 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
             },
             title: {
                 type: String,
-                default: myOption.title
+                default: undefined,
+            },
+            buttonclass: {
+                type: String,
+                default: myOption.buttonclass
             },
             titleclass: {
                 type: String,

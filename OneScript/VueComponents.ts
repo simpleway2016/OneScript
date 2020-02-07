@@ -171,10 +171,10 @@ export class VueComponents {
 
     /**
      * 组件属性:
-     * boxclass 主显示框的样式
-     * title 标题
+     * boxclass 主显示框的样式     
      * titleclass 标题文字的样式
      * buttonclick 所有按钮点击后的触发事件，函数原型： function(button) {}
+     * buttonclass 按钮样式
      * contentclass 内容的样式
      * buttons 对象数组，对象属性包括：{ text: "", textClass: "" , bold:true , click: function(){  }  }
      * 
