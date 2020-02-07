@@ -7,26 +7,19 @@ var html = require("./selector.html");
 export interface SelectorOption {
     /**取消文本 */
     canceltext?: string;
-    /**选中的项的文字颜色 */
-    selectedtextcolor?: string;
-    /**底色 默认白色 */
-    bgcolor?: string;
-/**取消按钮的底色 默认白色 */
-    cancelbgcolor?: string;
+    /**选中的项的样式 */
+    selectedclass?: string;
+    /**主框样式 */
+    boxclass?: string;
+    cancelclass?: string;
     /**遮盖层颜色，默认rgba(0,0,0,0.4) */
     maskcolor?: string;
-    /**间隔线颜色 默认#C7C7C9 */
-    linecolor?: string;
     /**标题 */
     title?: string;
     /**标题文字的样式 */
     titleclass?: string;
     /**选项的样式 */
     optionclass?: string;
-    /**圆角大小，默认10px */
-    borderRadius?: string;
-    /**与屏幕的间距,默认10px */
-    margin?: string;
     /**初始化后，是否直接弹出显示框 */
     showOptionOnInit?: boolean;
     /**取消时的回调 */
@@ -42,15 +35,12 @@ export function registerSelector(tagname: string, option: SelectorOption) {
 
     var myOption: SelectorOption = {
         canceltext: "Cancel",
-        bgcolor: "#fff",
-        cancelbgcolor: "#fff",
         maskcolor: "rgba(0,0,0,0.4)",
-        linecolor:"#C7C7C9",
         optionclass: "jack-one-script-selector-option",
-        selectedtextcolor: "#A8202B",
+        selectedclass: "jack-one-script-selector-selected",
         titleclass: "jack-one-script-selector-title",
-        borderRadius: "10px",
-        margin: "10px",
+        boxclass: "jack-one-script-selector-box",
+        cancelclass:"jack-one-script-selector-cancel",
         showOptionOnInit: false,
         oncancel: undefined,
     };
@@ -83,7 +73,6 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         props: {
             /**要使用v-model绑定变量，不要直接用value，因为v-model才是双向绑定*/
             value: {
-                type: String,
                 default: ""
             },
             options: {
@@ -96,29 +85,25 @@ export function registerSelector(tagname: string, option: SelectorOption) {
                 type: String,
                 default: myOption.canceltext
             },
-            bgcolor: {
-                type: String,
-                default: myOption.bgcolor,
-            },
             maskcolor: {
                 type: String,
                 default: myOption.maskcolor,
-            },
-            linecolor: {
-                type: String,
-                default: myOption.linecolor,
-            },
-            cancelbgcolor: {
-                type: String,
-                default: myOption.cancelbgcolor,
             },
             optionclass: {
                 type: String,
                 default: myOption.optionclass,
             },
-            selectedtextcolor: {
+            cancelclass: {
                 type: String,
-                default: myOption.selectedtextcolor
+                default: myOption.cancelclass,
+            },
+            boxclass: {
+                type: String,
+                default: myOption.boxclass,
+            },
+            selectedclass: {
+                type: String,
+                default: myOption.selectedclass
             },
             title: {
                 type: String,
@@ -127,14 +112,6 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             titleclass: {
                 type: String,
                 default: myOption.titleclass
-            },
-            borderRadius: {
-                type: String,
-                default: myOption.borderRadius
-            },
-            margin: {
-                type: String,
-                default: myOption.margin
             },
             showOptionOnInit: {
                 type: Boolean,
@@ -233,6 +210,8 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             this.optionContainer.addEventListener("scroll", this.checkOnScroll, false);
             window.addEventListener("resize", this.getBodyHeight, false);
             this.checkOnScroll();
+
+            this.curValue = this.value;
 
             if (this.showOptionOnInit) {
                 this.open();

@@ -9,7 +9,7 @@ export class SelectorTest extends Component {
     model = {
         options: [],
         selectedText: undefined,
-        selectedValue: undefined,
+        selectedValue: 3,
         showOptionOnInit:true,
     };
 

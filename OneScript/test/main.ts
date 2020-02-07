@@ -7,7 +7,6 @@ import { AlertTest } from "./AlertTest";
 VueComponents.useInputJPattern();
 VueComponents.useTouchClick();
 VueComponents.useSelector({
-    titleclass: "alert-title",
 });
 VueComponents.useLoading({
     color:"#006600"
