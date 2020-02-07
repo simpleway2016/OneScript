@@ -7,6 +7,7 @@ import { AlertTest } from "./AlertTest";
 VueComponents.useInputJPattern();
 VueComponents.useTouchClick();
 VueComponents.useSelector({
+    optionclass:"myoption"
 });
 VueComponents.useLoading({
     color:"#006600"

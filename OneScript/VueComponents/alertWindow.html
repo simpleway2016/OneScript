@@ -53,15 +53,15 @@
         <div style="width:100%;height:100%;" class="display-flex flex-direction-column align-items-center justify-content-center">
 
             <!--overflow:auto;可以保证内部元素的圆角也被切掉-->
-            <div :class="boxclass" style="align-items:stretch;overflow:auto;">
+            <div :class="'jack-one-script-alertwindow-box ' + boxclass" style="align-items:stretch;overflow:auto;">
 
-                <div id="divTitle" :class="titleclass">{{title}}</div>
+                <div id="divTitle" :class="'jack-one-script-alertwindow-title ' + titleclass">{{title}}</div>
                 <div style="-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:auto;" :style="{maxHeight:bodyHeight+'px'}">
-                    <div :class="contentclass"> <slot></slot></div>
+                    <div :class="'jack-one-script-alertwindow-content '+contentclass"> <slot></slot></div>
                 </div>
 
                 <div id="divButtonContainer" class="display-flex flex-direction-row align-items-cente" style="border-top:1px solid #eae5e5;">
-                    <div :touchmode="touchdownclass" @click="btnClick(btn)" v-for="btn,index in buttons" :class="'flex-1 ' + (btn.textClass?btn.textClass:'jack-one-script-alertwindow-btntext') + (btn.bold?' bold':'') + (index<buttons.length-1?' borderRight':'')">{{btn.text}}</div>
+                    <div :touchmode="touchdownclass" @click="btnClick(btn)" v-for="btn,index in buttons" :class="'flex-1 jack-one-script-alertwindow-btntext ' + buttonclass + ' ' + (btn.textClass?btn.textClass:'') + (btn.bold?' bold':'') + (index<buttons.length-1?' borderRight':'')">{{btn.text}}</div>
                 </div>
 
             </div>
