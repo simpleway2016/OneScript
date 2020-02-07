@@ -149,16 +149,12 @@ export class VueComponents {
     /**
      * 组件属性：
      * canceltext 取消文本
-     * selectedtextcolor 选中的项的文字颜色
-     * bgcolor 底色 默认白色
-     * cancelbgcolor 取消按钮的底色 默认白色
+     * selectedclass 
+     * cancelclass
      * maskcolor 遮盖层颜色，默认rgba(0,0,0,0.4)
-     * linecolor 间隔线颜色 默认#C7C7C9
      * title 标题
-     * titleclass 标题文字的样式
+     * titleclass 标题的样式
      * optionclass 选项的样式
-     * border-radius 圆角大小，默认10px
-     * margin 与屏幕的间距,默认10px
      * show-option-on-init 初始化后，是否直接弹出显示框，默认false
      * oncancel 取消时的回调
      * @param option
