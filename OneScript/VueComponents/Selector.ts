@@ -36,11 +36,11 @@ export function registerSelector(tagname: string, option: SelectorOption) {
     var myOption: SelectorOption = {
         canceltext: "Cancel",
         maskcolor: "rgba(0,0,0,0.4)",
-        optionclass: "jack-one-script-selector-option",
+        optionclass: "",
         selectedclass: "jack-one-script-selector-selected",
-        titleclass: "jack-one-script-selector-title",
-        boxclass: "jack-one-script-selector-box",
-        cancelclass:"jack-one-script-selector-cancel",
+        titleclass: "",
+        boxclass: "",
+        cancelclass:"",
         showOptionOnInit: false,
         oncancel: undefined,
     };

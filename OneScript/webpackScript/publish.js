@@ -106,6 +106,7 @@ exec('npm view jack-one-script',
         if (outstr) {
             var match = /latest\u001b\[39m\u001b\[22m: ([0-9|\.]+)/.exec(outstr);
             packageContent.version = match[1];
+            console.log("读取到当前的版本号：" + packageContent.version);
             doTsc();
         }
         if (errstr)
