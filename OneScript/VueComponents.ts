@@ -148,6 +148,8 @@ export class VueComponents {
 
     /**
      * 组件属性：
+     * 样式内容需加入!important标识，如： color:#ccc !important;
+     * 
      * canceltext 取消文本
      * selectedclass 
      * cancelclass
@@ -167,6 +169,8 @@ export class VueComponents {
 
     /**
      * 组件属性:
+     * 样式内容需加入!important标识，如： color:#ccc !important;
+     * 
      * boxclass 主显示框的样式     
      * titleclass 标题文字的样式
      * buttonclick 所有按钮点击后的触发事件，函数原型： function(button) {}

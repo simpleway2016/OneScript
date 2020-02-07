@@ -7,6 +7,7 @@ import { AlertTest } from "./AlertTest";
 VueComponents.useInputJPattern();
 VueComponents.useTouchClick();
 VueComponents.useSelector({
+    optionclass:"myoption"
 });
 VueComponents.useLoading({
     color:"#006600"
@@ -15,5 +16,5 @@ VueComponents.useAlertWindow({
     titleclass: "alert-title",
 });
 
-var page = new AlertTest();
+var page = new SelectorTest();
 page.setParent(document.body.querySelector("#main"));
