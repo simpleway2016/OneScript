@@ -150,6 +150,7 @@ export class VueComponents {
      * 组件属性：
      * 样式内容需加入!important标识，如： color:#ccc !important;
      * 
+     * options 对象数组，对象属性包括：{ text: "", value:""  }
      * canceltext 取消文本
      * selectedclass 
      * cancelclass
