@@ -23,18 +23,21 @@
             line-height: 60px;
             border-bottom: 1px solid #c7c7c7;
         }
-        .jack-one-script-selector-selected{
+        .jack-one-script-selector-selected {
             color: red;
         }
         .jack-one-script-selector-box {
             background-color: #fff;
             border-radius: 10px;
             margin: 10px;
+            box-shadow:rgba(0,0,0,0.4) 0px 5px 20px;
         }
         .jack-one-script-selector-cancel {
             background-color: #fff;
             border-radius: 10px;
             margin: 0px 10px 10px 10px;
+            box-shadow:rgba(0,0,0,0.4) 0px 5px 20px;
+            border: 0px;
         }
     </style>
 </head>
@@ -45,7 +48,7 @@
                 <div :class="'jack-one-script-selector-box '+boxclass">
                     <div id="divTitle"  :class="'jack-one-script-selector-title '+titleclass" :style="{height:title?'':'0px',borderBottom:title?'':'0px'}">{{title}}</div>
                     <div id="divContainer" style="-webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto;" :style="{maxHeight:bodyHeight,webkitMaskImage:maskFinally}">
-                        <div touchmode @click.stop="optionClick(option)" :class="'jack-one-script-selector-option ' + optionclass + ' '+ (option.value!=curValue?'':selectedclass)" :_selected="option.value!=curValue?0:1" v-for="option in options" :style="{borderBottom:option!==options[options.length-1]?'':'0px'}">{{option.text}}</div>
+                        <div touchmode @click.stop="optionClick(option)" :class="'jack-one-script-selector-option ' + optionclass + ' '+ (option.value!=curValue?'':selectedclass)" :_selected="option.value!=curValue?0:1" v-for="option in options" :style="{borderBottom:option!==options[options.length-1]?'':'0px !important'}">{{option.text}}</div>
                     </div>
                 </div>
                 <div touchmode @click.stop="cancelClick" id="btnCancel"  :class="'jack-one-script-selector-option jack-one-script-selector-cancel ' + optionclass+' '+ cancelclass">{{canceltext}}</div>
