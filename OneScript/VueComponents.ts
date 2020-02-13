@@ -133,10 +133,19 @@ export class VueComponents {
 
     /**
  * 组件属性：
- * color : 颜色，默认 #f1b748
- * bgcolor : 背景色，默认 #fff
- * coloropacity: 颜色透明度，默认0.9
- * bgcoloropacity: 颜色透明度，默认0.5
+ * bgclass : 底部样式 ， 默认 ：
+ * {
+            opacity:0.1;
+            stroke-width:15;
+            stroke:#000000;
+    }
+ * bodyclass: 旋转体样式 ，默认：
+ * {
+            opacity: 0.9;
+            stroke-width: 15;
+            stroke: #f1b748;
+    }
+    你的样式内容需加入!important标识，如： stroke:#ccc !important;
  * @param option
      * @param tagname html标签名字，默认<loading>
      */
