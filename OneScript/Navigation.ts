@@ -1,4 +1,5 @@
 ﻿import { Component } from "./Component";
+import { resolve } from "url";
 
 export class NavigationEvent {
     /**返回true，则停止push*/
@@ -291,12 +292,12 @@ export class Navigation extends Component {
     }
 
     /**
-     * 显示组件
+     * 显示组件，组件pop后，异步完成。
      * @param component
      * @param animation 是否有动画过渡
      * @param callback 动画完成后的回调方法
      */
-    push(curComponent: Component, animation: boolean = true, callback: () => void = null): void {
+    async push(curComponent: Component, animation: boolean = true, callback: () => void = null): Promise<void> {
         //需要设置zIndex，否则，如果另一个Component里面的子元素有更高zIndex，则会覆盖这个curComponent
         curComponent.element.style.zIndex = "1";
         curComponent.element.style.position = "absolute";
@@ -411,7 +412,14 @@ export class Navigation extends Component {
         else {
 
             animationEndFunc();
-        }        
+        }      
+
+        return new Promise((resolve) => {
+            (<any>curComponent)._onDisposed2 = () => {
+                resolve();
+            };
+        });
+       
     }
 
     /**

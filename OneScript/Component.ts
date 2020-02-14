@@ -14,6 +14,7 @@ export class Component implements IHttpClientUsing {
      * */
     element: HTMLElement;
     owner: Navigation;
+    onDisposed: () => void;
     /**样式表id名字 */
     private static StyleFlag = 0;
 
@@ -231,13 +232,25 @@ export class Component implements IHttpClientUsing {
 
         for (var p in this) {
             var obj: any = this[p];
-            if (obj && obj.$destroy && typeof obj.$destroy === "function") {
-                console.log(`执行${(<any>this.constructor).name}.${p}.$destroy()`);
-                obj.$destroy();
-            }
+            try {
+                if (obj && obj.$destroy && typeof obj.$destroy === "function") {
+                    console.log(`执行${(<any>this.constructor).name}.${p}.$destroy()`);
+                    obj.$destroy();
+                }
+            } catch (e) {
+
+            }            
         }
 
         console.debug((<any>this.constructor).name + " dispose");
+
+        if (this.onDisposed) {
+            this.onDisposed();
+        }
+
+        if ((<any>this)._onDisposed2) {
+            (<any>this)._onDisposed2();
+        }
     }
 
     /**
