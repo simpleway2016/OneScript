@@ -7,10 +7,12 @@
 </head>
 <body>
     <div>
-        <div style="position:relative;width:100px;height:50px;background-color:#808080;">
+        
             {{!selectedValue?"点击选择":selectedText}}
-            <selector :options="options" :show-option-on-init="true" title="测试" border-radius="5px" v-model="selectedValue" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;"></selector>
-        </div>
+            <selector style="width:100px;height:50px;" :options="options" title="测试" border-radius="5px" v-model="selectedValue">
+                <div style="background-color:#808080;width:100%;height:100%;"> </div>
+        </selector>
+
     </div>
 </body>
 </html>
