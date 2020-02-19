@@ -42,7 +42,7 @@
     </style>
 </head>
 <body>
-    <div touchmode @click="open" style="width:100%;height:100%;">
+    <div style="width:100%;height:100%;">
         <slot></slot>
         <div touchmode @click.stop="cancelClick" id="layer" style="position:fixed;left:0;top:0;width:100%;height:100%;z-index:999999;visibility:hidden;" :style="{backgroundColor:maskcolor}">
             <div style="position:fixed;bottom:0;left:0;width:100%;">

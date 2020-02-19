@@ -197,7 +197,11 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         beforeMount: function () {
             this.getBodyHeight();
         },
-        mounted: function () {
+       mounted: function () {
+           var self = this;
+           (<HTMLElement>this.$el).addEventListener("click", function () {
+               self.open();
+           });
             var layerEle: HTMLElement = this.$el.querySelector("#layer");
             layerEle.parentElement.removeChild(layerEle);
             //给layerEle设置根部样式，这样，html <header> 里面的style才能作用到layerEle上
