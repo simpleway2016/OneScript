@@ -62,7 +62,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         },
         data: function () {
             return {
-                curValue: "",
+                curValue: undefined,
                 bodyHeight: 0,
                 maskBottom: "-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)),color-stop(0.7,rgba(0,0,0,1)))",
                 maskTopBottom: "-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,0)),color-stop(0.3,rgba(0,0,0,1)),color-stop(0.7,rgba(0,0,0,1)))",
@@ -124,7 +124,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         },
         methods: {
             optionClick: function (option) {
-                this.curValue = option.value.toString();
+                this.curValue = option.value;
                 this.$emit('change', this.curValue);
                 this.layerEle.style.visibility = "hidden";
             },
