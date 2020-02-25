@@ -155,7 +155,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             },
             checkOnScroll: function () {
                 var maskFinally = "";
-                if (this.options.length > 0) {
+                if (this.options && this.options.length > 0) {
                     var divContainer: HTMLElement = this.optionContainer;
                     var rect = divContainer.getBoundingClientRect();
 
