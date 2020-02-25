@@ -120,11 +120,19 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             oncancel: {
                 type: Function,
                 default: myOption.oncancel,
-            }
+            },
+            textmember: {
+                type: String,
+                default: undefined,
+            },
+            valuemember: {
+                type: String,
+                default: undefined,
+            },
         },
         methods: {
             optionClick: function (option) {
-                this.curValue = option.value;
+                this.curValue = option[this.valuemember ||"value"];
                 this.$emit('change', this.curValue);
                 this.layerEle.style.visibility = "hidden";
             },

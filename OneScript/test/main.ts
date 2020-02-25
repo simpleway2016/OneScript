@@ -7,7 +7,8 @@ import { AlertTest } from "./AlertTest";
 VueComponents.useInputJPattern();
 VueComponents.useTouchClick();
 VueComponents.useSelector({
-    optionclass:"myoption"
+    optionclass: "myoption",
+    selectedclass:"myoptionselected"
 });
 VueComponents.useLoading({
     bodyclass:"loading"
