@@ -8,15 +8,18 @@
         var inputEle = e.target;
 
         var val = inputEle.value;
-        var arr = inputEle._jpattern.exec(val);
-        if (Array.isArray(arr))
-            arr = arr[0];
-        if (val != arr) {
-            inputEle.value = arr;
-            var theEvent = document.createEvent('Event');
-            theEvent.initEvent('input', true, true);
-            e.target.dispatchEvent(theEvent);
+        if (val) {
+            var arr = inputEle._jpattern.exec(val);
+            if (Array.isArray(arr))
+                arr = arr[0];
+            if (val != arr) {
+                inputEle.value = arr;
+                var theEvent = document.createEvent('Event');
+                theEvent.initEvent('input', true, true);
+                e.target.dispatchEvent(theEvent);
+            }
         }
+       
     }
 
     function PatternHandler(element) {
