@@ -117,27 +117,16 @@ export class Swiper {
             this.init();
         }
         else {
-            var nodeAddedCallback = (e) => {
-                if (this.inited)
+            var checkWidth = (p) => {
+                if (this.container.offsetWidth > 0) {
+                    this.init();
                     return;
-
-                try {
-                    //检查container是否已经被添加到body
-                    var p = this.container.parentElement;
-                    while (p && p !== document.body) {
-                        p = p.parentElement;
-                    }
-                    if (p === document.body) {
-                        document.body.removeEventListener("DOMNodeInserted", nodeAddedCallback);
-                        this.init();
-                    }
                 }
-                catch (e) {
-
+                else {
+                    window.requestAnimationFrame(checkWidth);
                 }
-               
-            }
-            document.body.addEventListener("DOMNodeInserted", nodeAddedCallback, false);
+            };
+            window.requestAnimationFrame(checkWidth);
         }
  
     }
@@ -539,6 +528,7 @@ export class Swiper {
     private _autoplayTimer: any;
     private _disposed = false;
     dispose() {
+        this.stop();
         this.container.removeEventListener("touchstart", this.touchStartAction);
         this.container.removeEventListener("touchmove", this.touchMoveAction);
         this.container.removeEventListener("touchend", this.touchEndAction);
@@ -568,6 +558,10 @@ export class Swiper {
     }
     /**开始自动播放 */
     start() {
+        if (!this.inited) {
+            window.setTimeout(() => this.start(), 1000);
+            return;
+        }
         if (this._autoplayTimer == 0) {
             this.option.autoPlayInterval = this._autoPlayInterval;
             if (this.option.autoPlayInterval > 0) {
