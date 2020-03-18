@@ -16,8 +16,10 @@ export interface ModelValidate {
     otherPorpertyName?: string;
     /**验证类型，默认Required */
     validateType?: ValidateType;
-    /**表达式，如果不满足这个表达式，则不通过验证，如 {0}!=0，表示只有当值不等于0时，验证通过 */
-    expression?: string;
+    /**表达式，如果不满足这个表达式，则不通过验证，如 {0}!=0，表示只有当值不等于0时，验证通过 
+     也可以是一个function(val) 函数，返回true表示通过，否则表示不通过
+     */
+    expression?: (value:string)=> boolean|string;
     /**验证不通过时，返回的错误文字 */
     errorText?: string;
 }
@@ -30,11 +32,20 @@ export class ModelValidator {
      * @param validates
      * @returns 返回没有通过验证的ModelValidate
      */
-    static verify(model: any, validates: ModelValidate[]): ModelValidate[] {
+    static verify(model: any, validates: ModelValidate[]|string[]): ModelValidate[] {
         var errors: ModelValidate[] = [];
         var data = model;
 
         validates.forEach((validate) => {
+            if (typeof validate == "string") {
+                validate = {
+                    propertyName: validate
+                };
+            }
+                
+            if (errors.some(m => m.propertyName == validate.propertyName))
+                return;
+
             if (validate.validateType == undefined)
                 validate.validateType = ValidateType.Required;
 
@@ -65,23 +76,34 @@ export class ModelValidator {
 
     /**
      * 验证model，并把结果放到resultPropertyName指定的属性里，resultPropertyName指定的属性初始值应该是{}
-     * 如，resultPropertyName="validator"，然后username和code属性没有通过验证，那么，validator={ username : true, code : true }
+     * 如，resultPropertyName="validator"，然后username和code属性没有通过验证，那么，validator={ username : true, code : errorText }
      * 如果都通过验证，那么 validator={}
      * @param model
      * @param validates
      * @param resultPropertyName
      */
-    static verifyToProperty(model: any, validates: ModelValidate[], resultPropertyName: string) {
+    static verifyToProperty(model: any, validates: ModelValidate[]|string[], resultPropertyName: string) {
 
         for (var i = 0; i < validates.length; i++) {
-            eval("model." + resultPropertyName + "." + validates[i].propertyName + "=false");
+            if (typeof validates[i] == "string") {
+                eval("model." + resultPropertyName + "." + validates[i] + "=false");
+            }
+            else {
+                eval("model." + resultPropertyName + "." + (<any>validates[i]).propertyName + "=false");
+            }
+            
         }
 
         var arr = ModelValidator.verify(model, validates);
         var ret = false;
         if (arr.length > 0) {
             for (var i = 0; i < arr.length; i++) {
-                eval("model." + resultPropertyName + "." + arr[i].propertyName + "=true");
+                if (arr[i].errorText) {
+                    eval("model." + resultPropertyName + "." + arr[i].propertyName + "=" + JSON.stringify(arr[i].errorText));
+                }
+                else {
+                    eval("model." + resultPropertyName + "." + arr[i].propertyName + "=true");
+                }
             }
             ret = false;
         }
@@ -125,6 +147,9 @@ export class ModelValidator {
         return value == otherValue;
     }
     private static verify_CheckExpression(value: any, otherValue: any, validate: ModelValidate): boolean {
+        if (typeof validate.expression === "function") {
+            return (<any>validate).expression(value);
+        }
         var curValue = value;
         var expression = validate.expression.replace(/\{0\}/g, "curValue");
         return eval(expression);

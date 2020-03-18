@@ -15,7 +15,7 @@ export class AlertTest extends Component {
                 text: "确定",
                 bold: true,
                 click: () => {
-                    alert(2);
+                    this.dispose();
                 }
             },
             {
