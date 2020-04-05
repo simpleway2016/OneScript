@@ -151,7 +151,8 @@ export class ModelValidator {
             return (<any>validate).expression(value);
         }
         var curValue = value;
-        var expression = validate.expression.replace(/\{0\}/g, "curValue");
+        if (validate.expression && (<any>validate.expression).replace)
+            var expression = (<any>validate.expression).replace(/\{0\}/g, "curValue");
         return eval(expression);
     }
 }

@@ -17,5 +17,5 @@ VueComponents.useAlertWindow({
     titleclass: "alert-title",
 });
 
-var page = new AlertTest();
+var page = new SelectorTest();
 page.setParent(document.body.querySelector("#main"));

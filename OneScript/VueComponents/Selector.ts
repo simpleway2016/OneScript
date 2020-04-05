@@ -135,6 +135,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
                 this.curValue = option[this.valuemember ||"value"];
                 this.$emit('change', this.curValue);
                 this.layerEle.style.visibility = "hidden";
+                this.$emit('hide', true);
             },
             getBodyHeight: function () {
                 if (this.bodyHeight === 0) {

@@ -38,4 +38,8 @@ export class SelectorTest extends Component {
             },
         });
     }
+
+    onhide() {
+        console.log("onhide");
+    }
 }

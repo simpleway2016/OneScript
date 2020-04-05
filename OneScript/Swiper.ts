@@ -118,6 +118,8 @@ export class Swiper {
         }
         else {
             var checkWidth = (p) => {
+                if (this._disposed)
+                    return;
                 if (this.container.offsetWidth > 0) {
                     this.init();
                     return;
