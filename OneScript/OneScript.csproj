@@ -94,7 +94,9 @@
     <Content Include="dist\StyleParser.js" />
     <Content Include="dist\Swiper.js" />
     <Content Include="dist\VueComponents\Loading.js" />
+    <Content Include="hammer.min.js" />
     <Content Include="test.config.js" />
+    <Content Include="test\ImageEditorTest.html" />
     <Content Include="test\dist\main.html" />
     <Content Include="test\dist\bundle.js" />
     <Content Include="test\alertTest.html" />
@@ -149,12 +151,14 @@
     <TypeScriptCompile Include="dist\VueComponents\Loading.d.ts" />
     <TypeScriptCompile Include="HttpClient.ts" />
     <TypeScriptCompile Include="IHttpClientUsing.ts" />
+    <TypeScriptCompile Include="ImageEditor.ts" />
     <TypeScriptCompile Include="index.ts" />
     <TypeScriptCompile Include="ModelValidator.ts" />
     <TypeScriptCompile Include="Navigation.ts" />
     <TypeScriptCompile Include="PullToRefresh.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
+    <TypeScriptCompile Include="test\ImageEditorTest.ts" />
     <TypeScriptCompile Include="test\main.ts" />
     <TypeScriptCompile Include="test\AlertTest.ts" />
     <TypeScriptCompile Include="test\SelectorTest.ts" />

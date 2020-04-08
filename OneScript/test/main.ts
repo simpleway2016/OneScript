@@ -3,6 +3,7 @@ import { VueComponents } from "../VueComponents";
 import { registerSelector } from "../VueComponents/Selector";
 import { SelectorTest } from "./SelectorTest";
 import { AlertTest } from "./AlertTest";
+import { ImageEditorTest } from "./ImageEditorTest";
 
 VueComponents.useInputJPattern();
 VueComponents.useTouchClick();
@@ -17,5 +18,5 @@ VueComponents.useAlertWindow({
     titleclass: "alert-title",
 });
 
-var page = new SelectorTest();
+var page = new ImageEditorTest();
 page.setParent(document.body.querySelector("#main"));
