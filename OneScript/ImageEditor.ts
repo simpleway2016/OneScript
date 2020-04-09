@@ -5,11 +5,14 @@ export enum ImageEditorMaskStyle {
 }
 export interface ImageEditorOption {
     container: HTMLElement;
+    /**截图框的形状 */
     style: ImageEditorMaskStyle;
-    /**占面积比例，如：50 */
+    /**截图框的宽占容器宽度的比例，如：50 */
     percent;
     /**输出图像的width */
     outputWidthPixel: number;
+    /**输出图像的height */
+    outputHeightPixel: number;
 }
 export class ImageEditor {
     container: HTMLElement;
@@ -19,27 +22,44 @@ export class ImageEditor {
 
     private printScale = 1;
     private canvasWidth = 0;
+    private canvasHeight = 0;
     private offset = { x: 0, y: 0 };
     private scale = 1;
     private hammer: Hammer;
     constructor(option: ImageEditorOption) {
         this.container = option.container;
 
+        
+
+        this.setMaskStyle(option);
+    }
+
+    private option: ImageEditorOption;
+
+    private setMaskStyle(option: ImageEditorOption) {
+        if (this.container.offsetWidth == 0 || this.container.offsetHeight == 0) {
+            window.requestAnimationFrame(() => {
+                this.setMaskStyle(option);
+            });
+            return;
+        }
+
+        var height = 1000 * this.container.offsetHeight / this.container.offsetWidth;
         this.divEle = <HTMLElement>document.createElement("DIV");
         this.divEle.style.position = "relative";
         this.divEle.style.width = "100%";
         this.divEle.style.height = "100%";
         this.container.appendChild(this.divEle);
 
-        this.divEle.innerHTML = `<svg style="width:100%;height:100%;position:absolute;left:0;top:0;display:none;" viewBox="0 0 1000 1000">
+        this.divEle.innerHTML = `<svg style="width:100%;height:100%;position:absolute;left:0;top:0;display:none;" viewBox="0 0 1000 ${height}">
             <defs>
                 <mask id="onescript-imageeditor-mask">
-                    <rect x="0" y="0" width="1000" height="1000" fill="#ffffff"></rect>
-                    <ellipse id="mask_ellipse" cx="500" cy="500" rx="500" ry="500" fill="#000000"></ellipse>
+                    <rect x="0" y="0" width="1000" height="${height}" fill="#ffffff"></rect>
+                    <ellipse id="mask_ellipse" cx="500" cy="${height/2}" rx="500" ry="500" fill="#000000"></ellipse>
                     <rect id="mask_rect" x="0" y="0" width="1000" height="1000" fill="#000000"></rect>
                 </mask>
             </defs>
-            <rect x="0" y="0" width="1000" height="1000" fill="rgba(0,0,0,0.3)" mask="url(#onescript-imageeditor-mask)"></rect>
+            <rect x="0" y="0" width="1000" height="${height}" fill="rgba(0,0,0,0.3)" mask="url(#onescript-imageeditor-mask)"></rect>
         </svg>`;
 
         this.canvas = <HTMLCanvasElement>document.createElement("CANVAS");
@@ -67,7 +87,7 @@ export class ImageEditor {
                     if (!pinchend_time || new Date().getTime() - pinchend_time > 500) {
                         pinchend_time = 0;
                         this.onPan(ev);
-                    }                   
+                    }
                     break;
                 case "panstart":
                 case "pinchstart":
@@ -84,52 +104,46 @@ export class ImageEditor {
                     break;
             }
         });
-
-        this.setMaskStyle(option.style, option.percent, option.outputWidthPixel);
-    }
-
-    private outputWidthPixel = 0;
-    /**
-     * 设置掩盖样式
-     * @param style
-     * @param percent 占面积比例，如：50
-     * @param outputWidthPixel 输出图像的width
-     */
-    private setMaskStyle(style: ImageEditorMaskStyle, percent,outputWidthPixel : number) {
-
-        this.outputWidthPixel = outputWidthPixel;
-        this.canvasWidth = outputWidthPixel / (percent / 100);
+        
+        this.option = option;
+        this.canvasWidth = option.outputWidthPixel / (option.percent / 100);
+        this.canvasHeight = this.canvasWidth * (this.container.offsetHeight / this.container.offsetWidth);
 
         var svgEle = <HTMLElement>this.divEle.children[0];
         svgEle.style.display = "";
         var mask_ellipse = <SVGEllipseElement>svgEle.querySelector("#mask_ellipse");
-        if (style != ImageEditorMaskStyle.Circle)
+        if (option.style != ImageEditorMaskStyle.Circle)
             mask_ellipse.style.display = "none";
         else {
-            mask_ellipse.setAttribute("rx", <any>(500 * percent / 100));
-            mask_ellipse.setAttribute("ry", <any>(500 * percent / 100));
+            var rx = 500 * option.percent / 100;
+            mask_ellipse.setAttribute("rx", <any>rx);
+
+            var ry = rx * this.option.outputHeightPixel / this.option.outputWidthPixel;
+            mask_ellipse.setAttribute("ry", <any>ry);
         }
 
         var mask_rect = <SVGEllipseElement>svgEle.querySelector("#mask_rect");
-        if (style != ImageEditorMaskStyle.Rect)
+        if (option.style != ImageEditorMaskStyle.Rect)
             mask_rect.style.display = "none";
         else {
-            mask_rect.setAttribute("width", <any>(1000 * percent / 100));
-            mask_rect.setAttribute("height", <any>(1000 * percent / 100));
-            mask_rect.setAttribute("x", <any>((1000 - 1000 * percent / 100)/2));
-            mask_rect.setAttribute("y", <any>((1000 - 1000 * percent / 100) / 2));
+            var w = 1000 * option.percent / 100;
+            var h = w * this.option.outputHeightPixel / this.option.outputWidthPixel;
+            mask_rect.setAttribute("width", <any>w);
+            mask_rect.setAttribute("height", <any>h);
+            mask_rect.setAttribute("x", <any>((1000 - w) / 2));
+            mask_rect.setAttribute("y", <any>((height - h) / 2));
         }
     }
 
     getOutputImage():string {
         var canvas = <HTMLCanvasElement>document.createElement("CANVAS");
-        canvas.style.width = this.outputWidthPixel + "px";
-        canvas.style.height = this.outputWidthPixel + "px";
-        canvas.width = this.outputWidthPixel;
-        canvas.height = this.outputWidthPixel;
+        canvas.style.width = this.option.outputWidthPixel + "px";
+        canvas.style.height = this.option.outputHeightPixel + "px";
+        canvas.width = this.option.outputWidthPixel;
+        canvas.height = this.option.outputHeightPixel;
         var ctx = canvas.getContext("2d");
-        ctx.drawImage(this.canvas, (this.canvas.width - this.outputWidthPixel) / 2, (this.canvas.height - this.outputWidthPixel) / 2, this.outputWidthPixel, this.outputWidthPixel,
-            0, 0, this.outputWidthPixel, this.outputWidthPixel);
+        ctx.drawImage(this.canvas, (this.canvas.width - this.option.outputWidthPixel) / 2, (this.canvas.height - this.option.outputHeightPixel) / 2, this.option.outputWidthPixel, this.option.outputHeightPixel,
+            0, 0, this.option.outputWidthPixel, this.option.outputHeightPixel);
         return canvas.toDataURL('image/png');
     }
 
@@ -191,13 +205,14 @@ export class ImageEditor {
         if (!this.image)
             return;
 
+
         this.printScale = this.canvasWidth / this.canvas.offsetWidth;
 
         this.canvas.width = this.canvasWidth;
-        this.canvas.height = this.canvas.offsetHeight * this.printScale;
+        this.canvas.height = this.canvasHeight;
 
         if (this.scale <= 0) {
-            this.scale = Math.max(this.canvas.offsetWidth / this.image.width, this.canvas.offsetHeight / this.image.height);
+            this.scale = Math.min(this.canvas.offsetWidth / this.image.width, this.canvas.offsetHeight / this.image.height);
         }
 
         var ctx = this.canvas.getContext("2d");

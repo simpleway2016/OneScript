@@ -23,9 +23,10 @@ export class ImageEditorTest extends Component {
 
         this.imageEditor = new ImageEditor({
             container: this.element.querySelector("#div1"),
-            style: ImageEditorMaskStyle.Circle,
+            style: ImageEditorMaskStyle.Rect,
             percent: 60,
-            outputWidthPixel:300
+            outputWidthPixel: 100,
+            outputHeightPixel: 100
         });
     }
 
