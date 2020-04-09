@@ -59,6 +59,9 @@ export class ImageEditor {
 
         var pinchend_time = 0;
         this.hammer.on('pan panstart pinch pinch pinchstart pinchend', (ev) => {
+            if (!this.image)
+                return;
+
             switch (ev.type) {
                 case "pan":
                     if (!pinchend_time || new Date().getTime() - pinchend_time > 500) {
