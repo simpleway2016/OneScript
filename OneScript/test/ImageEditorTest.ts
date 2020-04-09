@@ -37,6 +37,6 @@ export class ImageEditorTest extends Component {
     }
 
     getImage() {
-        this.model.imgsrc = this.imageEditor.getOutputImage();
+        this.model.imgsrc = this.imageEditor.getOutputBase64();
     }
 }
