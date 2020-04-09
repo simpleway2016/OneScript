@@ -17,6 +17,7 @@ VueComponents.useLoading({
 VueComponents.useAlertWindow({
     titleclass: "alert-title",
 });
-
+if ((<any>window).api)
+    (<any>window).api.removeLaunchView();
 var page = new ImageEditorTest();
 page.setParent(document.body.querySelector("#main"));
