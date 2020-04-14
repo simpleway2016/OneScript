@@ -13,6 +13,13 @@ export interface ImageEditorOption {
     outputWidthPixel: number;
     /**输出图像的height */
     outputHeightPixel: number;
+    /**支持旋转，默认true */
+    supportRotate?: boolean;
+}
+enum ControlEvent {
+    None = 0,
+    Pinch = 1,
+    Rotate = 2
 }
 export class ImageEditor {
     container: HTMLElement;
@@ -20,6 +27,8 @@ export class ImageEditor {
     private canvas: HTMLCanvasElement;
     private image: HTMLImageElement;
 
+    private controlingEvent = ControlEvent.None;
+    private angle = 0;
     private printScale = 1;
     private canvasWidth = 0;
     private canvasHeight = 0;
@@ -27,9 +36,10 @@ export class ImageEditor {
     private scale = 1;
     private hammer: Hammer;
     constructor(option: ImageEditorOption) {
+        if (typeof option.supportRotate == "undefined") {
+            option.supportRotate = true;
+        }
         this.container = option.container;
-
-        
 
         this.setMaskStyle(option);
     }
@@ -43,6 +53,7 @@ export class ImageEditor {
             });
             return;
         }
+        this.option = option;
 
         var height = 1000 * this.container.offsetHeight / this.container.offsetWidth;
         this.divEle = <HTMLElement>document.createElement("DIV");
@@ -77,14 +88,18 @@ export class ImageEditor {
         });
         this.hammer.get('pinch').set({ enable: true });
 
+        if (this.option.supportRotate)
+            this.hammer.get('rotate').set({ enable: true });
+
         var pinchend_time = 0;
-        this.hammer.on('pan panstart pinch pinch pinchstart pinchend', (ev) => {
+        //rotatestart rotatemove rotateend rotatecancel
+        this.hammer.on('pan panstart pinchmove pinchstart pinchend pinchcancel rotatestart rotatemove rotateend rotatecancel', (ev) => {
             if (!this.image)
                 return;
 
             switch (ev.type) {
                 case "pan":
-                    if (!pinchend_time || new Date().getTime() - pinchend_time > 500) {
+                    if (!pinchend_time || new Date().getTime() - pinchend_time > 100) {
                         pinchend_time = 0;
                         this.onPan(ev);
                     }
@@ -93,19 +108,41 @@ export class ImageEditor {
                 case "pinchstart":
                     this.onPanstart(ev);
                     break;
-                case "pinch":
-                    if (!pinchend_time || new Date().getTime() - pinchend_time > 500) {
-                        pinchend_time = 0;
-                        this.onPinch(ev);
-                    }
+                case "pinchmove":
+                    if (this.controlingEvent == ControlEvent.None || this.controlingEvent == ControlEvent.Pinch) {
+                        if (!pinchend_time || new Date().getTime() - pinchend_time > 100) {
+                            pinchend_time = 0;
+                            this.onPinch(ev);
+                        }
+                    }                   
                     break;
                 case "pinchend":
+                case "pinchcancel":
                     pinchend_time = new Date().getTime();
+                    if (this.controlingEvent == ControlEvent.Pinch) {
+                        this.controlingEvent = ControlEvent.None;
+                    }
+                    break;
+                case "rotatestart":
+                    this.onRotateStart(ev);
+                    break;
+                case "rotatemove":
+                    if (this.controlingEvent == ControlEvent.None || this.controlingEvent == ControlEvent.Rotate) {
+                        this.onRotateMove(ev);
+                    }                    
+                    break;
+                case "rotateend":
+                case "rotatecancel":
+                    pinchend_time = new Date().getTime();
+                    if (this.controlingEvent == ControlEvent.Rotate) {
+                        this.controlingEvent = ControlEvent.None;
+                    }
+                    this.onRotateEnd(ev);
                     break;
             }
         });
         
-        this.option = option;
+        
         this.canvasWidth = option.outputWidthPixel / (option.percent / 100);
         this.canvasHeight = this.canvasWidth * (this.container.offsetHeight / this.container.offsetWidth);
 
@@ -162,9 +199,72 @@ export class ImageEditor {
     }
 
     private _originalOffset = {
-        x: 0, y: 0, scale: 1,
+        x: 0, y: 0, scale: 1,rotation:0,
         center: { x: 0, y: 0,srcx:0,srcy:0 }
     };
+    private _originalRotate = {
+        x: 0, y: 0, scale: 1, rotation: 0,angle:0,
+        center: { x: 0, y: 0, srcx: 0, srcy: 0 }
+    };
+    private onRotateStart(ev) {
+        this._originalRotate.rotation = ev.rotation;
+        this._originalRotate.center = ev.center;
+        this._originalRotate.scale = this.scale;
+        this._originalRotate.angle = this.angle;
+        this._originalRotate.x = this.offset.x;
+        this._originalRotate.y = this.offset.y;
+
+        //记录中心点对应的图片的实际坐标
+        this._originalRotate.center.srcx = (this._originalRotate.center.x - this.offset.x) / this._originalRotate.scale;
+        this._originalRotate.center.srcy = (this._originalRotate.center.y - this.offset.y) / this._originalRotate.scale;
+
+        //alert(JSON.stringify(this._originalOffset.center) + "\r\n" + this._originalOffset.center.y + "," + this.offset.y + "\r\n"
+        //    + this.image.width + "," + this.image.height);
+    }
+    private onRotateMove(ev) {
+        var angle = ev.rotation - this._originalRotate.rotation;
+        if (this.controlingEvent == ControlEvent.None) {
+            if (Math.abs(angle) >= 5) {
+
+                this.controlingEvent = ControlEvent.Rotate;
+            }
+            else {
+                return;
+            }
+        }
+
+        this.angle = this._originalRotate.angle + angle;
+        
+        this.print();
+    }
+    private onRotateEnd(ev) {
+
+    }
+
+    /**
+     * 获取旋转后坐标
+     * @param rx
+     * @param ry
+     * @param dx
+     * @param dy
+     * @param angle 顺时针角度
+     */
+    private rotationTransform(rx, ry, dx, dy, angle) {
+        var point = this.vRotationTransform(dx - rx, dy - ry, angle);
+        return { x: point.x + rx, y: point.y + ry }; 
+    }
+    vRotationTransform(dX, dY, dAngle) {
+        //变为逆时针角度
+        dAngle = -dAngle * Math.PI / 180;
+        /*假如有一个点(dX,dY).这个点绕原点逆时针旋转角度dAngle(弧度)。运行到新位置的坐标是：
+          (iNewX, iNewY)。
+          或者等价的说，保持这个点不动，但是新坐标系相对于旧坐标系绕原点顺时针转动dAngle,(dX,dY)在
+          新坐标系的坐标是(iNewX, iNewY).*/
+        var iNewX = dX * Math.cos(dAngle) - dY * Math.sin(dAngle);
+        var iNewY = dX * Math.sin(dAngle) + dY * Math.cos(dAngle);
+        return { x: iNewX, y: iNewY };
+    }
+
     private onPanstart(ev) {
         this._originalOffset.x = this.offset.x;
         this._originalOffset.y = this.offset.y;
@@ -185,6 +285,9 @@ export class ImageEditor {
         this.print();
     }
     private onPinch(ev) {
+        if (this.controlingEvent == ControlEvent.None && Math.abs(1 - ev.scale) > 0.1) {
+            this.controlingEvent = ControlEvent.Pinch;
+        }
         this.scale = this._originalOffset.scale * ev.scale;
 
         this.offset.x = this._originalOffset.center.x - this._originalOffset.center.srcx * this.scale;
@@ -201,6 +304,17 @@ export class ImageEditor {
                 this.image = new Image();
                 this.image.onload = () => {
                     try {
+                        //var newImage = <HTMLCanvasElement>document.createElement("CANVAS");
+                        //newImage.width = this.image.width;
+                        //newImage.height = this.image.height;
+                        //var ctx = newImage.getContext("2d");
+                        
+                        //ctx.translate(this.image.width / 2, this.image.height/2 );
+                        //ctx.rotate(20 * Math.PI / 180);
+                        //ctx.drawImage(this.image, -this.image.width/2, -this.image.height / 2);
+                        //ctx.resetTransform();
+                        //this.image = <any>newImage;
+
                         this.print();
                         resolve();
                     } catch (e) {
@@ -233,8 +347,12 @@ export class ImageEditor {
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         ctx.scale(this.printScale, this.printScale);
         try {
+            //ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height,
+            //    this.offset.x, this.offset.y, this.image.width * this.scale, this.image.height * this.scale);
+            ctx.translate(this.offset.x + this.image.width * this.scale / 2, this.offset.y + this.image.height * this.scale / 2);
+            ctx.rotate(this.angle * Math.PI / 180);
             ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height,
-                this.offset.x, this.offset.y, this.image.width * this.scale, this.image.height * this.scale);
+                -this.image.width * this.scale / 2, -this.image.height * this.scale / 2, this.image.width * this.scale, this.image.height * this.scale);
 
         } catch (e) {
             throw e;
