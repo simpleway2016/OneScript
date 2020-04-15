@@ -299,22 +299,12 @@ export class ImageEditor {
         return new Promise((resolve, reject) => {
             var reader = new FileReader();
             reader.onload = (e) => {
-                this.scale = 0;
                 this.offset = { x: 0, y: 0 };
                 this.image = new Image();
                 this.image.onload = () => {
                     try {
-                        //var newImage = <HTMLCanvasElement>document.createElement("CANVAS");
-                        //newImage.width = this.image.width;
-                        //newImage.height = this.image.height;
-                        //var ctx = newImage.getContext("2d");
-                        
-                        //ctx.translate(this.image.width / 2, this.image.height/2 );
-                        //ctx.rotate(20 * Math.PI / 180);
-                        //ctx.drawImage(this.image, -this.image.width/2, -this.image.height / 2);
-                        //ctx.resetTransform();
-                        //this.image = <any>newImage;
 
+                        this.scale = 0;
                         this.print();
                         resolve();
                     } catch (e) {
@@ -340,7 +330,7 @@ export class ImageEditor {
         this.canvas.height = this.canvasHeight;
 
         if (this.scale <= 0) {
-            this.scale = Math.min(this.canvas.offsetWidth / this.image.width, this.canvas.offsetHeight / this.image.height);
+            this.scale = Math.max(this.canvas.offsetWidth / this.image.width, this.canvas.offsetHeight / this.image.height);
         }
 
         var ctx = this.canvas.getContext("2d");
