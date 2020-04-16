@@ -319,6 +319,66 @@ export class ImageEditor {
         });
     }
 
+    private async loadImageBySrc(src, callback: () => void = undefined): Promise<void> {
+        return new Promise((resolve, reject) => {
+
+            this.offset = { x: 0, y: 0 };
+            this.image = new Image();
+            this.image.onload = () => {
+                try {
+                    if (callback)
+                        callback();
+
+                    this.scale = 0;
+                    this.print();
+                    resolve();
+                } catch (e) {
+                    reject(e);
+                }
+
+            }
+            this.image.src = src;
+
+        });
+    }
+
+    async loadImageByImage(image: HTMLImageElement): Promise<void> {
+        return new Promise((resolve, reject) => {
+
+            this.offset = { x: 0, y: 0 };
+            this.image = image;
+
+            var action = () => {
+                try {
+
+                    this.scale = 0;
+                    this.print();
+                    resolve();
+                } catch (e) {
+                    reject(e);
+                }
+
+            };
+
+            this.image.onload = action;
+
+            if (this.image.complete) {
+                action();
+            }
+
+        });
+    }
+
+    async loadImageByBlob(blob: Blob): Promise<void> {
+        return this.loadImageBySrc(window.URL.createObjectURL(blob), () => {
+            window.URL.revokeObjectURL(this.image.src); // 清除释放
+        });
+    }
+
+    async loadImageByBase64(base64: string): Promise<void> {
+        return this.loadImageBySrc(base64);
+    }
+
     private print() {
         if (!this.image)
             return;
@@ -336,6 +396,28 @@ export class ImageEditor {
         var ctx = this.canvas.getContext("2d");
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         ctx.scale(this.printScale, this.printScale);
+
+        var centerWidth = this.canvas.width * (this.option.percent / 100);
+        var centerX = (this.canvas.width - centerWidth) / 2;
+        var maxRight = (centerWidth + centerX) / this.printScale;
+        var centerY = (this.canvas.height - centerWidth) / 2;
+        var maxBottom = (centerWidth + centerY) / this.printScale;
+
+        if (this.scale * this.image.width < centerWidth / this.printScale)
+            this.scale = centerWidth / this.printScale / this.image.width;
+        if (this.scale * this.image.height < centerWidth / this.printScale)
+            this.scale = centerWidth / this.printScale / this.image.height;
+
+        if (this.offset.x + this.image.width * this.scale < maxRight)
+            this.offset.x = maxRight - this.image.width * this.scale;
+        else if (this.offset.x > centerX / this.printScale)
+            this.offset.x = centerX / this.printScale;
+
+        if (this.offset.y + this.image.height * this.scale < maxBottom)
+            this.offset.y = maxBottom - this.image.height * this.scale;
+        else if (this.offset.y > centerY / this.printScale)
+            this.offset.y = centerY / this.printScale;
+
         try {
             //ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height,
             //    this.offset.x, this.offset.y, this.image.width * this.scale, this.image.height * this.scale);
