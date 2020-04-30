@@ -172,7 +172,7 @@ export class ImageEditor {
         }
     }
 
-    private dataURLtoBlob(dataurl): Blob {
+    private static dataURLtoBlob(dataurl): Blob {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
             bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
         while (n--) {
@@ -181,9 +181,51 @@ export class ImageEditor {
         return new Blob([u8arr], { type: mime });
     }
 
+    /**
+     * 压缩图片
+     * @param file
+     * @param targetWidth 压缩后分辨率
+     */
+    static async compressImage(file: File, targetWidth:number): Promise<Blob> {
+        return new Promise<Blob>((resolve, reject) => {
+            try {
+                var reader = new FileReader();
+
+                reader.onload = (e) => {
+
+                    var image = new Image();
+                    image.onload = function () {
+                        if (image.width <= targetWidth) {
+                            resolve(file);
+                            return;
+                        }
+                        var canvas = document.createElement('canvas');
+                        var context = canvas.getContext('2d');
+                        var imageWidth = targetWidth;
+                        var imageHeight = image.height * targetWidth / image.width;
+
+                        canvas.width = imageWidth
+                        canvas.height = imageHeight
+
+                        context.drawImage(image, 0, 0, imageWidth, imageHeight);
+
+                        //使用toDataURL将canvas上的图片转换为base64格式
+                        var data = canvas.toDataURL('image/jpeg');
+
+                        resolve(ImageEditor.dataURLtoBlob(data));
+                    };
+                    (<any>image).src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
     getOutputBlob(): Blob {
         var base64 = this.getOutputBase64();
-        return this.dataURLtoBlob(base64);
+        return ImageEditor.dataURLtoBlob(base64);
     }
 
     getOutputBase64():string {

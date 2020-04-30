@@ -156,6 +156,7 @@
     <TypeScriptCompile Include="ModelValidator.ts" />
     <TypeScriptCompile Include="Navigation.ts" />
     <TypeScriptCompile Include="PullToRefresh.ts" />
+    <TypeScriptCompile Include="ScrollSelector.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
     <TypeScriptCompile Include="test\ImageEditorTest.ts" />
