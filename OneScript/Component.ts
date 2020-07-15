@@ -145,7 +145,8 @@ export class Component implements IHttpClientUsing {
     }
 
     /**
-     * 为模块类型注册html标签，如注册标签为<p-test>，那么可以这样用<p-test :data="mydata"></p-test>，mydata可以是一个对象，传到component的构造函数的第一个参数
+     * 为模块类型注册html标签，如注册标签为<p-test>，那么可以这样用<p-test :data="mydata" :active="showed"></p-test>，mydata可以是一个对象，传到component的构造函数的第一个参数
+     * :active="showed" 表示把showed变量绑定到组件的active属性处，当showed=true时，会让此Component触发onNavigationActived事件，当showed=false时，会触发onNavigationUnActived事件，
      * @param componentType 模块的类型
      * @param tagName 注册的html标签名称，默认为componentType的小写
      */
@@ -153,12 +154,37 @@ export class Component implements IHttpClientUsing {
 
         Vue.component(tagName, {
             template: "<div v-bind:_data='data'></div>",
-            props: ["data", "src"],
+            //props: ["data", "src","active"],
+            props: {
+                active: {
+                    type: Boolean,
+                    default: false
+                },
+                data: {},
+                src: {}
+            },
             mounted: function () {
                 var obj = new componentType(this.data);
                 obj.setParent(this.$el);
                 this._OneScriptComponent = obj;
                 console.debug("loaded " + componentType.name);
+                this.onActiveChange(this.active);
+            },
+            methods: {
+                onActiveChange: function (newVal) {
+                    debugger;
+                    if (newVal) {
+                        if ((<Component>this._OneScriptComponent).actived == false)
+                            (<Component>this._OneScriptComponent).onNavigationActived(undefined);
+                    }
+                    else if ((<Component>this._OneScriptComponent).actived)
+                        (<Component>this._OneScriptComponent).onNavigationUnActived(undefined);
+                }
+            },
+            watch: {
+                active: function (newVal) {
+                    this.onActiveChange(newVal);
+                }
             },
             destroyed: function () {
                 console.debug("destroyed " + componentType.name);

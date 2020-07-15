@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../css/flex.css">
+</head>
+<body>
+    <div>
+        customComponet {{tabIndex}}
+    </div>
+    <div  @click="tabIndex=1">true</div> <div @click="tabIndex=0">false</div>
+    <p-test :active="tabIndex==1" :data="data2"></p-test>
+</body>
+
+</html>

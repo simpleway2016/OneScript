@@ -96,6 +96,8 @@
     <Content Include="dist\VueComponents\Loading.js" />
     <Content Include="hammer.min.js" />
     <Content Include="test.config.js" />
+    <Content Include="test\customComponet2.html" />
+    <Content Include="test\customComponet.html" />
     <Content Include="test\ImageEditorTest.html" />
     <Content Include="test\dist\main.html" />
     <Content Include="test\dist\bundle.js" />
@@ -159,6 +161,8 @@
     <TypeScriptCompile Include="ScrollSelector.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
+    <TypeScriptCompile Include="test\CustomComponet2.ts" />
+    <TypeScriptCompile Include="test\CustomComponet.ts" />
     <TypeScriptCompile Include="test\ImageEditorTest.ts" />
     <TypeScriptCompile Include="test\main.ts" />
     <TypeScriptCompile Include="test\AlertTest.ts" />
