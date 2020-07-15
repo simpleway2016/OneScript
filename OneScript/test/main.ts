@@ -6,6 +6,7 @@ import { AlertTest } from "./AlertTest";
 import { ImageEditorTest } from "./ImageEditorTest";
 import { CustomComponet } from "./CustomComponet";
 import { CustomComponet2 } from "./CustomComponet2";
+import { CustomComponet2_1 } from "./CustomComponet2_1";
 import { Component } from "../Component";
 
 VueComponents.useInputJPattern();
@@ -24,6 +25,8 @@ if ((<any>window).api)
     (<any>window).api.removeLaunchView();
 
 Component.registerForVue(CustomComponet2, "pTest");
-
+Component.registerForVue(CustomComponet2_1, "pTest2");
 var page = new CustomComponet();
 page.setParent(document.body.querySelector("#main"));
+
+page.onNavigationActived(false);

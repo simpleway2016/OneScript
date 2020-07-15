@@ -23,5 +23,10 @@ export class CustomComponet extends Component {
             methods: this.getMethodObjectForVue(),
         });
 
+       
+    }
+
+    test() {
+       
     }
 }

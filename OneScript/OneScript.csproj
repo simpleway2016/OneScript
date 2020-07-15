@@ -83,24 +83,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\flex.css" />
-    <Content Include="dist\AnimationHelper.js" />
-    <Content Include="dist\Component.js" />
-    <Content Include="dist\HttpClient.js" />
-    <Content Include="dist\IHttpClientUsing.js" />
-    <Content Include="dist\index.js" />
-    <Content Include="dist\ModelValidator.js" />
-    <Content Include="dist\Navigation.js" />
-    <Content Include="dist\PullToRefresh.js" />
-    <Content Include="dist\StyleParser.js" />
-    <Content Include="dist\Swiper.js" />
+    <Content Include="dist\hammer.min.js" />
     <Content Include="dist\VueComponents\Loading.js" />
     <Content Include="hammer.min.js" />
     <Content Include="test.config.js" />
+    <Content Include="test\customComponet2_1.html" />
     <Content Include="test\customComponet2.html" />
     <Content Include="test\customComponet.html" />
     <Content Include="test\ImageEditorTest.html" />
     <Content Include="test\dist\main.html" />
-    <Content Include="test\dist\bundle.js" />
     <Content Include="test\alertTest.html" />
     <Content Include="test\selectorTest.html" />
     <Content Include="VueComponents\alertWindow.html" />
@@ -114,18 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="dist\AnimationHelper.js.map" />
-    <Content Include="dist\Component.js.map" />
-    <Content Include="dist\HttpClient.js.map" />
-    <Content Include="dist\IHttpClientUsing.js.map" />
-    <Content Include="dist\index.js.map" />
-    <Content Include="dist\ModelValidator.js.map" />
-    <Content Include="dist\Navigation.js.map" />
-    <Content Include="dist\PullToRefresh.js.map" />
-    <Content Include="dist\StyleParser.js.map" />
-    <Content Include="dist\Swiper.js.map" />
     <Content Include="dist\VueComponents\Loading.js.map" />
-    <Content Include="dist\package.json" />
     <None Include="packages.config" />
     <Content Include="tsconfig.json" />
     <None Include="Web.Debug.config">
@@ -140,16 +120,6 @@
     <TypeScriptCompile Include="AnimationHelper.ts" />
     <TypeScriptCompile Include="Component.ts" />
     <None Include="dist\.npmignore" />
-    <TypeScriptCompile Include="dist\AnimationHelper.d.ts" />
-    <TypeScriptCompile Include="dist\Component.d.ts" />
-    <TypeScriptCompile Include="dist\HttpClient.d.ts" />
-    <TypeScriptCompile Include="dist\IHttpClientUsing.d.ts" />
-    <TypeScriptCompile Include="dist\index.d.ts" />
-    <TypeScriptCompile Include="dist\ModelValidator.d.ts" />
-    <TypeScriptCompile Include="dist\Navigation.d.ts" />
-    <TypeScriptCompile Include="dist\PullToRefresh.d.ts" />
-    <TypeScriptCompile Include="dist\StyleParser.d.ts" />
-    <TypeScriptCompile Include="dist\Swiper.d.ts" />
     <TypeScriptCompile Include="dist\VueComponents\Loading.d.ts" />
     <TypeScriptCompile Include="HttpClient.ts" />
     <TypeScriptCompile Include="IHttpClientUsing.ts" />
@@ -161,6 +131,7 @@
     <TypeScriptCompile Include="ScrollSelector.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
+    <TypeScriptCompile Include="test\CustomComponet2_1.ts" />
     <TypeScriptCompile Include="test\CustomComponet2.ts" />
     <TypeScriptCompile Include="test\CustomComponet.ts" />
     <TypeScriptCompile Include="test\ImageEditorTest.ts" />

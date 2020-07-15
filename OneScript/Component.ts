@@ -56,6 +56,28 @@ export class Component implements IHttpClientUsing {
         return this._actived;
     }
 
+    private $_vmobj;
+    private get $vmObj(): Vue {
+        if (!this.$_vmobj) {
+            for (var p in this)
+            {
+                if (p == "$vmObj" || p == "$_vmobj")
+                    continue;
+
+                var obj: any = this[p];
+                try {
+                    if (obj && obj.$destroy && obj.$children) {
+                        this.$_vmobj = obj;
+                        break;
+                    }
+                } catch (e) {
+
+                }
+            }
+        }
+        return this.$_vmobj;
+    }
+
     private _disposed = false;
     get disposed(): boolean {
         return this._disposed;
@@ -158,7 +180,7 @@ export class Component implements IHttpClientUsing {
             props: {
                 active: {
                     type: Boolean,
-                    default: false
+                    default: true
                 },
                 data: {},
                 src: {}
@@ -166,19 +188,17 @@ export class Component implements IHttpClientUsing {
             mounted: function () {
                 var obj = new componentType(this.data);
                 obj.setParent(this.$el);
-                this._OneScriptComponent = obj;
+                this.$OneScriptComponent = obj;
                 console.debug("loaded " + componentType.name);
-                this.onActiveChange(this.active);
             },
             methods: {
                 onActiveChange: function (newVal) {
-                    debugger;
                     if (newVal) {
-                        if ((<Component>this._OneScriptComponent).actived == false)
-                            (<Component>this._OneScriptComponent).onNavigationActived(undefined);
+                        if ((<Component>this.$OneScriptComponent).actived == false)
+                            (<Component>this.$OneScriptComponent).onNavigationActived(undefined);
                     }
-                    else if ((<Component>this._OneScriptComponent).actived)
-                        (<Component>this._OneScriptComponent).onNavigationUnActived(undefined);
+                    else if ((<Component>this.$OneScriptComponent).actived)
+                        (<Component>this.$OneScriptComponent).onNavigationUnActived(undefined);
                 }
             },
             watch: {
@@ -188,21 +208,21 @@ export class Component implements IHttpClientUsing {
             },
             destroyed: function () {
                 console.debug("destroyed " + componentType.name);
-                if (this._OneScriptComponent) {
-                    this._OneScriptComponent.dispose();
-                    this._OneScriptComponent = null;
+                if (this.$OneScriptComponent) {
+                    this.$OneScriptComponent.dispose();
+                    this.$OneScriptComponent = null;
                 }
             },
             updated: function () {
-                if (this._OneScriptComponent) {
-                    this._OneScriptComponent.dispose();
-                    this._OneScriptComponent = null;
+                if (this.$OneScriptComponent) {
+                    this.$OneScriptComponent.dispose();
+                    this.$OneScriptComponent = null;
                 }
                 this.$el.innerHTML = "";
 
                 var obj = new componentType(this.data);
                 obj.setParent(this.$el);
-                this._OneScriptComponent = obj;
+                this.$OneScriptComponent = obj;
                 console.debug("loaded " + componentType.name + " on updated");
             },
         });
@@ -254,21 +274,17 @@ export class Component implements IHttpClientUsing {
         }
         catch (e) { }
 
-        
 
-        for (var p in this) {
-            var obj: any = this[p];
+        if (this.$vmObj) {
             try {
-                if (obj && obj.$destroy && typeof obj.$destroy === "function") {
-                    console.log(`执行${(<any>this.constructor).name}.${p}.$destroy()`);
-                    obj.$destroy();
-                }
+                console.log(`执行vue.$destroy()`);
+                this.$vmObj.$destroy();
             } catch (e) {
 
             }            
         }
 
-        console.debug((<any>this.constructor).name + " dispose");
+        console.log((<any>this.constructor).name + " dispose");
 
         if (this.onDisposed) {
             this.onDisposed();
@@ -313,7 +329,20 @@ export class Component implements IHttpClientUsing {
 
     /**Navigation push完成后，调用此方法 */
     onNavigationPushed() {
+        if (this.$vmObj) {
+            try {
+                this.$vmObj.$children.forEach(m => {
+                    let child = <Component>((<any>m).$OneScriptComponent);
+                    if (!child)
+                        return;
 
+                    child.onNavigationPushed();
+                });
+            } catch (e) {
+
+            }
+
+        }
     }
 
     /**取消所有与其关联的http请求 */
@@ -336,11 +365,38 @@ export class Component implements IHttpClientUsing {
 
     onBeforeNavigationPoped() {
         this.abortHttps();
+
+        if (this.$vmObj) {
+            try {
+                this.$vmObj.$children.forEach(m => {
+                    let child = <Component>((<any>m).$OneScriptComponent);
+                    if (!child)
+                        return;
+                    child.onBeforeNavigationPoped();
+                });
+            } catch (e) {
+
+            }
+
+        }
     }
 
     /**Navigation pop（或者unload）完成后，调用此方法 */
     onNavigationPoped() {
+        if (this.$vmObj) {
+            try {
+                this.$vmObj.$children.forEach(m => {
+                    let child = <Component>((<any>m).$OneScriptComponent);
+                    if (!child)
+                        return;
 
+                    child.onNavigationPoped();
+                });
+            } catch (e) {
+
+            }
+            
+        }
     }
 
     /**
@@ -349,12 +405,45 @@ export class Component implements IHttpClientUsing {
      */
     onNavigationActived(isResume:boolean) {
         this._actived = true;
+
+        if (this.$vmObj) {
+            try {
+                this.$vmObj.$children.forEach(m => {
+                    let child = <Component>((<any>m).$OneScriptComponent);
+                    if (!child)
+                        return;
+
+                    if ((<any>m).active && !child.actived) {
+                        child.onNavigationActived(isResume);
+                    }
+                });
+            } catch (e) {
+
+            }
+        }
     }
+
     /**
      * 当前Component不位于Navigation的最上面时触发
      * @param isPoping 是否是当前component被pop引发的onNavigationUnActived
      */
     onNavigationUnActived(isPoping: boolean) {
         this._actived = false;
+
+        if (this.$vmObj) {
+            try {
+                this.$vmObj.$children.forEach(m => {
+                    let child = <Component>((<any>m).$OneScriptComponent);
+                    if (!child)
+                        return;
+
+                    if (child.actived) {
+                        child.onNavigationUnActived(isPoping);
+                    }
+                });
+            } catch (e) {
+
+            }
+        }
     }
 }

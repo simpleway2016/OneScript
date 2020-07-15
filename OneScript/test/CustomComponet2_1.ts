@@ -2,15 +2,14 @@
 import Vue from "vue";
 import { Component } from "../Component";
 import { VueComponents } from "../VueComponents";
-var html = require("./customComponet2.html");
+var html = require("./customComponet2_1.html");
 
-export class CustomComponet2 extends Component {
+export class CustomComponet2_1 extends Component {
     vm: Vue;
     model = {};
 
-    constructor(data) {
+    constructor() {
         super(html);
-        this.model = data;
 
         this.vm = new Vue({
             el: this.getViewModelElement(),
@@ -22,11 +21,11 @@ export class CustomComponet2 extends Component {
 
     onNavigationActived(isResume) {
         super.onNavigationActived(isResume);
-        console.log("CustomComponet2 onNavigationActived");
+        console.log("CustomComponet2_1 onNavigationActived");
     }
 
     onNavigationUnActived(isPop) {
         super.onNavigationUnActived(isPop);
-        console.log("CustomComponet2 onNavigationUnActived");
+        console.log("CustomComponet2_1 onNavigationUnActived");
     }
 }
