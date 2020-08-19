@@ -22,7 +22,7 @@ export class PullToRefreshTest extends Component {
         PullToRefresh.enable({
             element: this.element.querySelector("#div1"),
             callback: () => {
-                alert("refresh");
+                alert("你要刷新了");
             }
         });
     }
