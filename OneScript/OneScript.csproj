@@ -93,6 +93,7 @@
     <Content Include="test\ImageEditorTest.html" />
     <Content Include="test\dist\main.html" />
     <Content Include="test\alertTest.html" />
+    <Content Include="test\pullToRefreshTest.html" />
     <Content Include="test\selectorTest.html" />
     <Content Include="VueComponents\alertWindow.html" />
     <Content Include="VueComponents\loading.html" />
@@ -137,6 +138,7 @@
     <TypeScriptCompile Include="test\ImageEditorTest.ts" />
     <TypeScriptCompile Include="test\main.ts" />
     <TypeScriptCompile Include="test\AlertTest.ts" />
+    <TypeScriptCompile Include="test\PullToRefreshTest.ts" />
     <TypeScriptCompile Include="test\SelectorTest.ts" />
     <TypeScriptCompile Include="TouchClickHandler.ts" />
     <TypeScriptCompile Include="VerifyPattern.ts" />

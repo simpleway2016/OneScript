@@ -241,6 +241,7 @@ export class PullToRefresh {
                         eleRect = element.getBoundingClientRect();
                         imgEle.style.opacity = "0";
                         imgEle.style.transformOrigin = "50% 50%";
+                        imgEle.style.top = eleRect.top + "px";
                         if (option.rotate !== false)
                             imgEle.style.transform = "translate(0px,0px) rotate(0deg)";
 
@@ -250,6 +251,7 @@ export class PullToRefresh {
 
                         imgEle2.style.opacity = "0";
                         imgEle2.style.transformOrigin = "50% 50%";
+                        imgEle2.style.top = eleRect.top + "px";
                         if (option.rotate !== false)
                             imgEle2.style.transform = "translate(0px,0px) rotate(0deg)";
 
@@ -265,7 +267,7 @@ export class PullToRefresh {
 
                         imgEle.style.opacity = opacity.toString();
                         var left = ((eleRect.width - imgOriginalWidth) / 2 + eleRect.left) + "px";
-                        var top = ((diff - imgOriginalWidth) / 2 + eleRect.top) + "px";
+                        var top = (imgOriginalWidth) / 4 + "px";
 
                         if (option.rotate !== false) {
                             imgEle.style.transform = "translate(" + left + "," + top + ") rotate(" + (diff % 360) + "deg) scale(" + opacity/1.3 + ")";
@@ -354,6 +356,7 @@ export class PullToRefresh {
 
                 imgEle.style.opacity = "0";
                 imgEle.style.transformOrigin = "50% 50%";
+                imgEle.style.top = eleRect.top + "px";
                 if (option.rotate !== false)
                     imgEle.style.transform = "translate(0px,0px) rotate(0deg)";
                 document.body.appendChild(imgEle);
@@ -363,6 +366,7 @@ export class PullToRefresh {
 
                 imgEle2.style.opacity = "0";
                 imgEle2.style.transformOrigin = "50% 50%";
+                imgEle2.style.top = eleRect.top + "px";
                 if (option.rotate !== false)
                     imgEle2.style.transform = "translate(0px,0px) rotate(0deg)";
                 imgEle2.style.display = "none";
@@ -384,7 +388,7 @@ export class PullToRefresh {
 
                         imgEle.style.opacity = opacity.toString();
                         var left = ((eleRect.width - imgOriginalWidth) / 2 + eleRect.left) + "px";
-                        var top = ((diff - imgOriginalWidth) / 2 + eleRect.top) + "px";
+                        var top = (imgOriginalWidth) / 4 + "px";
 
                         if (option.rotate !== false) {
                             imgEle.style.transform = "translate(" + left + "," + top + ") rotate(" + (diff % 360) + "deg) scale(" + opacity + ")";
