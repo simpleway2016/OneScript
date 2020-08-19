@@ -31,6 +31,7 @@ function start() {
     var arr = packageContent.version.split('.');
     for (var i = arr.length - 1; i >= 0; i--) {
         if (arr[i] == 99) {
+            arr[i] = 0;
             continue;
         }
         else {

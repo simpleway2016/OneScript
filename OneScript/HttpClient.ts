@@ -59,7 +59,7 @@ export class HttpClient {
                         option.callback = null;
 
                         if ((<any>http)._aborted) {
-                            cb(null, "http aborted");
+                            //cb(null, "http aborted");
                         }
                         else {
                             cb(null, { status: http.status, msg: http.responseText});
