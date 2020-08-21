@@ -8,6 +8,9 @@ var html = require("./pullToRefreshTest.html");
 export class PullToRefreshTest extends Component {
     vm: Vue;
     model = {
+        userInfo: {
+            otehr:2
+        }
     };
 
     constructor() {
@@ -16,7 +19,7 @@ export class PullToRefreshTest extends Component {
         this.vm = new Vue({
             el: this.getViewModelElement(),
             data: this.model,
-            methods: this.getMethodObjectForVue(),
+            methods: this.getMethodObjectForVue()
         });
 
         PullToRefresh.enable({
@@ -25,5 +28,12 @@ export class PullToRefreshTest extends Component {
                 alert("你要刷新了");
             }
         });
+    }
+
+    test() {
+        if (this.model.userInfo["name"] == undefined)
+            this.vm.$set(this.model.userInfo, "name", "hello");
+        else
+            alert(this.model.userInfo["name"]);
     }
 }
