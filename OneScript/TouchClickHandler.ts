@@ -107,7 +107,7 @@
         if (!("ontouchstart" in element))
             return;
 
-        var maxMoveDistance = Math.min((<any>window).screen.width, (<any>window).screen.height) / 10;
+        var maxMoveDistance = 0;//Math.min((<any>window).screen.width, (<any>window).screen.height) / 10;
 
         var modeclass = element.getAttribute("touchmode");
         var modeclassElement = element;
