@@ -209,16 +209,23 @@
 
             if (touchPoint) {
 
-                var x = e.touches[0].clientX;
-                var y = e.touches[0].clientY;
-                if (Math.abs(x - touchPoint.x) > maxMoveDistance || Math.abs(y - touchPoint.y) > maxMoveDistance) {
-                    if (modeclass) {
-                        removeCls(modeclassElement, modeclass);
-                    }
-                    touchPoint = null;
-                    touch_event_target = null;
-                    _mybeClick = false;
+                if (modeclass) {
+                    removeCls(modeclassElement, modeclass);
                 }
+                touchPoint = null;
+                touch_event_target = null;
+                _mybeClick = false;
+
+                //var x = e.touches[0].clientX;
+                //var y = e.touches[0].clientY;
+                //if (Math.abs(x - touchPoint.x) > maxMoveDistance || Math.abs(y - touchPoint.y) > maxMoveDistance) {
+                //    if (modeclass) {
+                //        removeCls(modeclassElement, modeclass);
+                //    }
+                //    touchPoint = null;
+                //    touch_event_target = null;
+                //    _mybeClick = false;
+                //}
             }
         });
 
@@ -244,10 +251,14 @@
                 var tp = touchPoint;
                 if (tp) {
 
-                    if ((new Date().getTime() - tp.time) < CLICKACTIVETIME) {
-                        setTimeout(function () {
-                            simulateClick(element, touchEvtTar);
-                        }, 0);
+                    var x = e.changedTouches[0].clientX;
+                    var y = e.changedTouches[0].clientY;
+                    if (Math.abs(x - tp.x) <= maxMoveDistance && Math.abs(y - tp.y) <= maxMoveDistance) {
+                        if ((new Date().getTime() - tp.time) < CLICKACTIVETIME) {
+                            setTimeout(function () {
+                                simulateClick(element, touchEvtTar);
+                            }, 0);
+                        }
                     }
                     touchPoint = null;
                 }
