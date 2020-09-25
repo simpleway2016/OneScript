@@ -107,7 +107,7 @@
         if (!("ontouchstart" in element))
             return;
 
-        var maxMoveDistance = 0;//Math.min((<any>window).screen.width, (<any>window).screen.height) / 10;
+        var maxMoveDistance = 2;//Math.min((<any>window).screen.width, (<any>window).screen.height) / 10;
 
         var modeclass = element.getAttribute("touchmode");
         var modeclassElement = element;
@@ -208,24 +208,16 @@
             }
 
             if (touchPoint) {
-
-                if (modeclass) {
-                    removeCls(modeclassElement, modeclass);
+                var x = e.touches[0].clientX;
+                var y = e.touches[0].clientY;
+                if (Math.abs(x - touchPoint.x) > maxMoveDistance || Math.abs(y - touchPoint.y) > maxMoveDistance) {
+                    if (modeclass) {
+                        removeCls(modeclassElement, modeclass);
+                    }
+                    touchPoint = null;
+                    touch_event_target = null;
+                    _mybeClick = false;
                 }
-                touchPoint = null;
-                touch_event_target = null;
-                _mybeClick = false;
-
-                //var x = e.touches[0].clientX;
-                //var y = e.touches[0].clientY;
-                //if (Math.abs(x - touchPoint.x) > maxMoveDistance || Math.abs(y - touchPoint.y) > maxMoveDistance) {
-                //    if (modeclass) {
-                //        removeCls(modeclassElement, modeclass);
-                //    }
-                //    touchPoint = null;
-                //    touch_event_target = null;
-                //    _mybeClick = false;
-                //}
             }
         });
 
@@ -324,7 +316,7 @@
             else {
                 //throw "浏览器不支持MutationObserver";
 
-                var nodeAddedCallback = function(e) {
+                var nodeAddedCallback = function (e) {
                     func(e.target);
                 }
                 document.body.addEventListener("DOMNodeInserted", nodeAddedCallback, false);
