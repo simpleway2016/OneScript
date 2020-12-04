@@ -12,17 +12,6 @@ export function registerAutoScrollItemList(tagname: string) {
 
     var myhtml = Component.requireHtml(html, mycomponent);
 
-    var resizeListener: ResizeListener;
-    var container: HTMLElement;
-    var itemContainer: HTMLElement;
-    var hammer: Hammer;
-    var translateX = undefined;
-    var panStart_translateX;
-    var isPanning = false;
-    var animationning = false;
-    var toResetDatas = undefined;
-    var self;
-    var autoPlayTimeNumber = 0;
 
     function myTouchStart(ev: Event) {
         ev.preventDefault();
@@ -58,91 +47,91 @@ export function registerAutoScrollItemList(tagname: string) {
         },
         methods: {
             onContainerResize: function () {
-                if (container.offsetWidth > 0) {
-                    this.itemWidth = parseInt(<any>(container.offsetWidth / this.itemcount));
-                    if (translateX == undefined && this.itemWidth > 0) {
-                        translateX = -this.itemWidth * this.datas.length * 2;
+                if (this.$custsom.container.offsetWidth > 0) {
+                    this.itemWidth = parseInt(<any>(this.$custsom.container.offsetWidth / this.itemcount));
+                    if (this.$custsom.translateX == undefined && this.itemWidth > 0) {
+                        this.$custsom.translateX = -this.itemWidth * this.datas.length * 2;
 
-                        itemContainer.style.transform = "translate3d(" + translateX + "px,0,0)";
-                        itemContainer.style.webkitTransform = "translate3d(" + translateX + "px,0,0)";
+                        this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                        this.$custsom.itemContainer.style.webkitTransform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
                     }
 
                     console.log("AutoScrollItemList执行onContainerResize,itemWidth:" + this.itemWidth + ",datas length:" + this.datas.length);
                 }
             },
             onPan: function (x) {
-                translateX = panStart_translateX + x;
-                itemContainer.style.transform = "translate3d(" + translateX + "px,0,0)";
-                itemContainer.style.webkitTransform = "translate3d(" + translateX + "px,0,0)";
+                this.$custsom.translateX = this.$custsom.panStart_translateX + x;
+                this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                this.$custsom.itemContainer.style.webkitTransform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
             },
             onPanEnd: function () {
-                var mod = translateX % this.itemWidth;
+                var mod = this.$custsom.translateX % this.itemWidth;
 
                 //计算目的值
-                var target = translateX - mod;
+                var target = this.$custsom.translateX - mod;
                 var target2 = target + (mod / Math.abs(mod)) * this.itemWidth;
                 
-                if (Math.abs(target - translateX) > Math.abs(target2 - translateX)) {
+                if (Math.abs(target - this.$custsom.translateX) > Math.abs(target2 - this.$custsom.translateX)) {
                     target = target2;
                 }
 
-                animationning = true;
-                AnimationHelper.moveElement(itemContainer, "0.25s linear", translateX + "px", target + "px", "0", "0", 1, 1, true, function () {
-                    translateX = target;
-                    animationning = false;
-                    if (toResetDatas) {
-                        self.resetDatas(toResetDatas);
-                        toResetDatas = undefined;
+                this.$custsom.animationning = true;
+                AnimationHelper.moveElement(this.$custsom.itemContainer, "0.25s linear", this.$custsom.translateX + "px", target + "px", "0", "0", 1, 1, true, ()=> {
+                    this.$custsom.translateX = target;
+                    this.$custsom.animationning = false;
+                    if (this.$custsom.toResetDatas) {
+                        this.resetDatas(this.$custsom.toResetDatas);
+                        this.$custsom.toResetDatas = undefined;
                     }
 
-                    self.calculatorX();
+                    this.calculatorX();
                 });                
             },
             calculatorX: function () {
                 //不管实际移动到了那里，最后都更改为，以中间一排为基准，移动到了什么位置
-                var mod = translateX % (self.itemWidth * self.datas.length);
-                translateX = -self.itemWidth * self.datas.length * 2 + mod;
-                itemContainer.style.transform = "translate3d(" + translateX + "px,0,0)";
-                itemContainer.style.webkitTransform = "translate3d(" + translateX + "px,0,0)";
+                var mod = this.$custsom.translateX % (this.itemWidth * this.datas.length);
+                this.$custsom.translateX = -this.itemWidth * this.datas.length * 2 + mod;
+                this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                this.$custsom.itemContainer.style.webkitTransform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
 
-                if (self.autoplay)
-                    autoPlayTimeNumber = window.setTimeout(self.autoTranslateToNext, self.interval);
+                if (this.autoplay)
+                    this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
             },
             resetDatas: function (newValue) {
                 for (var i = 0; i < newValue.length; i++) {
                     var sitem = newValue[i];
-                    if (self.listDatas.length > i) {
-                        var titem = self.listDatas[i];
+                    if (this.listDatas.length > i) {
+                        var titem = this.listDatas[i];
                         if (titem != sitem) {
-                            self.listDatas.splice(i, 0, sitem);
+                            this.listDatas.splice(i, 0, sitem);
                         }
                     }
                     else {
-                        self.listDatas.push(sitem);
+                        this.listDatas.push(sitem);
                     }
                 }
 
-                if (self.listDatas.length > newValue.length) {
-                    self.listDatas.splice(newValue.length, self.listDatas.length - newValue.length);
+                if (this.listDatas.length > newValue.length) {
+                    this.listDatas.splice(newValue.length, this.listDatas.length - newValue.length);
                 }
             },
             autoTranslateToNext: function () {
-                if (animationning || isPanning || self.datas.length <= self.itemcount) {
-                    if (self.autoplay)
-                        autoPlayTimeNumber = window.setTimeout(self.autoTranslateToNext, self.interval);
+                if (this.$custsom.animationning || this.$custsom.isPanning || this.datas.length <= this.itemcount) {
+                    if (this.autoplay)
+                        this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
                     return;
                 }
 
-                animationning = true;
-                AnimationHelper.moveElement(itemContainer, "0.5s linear", translateX + "px", (translateX - self.itemWidth) + "px", "0", "0", 1, 1, true, function () {
-                    translateX = translateX - self.itemWidth;
-                    animationning = false;
-                    if (toResetDatas) {
-                        self.resetDatas(toResetDatas);
-                        toResetDatas = undefined;
+                this.$custsom.animationning = true;
+                AnimationHelper.moveElement(this.$custsom.itemContainer, "0.5s linear", this.$custsom.translateX + "px", (this.$custsom.translateX - this.itemWidth) + "px", "0", "0", 1, 1, true, ()=> {
+                    this.$custsom.translateX = this.$custsom.translateX - this.itemWidth;
+                    this.$custsom.animationning = false;
+                    if (this.$custsom.toResetDatas) {
+                        this.resetDatas(this.$custsom.toResetDatas);
+                        this.$custsom.toResetDatas = undefined;
                     }
 
-                    self.calculatorX();
+                    this.calculatorX();
                     
                 }); 
             }
@@ -151,8 +140,8 @@ export function registerAutoScrollItemList(tagname: string) {
             datas: function (newValue, oldValue) {
                 console.log("AutoScrollItemList datas changed");
 
-                if (isPanning) {
-                    toResetDatas = newValue;
+                if (this.$custsom.isPanning) {
+                    this.$custsom.toResetDatas = newValue;
                 }
                 else {
                     this.resetDatas(newValue);
@@ -162,16 +151,22 @@ export function registerAutoScrollItemList(tagname: string) {
                 handler(newVal) {
                     console.log("AutoScrollItemList autoplay changed,newValue:" + newVal);
                     if (newVal) {
-                        autoPlayTimeNumber = window.setTimeout(this.autoTranslateToNext, this.interval);
+                        this.$custsom.autoPlayTimeNumber = window.setTimeout(()=>this.autoTranslateToNext(), this.interval);
                     }
                     else {
-                        window.clearTimeout(autoPlayTimeNumber);
+                        window.clearTimeout(this.$custsom.autoPlayTimeNumber);
                     }
                 },
                 immediate: true,
             },
         },
-        beforeMount: function () {
+        beforeCreate: function () {            
+            (<any>this).$custsom = {
+                autoPlayTimeNumber: 0
+            };
+        },
+        beforeMount: function () {            
+
             this.listDatas = [];
             for (var i = 0; i < this.datas.length; i++) {
                 this.listDatas.push(this.datas[i]);
@@ -179,49 +174,49 @@ export function registerAutoScrollItemList(tagname: string) {
         },
         mounted: function () {
             console.log("AutoScrollItemList mounted");
+           
 
-            self = this;
-            container = this.$el;
-            itemContainer = container.querySelector("#itemContainer");
+            this.$custsom.container = this.$el;
+            this.$custsom.itemContainer = this.$custsom.container.querySelector("#itemContainer");
 
-            resizeListener = new ResizeListener();
-            resizeListener.listenElement(container);
-            resizeListener.onResize = (eles) => {
-                self.onContainerResize();
+            this.$custsom.resizeListener = new ResizeListener();
+            this.$custsom.resizeListener.listenElement(this.$custsom.container);
+            this.$custsom.resizeListener.onResize = (eles) => {
+                this.onContainerResize();
             };
 
-            container.addEventListener("touchstart", myTouchStart);
+            this.$custsom.container.addEventListener("touchstart", myTouchStart);
 
-            hammer = new Hammer(container, {
+            this.$custsom.hammer = new Hammer(this.$custsom.container, {
                 preventDefault:true
             });
-            hammer.get('swipe').set({
+            this.$custsom.hammer.get('swipe').set({
                 direction: Hammer.DIRECTION_HORIZONTAL
             });
-            hammer.on('pan panstart panend pancancel', (ev) => {
-                if (animationning || self.datas.length <= self.itemcount)
+            this.$custsom.hammer.on('pan panstart panend pancancel', (ev) => {
+                if (this.$custsom.animationning || this.datas.length <= this.itemcount)
                     return;
 
-                console.log("hammer event:" + ev.type + ",ev.deltaX:" + ev.deltaX);
+                //console.log("hammer event:" + ev.type + ",ev.deltaX:" + ev.deltaX);
                 switch (ev.type) {
                     case "pan":
-                        if (isPanning) {
-                            self.onPan(ev.deltaX);
+                        if (this.$custsom.isPanning) {
+                            this.onPan(ev.deltaX);
                         }
                         break;
                     case "panstart":
-                        if (autoPlayTimeNumber) {
-                            window.clearTimeout(autoPlayTimeNumber);
-                            autoPlayTimeNumber = 0;
+                        if (this.$custsom.autoPlayTimeNumber) {
+                            window.clearTimeout(this.$custsom.autoPlayTimeNumber);
+                            this.$custsom.autoPlayTimeNumber = 0;
                         }
-                        isPanning = true;
-                        panStart_translateX = translateX;
+                        this.$custsom.isPanning = true;
+                        this.$custsom.panStart_translateX = this.$custsom.translateX;
                         break;
                     case "panend":
                     case "pancancel":
-                        if (isPanning) {
-                            isPanning = false;
-                            self.onPanEnd();
+                        if (this.$custsom.isPanning) {
+                            this.$custsom.isPanning = false;
+                            this.onPanEnd();
                         }
                         break;
                 }
@@ -231,8 +226,8 @@ export function registerAutoScrollItemList(tagname: string) {
         },
         destroyed: function () {
             console.log("AutoScrollItemList dispose");
-            container.removeEventListener("touchstart", myTouchStart);
-            resizeListener.dispose();
+            this.$custsom.container.removeEventListener("touchstart", myTouchStart);
+            this.$custsom.resizeListener.dispose();
         }
     });
 }
