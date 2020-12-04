@@ -4,15 +4,11 @@
     <meta charset="utf-8" />
     <title></title>
     <link rel="stylesheet" href="../css/flex.css">
-    <style>
-        ddd{
-            color:#3162ae;
-        }
-    </style>
+
 </head>
 <body>
     <div >
-        <auto-scroll-item-list :datas="list" :itemcount="3" :autoplay="autoplay" :interval="3000" style="width:50%;height:100px;border:1px solid #ccc;">
+        <auto-scroll-item-list :datas="list" :itemcount="3" :autoplay="autoplay" :interval="3000" style="width:50%;height:3000px;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;" :style="{backgroundColor:colors[slotProps.index%3]}">
                     {{slotProps.item.name}}

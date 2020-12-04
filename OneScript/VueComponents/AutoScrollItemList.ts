@@ -24,6 +24,10 @@ export function registerAutoScrollItemList(tagname: string) {
     var self;
     var autoPlayTimeNumber = 0;
 
+    function myTouchStart(ev: Event) {
+        ev.preventDefault();
+    }
+
     Vue.component(tagname, {
         template: myhtml,
         data: function () {
@@ -186,7 +190,11 @@ export function registerAutoScrollItemList(tagname: string) {
                 self.onContainerResize();
             };
 
-            hammer = new Hammer(container);
+            container.addEventListener("touchstart", myTouchStart);
+
+            hammer = new Hammer(container, {
+                preventDefault:true
+            });
             hammer.get('swipe').set({
                 direction: Hammer.DIRECTION_HORIZONTAL
             });
@@ -194,7 +202,7 @@ export function registerAutoScrollItemList(tagname: string) {
                 if (animationning || self.datas.length <= self.itemcount)
                     return;
 
-                //console.log("hammer event:" + ev.type + ",ev.deltaX:" + ev.deltaX);
+                console.log("hammer event:" + ev.type + ",ev.deltaX:" + ev.deltaX);
                 switch (ev.type) {
                     case "pan":
                         if (isPanning) {
@@ -223,6 +231,7 @@ export function registerAutoScrollItemList(tagname: string) {
         },
         destroyed: function () {
             console.log("AutoScrollItemList dispose");
+            container.removeEventListener("touchstart", myTouchStart);
             resizeListener.dispose();
         }
     });
