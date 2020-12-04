@@ -15,6 +15,7 @@ import {  SelectorOption } from "./VueComponents/Selector"
 import {  LoadingOption } from "./VueComponents/Loading";
 import { AlertWindowOption, AlertWindowButton } from "./VueComponents/AlertWindow";
 import { ImageEditorMaskStyle, ImageEditorOption } from "./ImageEditor";
+import { ResizeListener } from "./ResizeListener";
 
 export {
     AnimationHelper,
@@ -34,4 +35,5 @@ export {
     AlertWindowButton,
     ImageEditorMaskStyle,
     ImageEditorOption,
+    ResizeListener
 }

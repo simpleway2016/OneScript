@@ -87,6 +87,7 @@
     <Content Include="dist\VueComponents\Loading.js" />
     <Content Include="hammer.min.js" />
     <Content Include="test.config.js" />
+    <Content Include="test\autoScrollItemListTest.html" />
     <Content Include="test\customComponet2_1.html" />
     <Content Include="test\customComponet2.html" />
     <Content Include="test\customComponet.html" />
@@ -95,6 +96,7 @@
     <Content Include="test\alertTest.html" />
     <Content Include="test\pullToRefreshTest.html" />
     <Content Include="test\selectorTest.html" />
+    <Content Include="VueComponents\autoScrollItemList.html" />
     <Content Include="VueComponents\alertWindow.html" />
     <Content Include="VueComponents\loading.html" />
     <Content Include="VueComponents\selector.html" />
@@ -129,9 +131,11 @@
     <TypeScriptCompile Include="ModelValidator.ts" />
     <TypeScriptCompile Include="Navigation.ts" />
     <TypeScriptCompile Include="PullToRefresh.ts" />
+    <TypeScriptCompile Include="ResizeListener.ts" />
     <TypeScriptCompile Include="ScrollSelector.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
+    <TypeScriptCompile Include="test\AutoScrollItemListTest.ts" />
     <TypeScriptCompile Include="test\CustomComponet2_1.ts" />
     <TypeScriptCompile Include="test\CustomComponet2.ts" />
     <TypeScriptCompile Include="test\CustomComponet.ts" />
@@ -143,6 +147,7 @@
     <TypeScriptCompile Include="TouchClickHandler.ts" />
     <TypeScriptCompile Include="VerifyPattern.ts" />
     <TypeScriptCompile Include="VueComponents\AlertWindow.ts" />
+    <TypeScriptCompile Include="VueComponents\AutoScrollItemList.ts" />
     <TypeScriptCompile Include="VueComponents\Loading.ts" />
     <TypeScriptCompile Include="VueComponents\Selector.ts" />
     <TypeScriptCompile Include="VueComponents.ts" />

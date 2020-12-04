@@ -3,6 +3,7 @@ import { registerLoading, LoadingOption } from "./VueComponents/Loading";
 import { registerAlertWindow, AlertWindowOption } from "./VueComponents/AlertWindow";
 import { registerTouchClick } from "./TouchClickHandler";
 import { registerVerifyPattern } from "./VerifyPattern";
+import { registerAutoScrollItemList } from "./VueComponents/AutoScrollItemList";
 
 export class VueComponents {
 
@@ -202,5 +203,20 @@ export class VueComponents {
     static useAlertWindow(option: AlertWindowOption = {} , tagname: string = "alert-window") {
         VueComponents.addStyleToBody();
         registerAlertWindow(tagname, option);
+    }
+
+    /**例子：通过slotProps.item可访问子项的数据
+     * 
+     * <auto-scroll-item-list :datas="listdatas" :itemcount="3" :autoplay="true" :interval="3000" style="width:50%;height:100px;border:1px solid #ccc;">
+            <template  v-slot:default="slotProps">
+                <div style="height:100%;">
+                    {{slotProps.item.name}}
+                </div>
+            </template>
+        </auto-scroll-item-list>
+     * @param tagname
+     */
+    static useAutoScrollItemList(tagname: string = "auto-scroll-item-list") {
+        registerAutoScrollItemList(tagname);
     }
 }
