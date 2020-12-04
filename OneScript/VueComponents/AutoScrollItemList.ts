@@ -160,7 +160,7 @@ export function registerAutoScrollItemList(tagname: string) {
             },
             autoplay: {
                 handler(newVal) {
-                    //console.log("autoplay changed,newValue:" + newVal);
+                    console.log("AutoScrollItemList autoplay changed,newValue:" + newVal);
                     if (newVal) {
                         autoPlayTimeNumber = window.setTimeout(this.autoTranslateToNext, this.interval);
                     }
