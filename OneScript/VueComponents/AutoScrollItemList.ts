@@ -54,16 +54,17 @@ export function registerAutoScrollItemList(tagname: string) {
         },
         methods: {
             onContainerResize: function () {
-               
-                this.itemWidth = parseInt(<any>(container.offsetWidth / this.itemcount));
-                if (this.itemWidth > 0) {
-                    translateX = -this.itemWidth * this.datas.length*2;
+                if (container.offsetWidth > 0) {
+                    this.itemWidth = parseInt(<any>(container.offsetWidth / this.itemcount));
+                    if (translateX == undefined && this.itemWidth > 0) {
+                        translateX = -this.itemWidth * this.datas.length * 2;
 
-                    itemContainer.style.transform = "translate3d(" + translateX + "px,0,0)";
-                    itemContainer.style.webkitTransform = "translate3d(" + translateX + "px,0,0)";
+                        itemContainer.style.transform = "translate3d(" + translateX + "px,0,0)";
+                        itemContainer.style.webkitTransform = "translate3d(" + translateX + "px,0,0)";
+                    }
+
+                    console.log("AutoScrollItemList执行onContainerResize,itemWidth:" + this.itemWidth + ",datas length:" + this.datas.length);
                 }
-
-                //console.log("执行onContainerResize,itemWidth:" + this.itemWidth + ",datas length:" + this.datas.length );
             },
             onPan: function (x) {
                 translateX = panStart_translateX + x;
@@ -104,7 +105,22 @@ export function registerAutoScrollItemList(tagname: string) {
                     autoPlayTimeNumber = window.setTimeout(self.autoTranslateToNext, self.interval);
             },
             resetDatas: function (newValue) {
-                self.listDatas = newValue;
+                for (var i = 0; i < newValue.length; i++) {
+                    var sitem = newValue[i];
+                    if (self.listDatas.length > i) {
+                        var titem = self.listDatas[i];
+                        if (titem != sitem) {
+                            self.listDatas.splice(i, 0, sitem);
+                        }
+                    }
+                    else {
+                        self.listDatas.push(sitem);
+                    }
+                }
+
+                if (self.listDatas.length > newValue.length) {
+                    self.listDatas.splice(newValue.length, self.listDatas.length - newValue.length);
+                }
             },
             autoTranslateToNext: function () {
                 if (animationning || isPanning || self.datas.length <= self.itemcount) {
@@ -129,7 +145,7 @@ export function registerAutoScrollItemList(tagname: string) {
         },
         watch: {
             datas: function (newValue, oldValue) {
-                //console.log("datas changed");
+                console.log("AutoScrollItemList datas changed");
 
                 if (isPanning) {
                     toResetDatas = newValue;
@@ -152,9 +168,14 @@ export function registerAutoScrollItemList(tagname: string) {
             },
         },
         beforeMount: function () {
-            this.listDatas = this.datas;
+            this.listDatas = [];
+            for (var i = 0; i < this.datas.length; i++) {
+                this.listDatas.push(this.datas[i]);
+            }
         },
         mounted: function () {
+            console.log("AutoScrollItemList mounted");
+
             self = this;
             container = this.$el;
             itemContainer = container.querySelector("#itemContainer");
@@ -201,6 +222,7 @@ export function registerAutoScrollItemList(tagname: string) {
             this.onContainerResize();
         },
         destroyed: function () {
+            console.log("AutoScrollItemList dispose");
             resizeListener.dispose();
         }
     });

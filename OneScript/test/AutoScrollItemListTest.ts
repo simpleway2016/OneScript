@@ -40,7 +40,7 @@ export class AutoScrollItemListTest extends Component {
     }
 
     additem() {
-        this.model.list.push({
+        this.model.list.splice(1,0,{
             name: "newitem" + (this.model.list.length + 1)
         });
     }
