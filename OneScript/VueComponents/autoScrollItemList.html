@@ -9,19 +9,19 @@
 <body>
     <div style="width:100%;height:100%;overflow:hidden;">
         <div id="itemContainer" style="position:relative;height:100%;">
-            <div style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:index*itemWidth+'px'}" v-for="item,index in listDatas">
+            <div v-if="listDatas.length > itemcount && (listDatas.length - index) <= (itemcount*2 - listDatas.length)" style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:index*itemWidth+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
-            <div style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length)*itemWidth+'px'}" v-for="item,index in listDatas">
+            <div v-if="listDatas.length > itemcount && (listDatas.length - index) <= itemcount*2" style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length)*itemWidth+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
             <div style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length*2)*itemWidth+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
-            <div style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length*3)*itemWidth+'px'}" v-for="item,index in listDatas">
+            <div v-if="listDatas.length > itemcount && index < itemcount*2" style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length*3)*itemWidth+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
-            <div style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length*4)*itemWidth+'px'}" v-for="item,index in listDatas">
+            <div v-if="listDatas.length > itemcount && index < (itemcount*2 - listDatas.length)" style="height:100%;position:absolute;top:0;" :style="{width:itemWidth + 'px',left:(index + datas.length*4)*itemWidth+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
         </div>        
