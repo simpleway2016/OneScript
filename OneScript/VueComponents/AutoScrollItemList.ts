@@ -64,15 +64,15 @@ export function registerAutoScrollItemList(tagname: string) {
                 this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
                 this.$custsom.itemContainer.style.webkitTransform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
             },
-            onPanEnd: function () {
-                var mod = this.$custsom.translateX % this.itemWidth;
+            onPanEnd: function (x) {
+               
+                var target = this.$custsom.translateX;
 
-                //计算目的值
-                var target = this.$custsom.translateX - mod;
-                var target2 = target + (mod / Math.abs(mod)) * this.itemWidth;
-                
-                if (Math.abs(target - this.$custsom.translateX) > Math.abs(target2 - this.$custsom.translateX)) {
-                    target = target2;
+                if (x < 0) {
+                    target -= this.itemWidth - Math.abs(target % this.itemWidth);
+                }
+                else if (x > 0) {
+                    target += Math.abs(target % this.itemWidth);
                 }
 
                 this.$custsom.animationning = true;
@@ -86,6 +86,54 @@ export function registerAutoScrollItemList(tagname: string) {
 
                     this.calculatorX();
                 });                
+            },
+            onSwipe: function (velocityX) {
+                //计算移动多少距离
+                var flag = velocityX / Math.abs(velocityX);
+                var distanceTotal = parseInt(<any>(velocityX * this.itemWidth));
+                var max = 0;
+                if (flag < 0)
+                    max = -this.itemWidth * this.datas.length * 2 - this.itemcount * 2 * this.itemWidth;
+                else
+                    max = -this.itemWidth * this.datas.length * 2 + this.itemcount * 2 * this.itemWidth;
+
+                var target = this.$custsom.translateX + distanceTotal;
+                if (flag < 0) {
+                    if (target % this.itemWidth != 0)
+                        target -= this.itemWidth - Math.abs(target % this.itemWidth);
+
+                    if (target < max)
+                        target = max;
+                    
+                }
+                else {
+                    if (target % this.itemWidth != 0)
+                        target += Math.abs(target % this.itemWidth);
+
+                    if (target > max)
+                        target = max;
+                }
+                //console.log({
+                //    flag,
+                //    itemWidth: this.itemWidth,
+                //    max,
+                //    translateX: this.$custsom.translateX,
+                //    distanceTotal,
+                //    target0: this.$custsom.translateX + distanceTotal,
+                //    target,
+                //    f: target / this.itemWidth
+                //});
+                this.$custsom.animationning = true;
+                AnimationHelper.moveElement(this.$custsom.itemContainer, "1s ease-out", this.$custsom.translateX + "px", target + "px", "0", "0", 1, 1, true, () => {
+                    this.$custsom.translateX = target;
+                    this.$custsom.animationning = false;
+                    if (this.$custsom.toResetDatas) {
+                        this.resetDatas(this.$custsom.toResetDatas);
+                        this.$custsom.toResetDatas = undefined;
+                    }
+
+                    this.calculatorX();
+                });  
             },
             calculatorX: function () {
                 //不管实际移动到了那里，最后都更改为，以中间一排为基准，移动到了什么位置
@@ -193,9 +241,16 @@ export function registerAutoScrollItemList(tagname: string) {
             this.$custsom.hammer.get('swipe').set({
                 direction: Hammer.DIRECTION_HORIZONTAL
             });
+
+            //swipeleft在手机上还有些bug
             this.$custsom.hammer.on('pan panstart panend pancancel', (ev) => {
                 if (this.$custsom.animationning || this.datas.length <= this.itemcount)
                     return;
+
+                if (this.$custsom.autoPlayTimeNumber) {
+                    window.clearTimeout(this.$custsom.autoPlayTimeNumber);
+                    this.$custsom.autoPlayTimeNumber = 0;
+                }
 
                 //console.log("hammer event:" + ev.type + ",ev.deltaX:" + ev.deltaX);
                 switch (ev.type) {
@@ -204,11 +259,7 @@ export function registerAutoScrollItemList(tagname: string) {
                             this.onPan(ev.deltaX);
                         }
                         break;
-                    case "panstart":
-                        if (this.$custsom.autoPlayTimeNumber) {
-                            window.clearTimeout(this.$custsom.autoPlayTimeNumber);
-                            this.$custsom.autoPlayTimeNumber = 0;
-                        }
+                    case "panstart":                        
                         this.$custsom.isPanning = true;
                         this.$custsom.panStart_translateX = this.$custsom.translateX;
                         break;
@@ -216,8 +267,16 @@ export function registerAutoScrollItemList(tagname: string) {
                     case "pancancel":
                         if (this.$custsom.isPanning) {
                             this.$custsom.isPanning = false;
-                            this.onPanEnd();
+                            this.onPanEnd(ev.deltaX);
                         }
+                        break;
+                    case "swipeleft":
+                        this.$custsom.isPanning = false;
+                        this.onSwipe(ev.velocityX);
+                        break;
+                    case "swiperight":
+                        this.$custsom.isPanning = false;
+                        this.onSwipe(ev.velocityX);
                         break;
                 }
             });
