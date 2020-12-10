@@ -4,17 +4,26 @@
     <meta charset="utf-8" />
     <title></title>
     <link rel="stylesheet" href="../css/flex.css">
-
+    <style>
+        .my-paginationItemClass {
+            width:10px !important;
+            height:10px !important;
+        }
+        .my-paginationActiveItemClass {
+            background-color: red !important;
+        }
+    </style>
 </head>
 <body>
     <div >
-        <auto-scroll-item-list :datas="list" :itemcount="3" :autoplay="autoplay" :interval="13000" style="width:100%;height:100px;border:1px solid #ccc;">
+        <scale-swiper :datas="list" :autoplay="autoplay" :itemwidth="100" :itemheight="50" :interval="3000" :show-pagination="true" 
+                      pagination-Item-Class="my-paginationItemClass" pagination-Active-Item-Class="my-paginationActiveItemClass" style="width:100%;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;" :style="{backgroundColor:colors[slotProps.index%3]}" @click="clickfunc(slotProps.item.name)">
                     {{slotProps.item.name}}
                 </div>
             </template>
-        </auto-scroll-item-list>
+        </scale-swiper>
     </div>
     <button @click="additem">add item</button><button @click="autoplay=!autoplay">{{autoplay?'stop play':'play'}}</button>
 </body>

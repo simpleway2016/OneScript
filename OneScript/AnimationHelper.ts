@@ -1,4 +1,15 @@
-﻿export class AnimationHelper {
+﻿export interface AnimationElementOption {
+    ele: HTMLElement;
+    timeAndMode: string;
+    fromX: string;
+    toX: string;
+    fromY: string;
+    toY: string;
+    fromScale: number | number[];
+    toScale: number | number[];
+    keepValue: boolean;
+}
+export class AnimationHelper {
     private static flag: number = 0;
     /**
      * 移动元素
@@ -24,8 +35,17 @@
         if (fromScale != undefined && fromScale != null) {
             if (fromStr.length == 0)
                 fromStr = "transform:";
-            fromStr += " scale(" + fromScale + ")";
+
+            if (Array.isArray(fromScale)) {
+                fromStr += " scale(" + fromScale[0] + "," + fromScale[1] + ")";
+            }
+            else {
+                fromStr += " scale(" + fromScale + ")";
+            }
         }
+
+        if (Array.isArray(fromScale))
+            toScale = `${toScale[0]},${toScale[1]}`;
 
         if (fromStr.length > 0)
             fromStr = "from {" + fromStr + "}";
@@ -70,5 +90,17 @@
         ele.style.webkitAnimation = keyname + " " + timeAndMode;
         ele.style.animationFillMode = "forwards";//这两句代码必须放在animation赋值的后面
         ele.style.webkitAnimationFillMode = "forwards";
+    }
+
+    static moveElements(options: AnimationElementOption[], completedCallBack: () => void) {
+        var doneCount = 0;
+        options.forEach(o => {
+            AnimationHelper.moveElement(o.ele, o.timeAndMode, o.fromX, o.toX, o.fromY, o.toY, o.fromScale, o.toScale, o.keepValue, () => {
+                doneCount++;
+                if (doneCount == options.length && completedCallBack) {
+                    completedCallBack();
+                }
+            });
+        });
     }
 }

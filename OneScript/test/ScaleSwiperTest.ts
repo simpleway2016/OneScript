@@ -2,9 +2,9 @@
 import Vue from "vue";
 import { Component } from "../Component";
 import { VueComponents } from "../VueComponents";
-var html = require("./autoScrollItemListTest.html");
+var html = require("./scaleSwiperTest.html");
 
-export class AutoScrollItemListTest extends Component {
+export class ScaleSwiperTest extends Component {
     vm: Vue;
     model = {
         tabIndex: 0,
@@ -18,9 +18,6 @@ export class AutoScrollItemListTest extends Component {
             },
             {
                 name: "abc3"
-            },
-            {
-                name: "abc4"
             }
         ],
         colors: ['#cccccc', '#b03232','#3162ae']

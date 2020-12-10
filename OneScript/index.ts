@@ -9,7 +9,7 @@ import { IHttpClientUsing } from "./IHttpClientUsing";
 
 import { Component } from "./Component";
 import { VueComponents } from "./VueComponents";
-import { AnimationHelper } from "./AnimationHelper";
+import { AnimationHelper, AnimationElementOption } from "./AnimationHelper";
 
 import {  SelectorOption } from "./VueComponents/Selector"
 import {  LoadingOption } from "./VueComponents/Loading";
@@ -19,6 +19,7 @@ import { ResizeListener } from "./ResizeListener";
 
 export {
     AnimationHelper,
+    AnimationElementOption,
     Navigation,
     NavigationEvent,
     PullToRefresh,

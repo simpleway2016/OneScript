@@ -17,6 +17,17 @@ export function registerAutoScrollItemList(tagname: string) {
         ev.preventDefault();
     }
 
+    function fireClickEvent(element) {
+        if (document.createEvent) {
+            var theEvent = document.createEvent('MouseEvents');
+            theEvent.initEvent('click', true, true);
+
+            element.dispatchEvent(theEvent);
+        } else if (element.fireEvent) {
+            element.fireEvent('onclick');
+        }
+    }
+
     Vue.component(tagname, {
         template: myhtml,
         data: function () {
@@ -243,7 +254,7 @@ export function registerAutoScrollItemList(tagname: string) {
             });
 
             //swipeleft在手机上还有些bug
-            this.$custsom.hammer.on('pan panstart panend pancancel', (ev) => {
+            this.$custsom.hammer.on('pan panstart panend pancancel tap', (ev) => {
                 if (this.$custsom.animationning || this.datas.length <= this.itemcount)
                     return;
 
@@ -252,6 +263,7 @@ export function registerAutoScrollItemList(tagname: string) {
                     this.$custsom.autoPlayTimeNumber = 0;
                 }
 
+                var event: Event = ev.srcEvent;
                 //console.log("hammer event:" + ev.type + ",ev.deltaX:" + ev.deltaX);
                 switch (ev.type) {
                     case "pan":
@@ -277,6 +289,9 @@ export function registerAutoScrollItemList(tagname: string) {
                     case "swiperight":
                         this.$custsom.isPanning = false;
                         this.onSwipe(ev.velocityX);
+                        break;
+                    case "tap":
+                        fireClickEvent(event.srcElement);
                         break;
                 }
             });
