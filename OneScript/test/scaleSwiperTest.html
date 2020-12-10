@@ -16,7 +16,7 @@
 </head>
 <body>
     <div >
-        <scale-swiper :datas="list" :autoplay="autoplay" :itemwidth="100" :itemheight="50" :interval="3000" :show-pagination="true" 
+        <scale-swiper :datas="list" :autoplay="autoplay" itemwidth="100" itemheight="50" interval="3000" show-Pagination="true" scale="0.8"
                       pagination-Item-Class="my-paginationItemClass" pagination-Active-Item-Class="my-paginationActiveItemClass" style="width:100%;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;" :style="{backgroundColor:colors[slotProps.index%3]}" @click="clickfunc(slotProps.item.name)">

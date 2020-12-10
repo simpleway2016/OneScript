@@ -230,7 +230,7 @@ export class VueComponents {
      * paginationActiveItemClass  分页器聚焦个体的样式
      * 
      * 例子：如果是图片轮播，itemwidth和itemheight建议设置为图片的真实尺寸
-     *  <scale-swiper :datas="list" autoplay="true" itemwidth="100" itemheight="50" interval="3000" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
+     *  <scale-swiper :datas="list" autoplay="true" itemwidth="100" itemheight="50" interval="3000" scale="0.8" show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;">
                     {{slotProps.item.name}}
