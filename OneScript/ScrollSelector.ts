@@ -115,6 +115,8 @@ class ScrollSelector {
         var maxTop;
         var originalSelectedIndex;
         this.canvas.addEventListener("touchstart", (e: TouchEvent) => {
+            e.preventDefault();
+
             originalTop = this._offsetTop;
             starty = e.touches[0].clientY;
             originalSelectedIndex = this._selectedIndex;
