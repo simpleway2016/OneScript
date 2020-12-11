@@ -206,7 +206,7 @@ export class VueComponents {
         registerAlertWindow(tagname, option);
     }
 
-    /**例子：通过slotProps.item可访问子项的数据
+    /**例子：通过slotProps.item可访问子项的数据，slotProps.index对应索引
      * 
      * <auto-scroll-item-list :datas="listdatas" :itemcount="3" :autoplay="true" :interval="3000" style="width:50%;height:100px;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
@@ -229,7 +229,7 @@ export class VueComponents {
      * paginationItemClass        分页器个体的样式
      * paginationActiveItemClass  分页器聚焦个体的样式
      * 
-     * 例子：如果是图片轮播，itemwidth和itemheight建议设置为图片的真实尺寸
+     * 例子：如果是图片轮播，itemwidth和itemheight建议设置为图片的真实尺寸,通过slotProps.item可访问子项的数据，slotProps.index对应索引
      *  <scale-swiper :datas="list" :autoplay="true" :itemwidth="100" :itemheight="50" :interval="3000" :scale="0.8" :show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;">

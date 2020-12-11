@@ -3,6 +3,7 @@ import Vue from "vue";
 import Hammer from "../hammer.min.js"
 import { ResizeListener } from "../ResizeListener";
 import { AnimationHelper } from "../AnimationHelper";
+import { unwatchFile } from "fs";
 
 var html = require("./scaleSwiper.html");
 
@@ -110,6 +111,10 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     if (this.itemheight == 0 || this.itemwidth == 0) {
                         this.$custsom.container.style.height = "100%";
                         this.$custsom.margin = 0;
+
+                        this.trueItemWidth = this.$custsom.container.offsetWidth;
+                        this.trueItemHeight = this.$custsom.container.offsetHeight;
+                        this.$custsom.margin = 0;
                     }
                     else {
                         var w = parseInt(<any>(this.$custsom.container.offsetWidth / (1 + (1 - this.scale) * 0.75 * 2)));
@@ -123,7 +128,6 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                         this.$custsom.margin = parseInt(<any>(this.trueItemWidth * (1 - this.scale)*0.75));                       
                     }
 
-                    this.$custsom.itemContainer.style.paddingLeft = this.$custsom.margin + "px";
 
                     if (this.$custsom.translateX == undefined) {
                         this.$custsom.translateX = -this.trueItemWidth * this.datas.length;
@@ -148,7 +152,17 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                
                 this.$custsom.centerItem = this.$custsom.itemContainer.children[index];
                 this.$custsom.preItem = this.$custsom.itemContainer.children[index - 1];
+                try {
+                    this.$custsom.preItem2 = this.$custsom.itemContainer.children[index - 2];
+                } catch (e) {
+                    this.$custsom.preItem2 = undefined;
+                }
                 this.$custsom.nextItem = this.$custsom.itemContainer.children[index + 1];
+                try {
+                    this.$custsom.nextItem2 = this.$custsom.itemContainer.children[index + 2];
+                } catch (e) {
+                    this.$custsom.nextItem2 = undefined;
+                }
 
                 var movingflag = Math.abs((x % this.trueItemWidth) / this.trueItemWidth);
                 var scale;
@@ -160,7 +174,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
 
                 scale = distance * (1 - movingflag) + this.scale;
 
-                this.$custsom.centerItem.style.transform = `scale(${scale},${scale})`;
+                this.$custsom.centerItem.style.transform = `translate3d(${this.$custsom.centerItem._$x + x}px,0,0) scale(${scale},${scale})`;
                 this.$custsom.centerItem._$scale = scale;
 
                 var nextflag = this.scale + distance * movingflag;
@@ -172,27 +186,37 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 //    movingflag
                 //});
                 if (x < 0) {
-                    this.$custsom.nextItem.style.transform = `scale(${nextflag},${nextflag})`;
+                    this.$custsom.nextItem.style.transform = `translate3d(${this.$custsom.nextItem._$x + x}px,0,0) scale(${nextflag},${nextflag})`;
                     this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
                     this.$custsom.nextItem._$scale = nextflag;
 
-                    this.$custsom.preItem.style.transform = `scale(${this.scale},${this.scale})`;
+                    if (this.$custsom.nextItem2) {
+                        this.$custsom.nextItem2.style.transform = `translate3d(${this.$custsom.nextItem2._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
+                        this.$custsom.nextItem2.style.webkitTransform = this.$custsom.nextItem2.style.transform;
+                        this.$custsom.nextItem2._$scale = this.scale;
+                    }
+
+                    this.$custsom.preItem.style.transform = `translate3d(${this.$custsom.preItem._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
                     this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
                     this.$custsom.preItem._$scale = this.scale;
 
                 }
                 else {
-                    this.$custsom.preItem.style.transform = `scale(${nextflag},${nextflag})`;
+                    this.$custsom.preItem.style.transform = `translate3d(${this.$custsom.preItem._$x + x}px,0,0) scale(${nextflag},${nextflag})`;
                     this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
                     this.$custsom.preItem._$scale = nextflag;
 
-                    this.$custsom.nextItem.style.transform = `scale(${this.scale},${this.scale})`;
+                    if (this.$custsom.preItem2) {
+                        this.$custsom.preItem2.style.transform = `translate3d(${this.$custsom.preItem2._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
+                        this.$custsom.preItem2.style.webkitTransform = this.$custsom.preItem2.style.transform;
+                        this.$custsom.preItem2._$scale = this.scale;
+                    }
+
+                    this.$custsom.nextItem.style.transform = `translate3d(${this.$custsom.nextItem._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
                     this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
                     this.$custsom.nextItem._$scale = this.scale;
                 }
 
-                this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
-                this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
             },
             onPanEnd: function (x) {
                 var index;
@@ -230,57 +254,55 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     target = this.$custsom.translateX / this.trueItemWidth;
                     target = Math.floor(Math.abs(target)) + 1;
                     target = -target * this.trueItemWidth;
-
+                    
                     AnimationHelper.moveElements([
+                        {
+                            ele: this.$custsom.preItem,
+                            timeAndMode: timeAndMode,
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.preItem._$x) + "px",
+                            fromY: "0",
+                            toY: "0",
+                            fromScale: undefined,
+                            toScale: this.scale,
+                            keepValue: true
+                        },
                         {
                             ele: this.$custsom.centerItem,
                             timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) +  "px",
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.centerItem._$x) + "px",
                             fromY: "0",
                             toY: "0",
-                            fromScale: this.$custsom.centerItem._$scale,
+                            fromScale: undefined,
                             toScale: this.scale,
                             keepValue: true
                         },
                         {
                             ele: this.$custsom.nextItem,
                             timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.nextItem._$x) + "px",
                             fromY: "0",
                             toY: "0",
-                            fromScale: this.$custsom.nextItem._$scale,
+                            fromScale: undefined,
                             toScale: this.maxScale,
                             keepValue: true
                         },
                         {
                             ele: this.$custsom.nextItem2,
                             timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.nextItem2?this.$custsom.nextItem2._$x:0)) + "px",
                             fromY: "0",
                             toY: "0",
-                            fromScale: this.scale,
-                            toScale: this.scale,
-                            keepValue: true
-                        },
-                        {
-                            ele: this.$custsom.preItem,
-                            timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
-                            fromY: "0",
-                            toY: "0",
-                            fromScale: this.$custsom.preItem._$scale,
+                            fromScale: undefined,
                             toScale: this.scale,
                             keepValue: true
                         }
+                        
                     ], () => {
                             this.$custsom.translateX = target;
-                            this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
-                            this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
-
                             this.$custsom.animationning = false;
                             if (this.$custsom.toResetDatas) {
                                 this.resetDatas(this.$custsom.toResetDatas);
@@ -298,54 +320,51 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
 
                     AnimationHelper.moveElements([
                         {
-                            ele: this.$custsom.centerItem,
+                            ele: this.$custsom.nextItem,
                             timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.nextItem._$x) + "px",
                             fromY: "0",
                             toY: "0",
-                            fromScale: this.$custsom.centerItem._$scale,
+                            fromScale: undefined,
+                            toScale: this.scale,
+                            keepValue: true
+                        },
+                        {
+                            ele: this.$custsom.centerItem,
+                            timeAndMode: timeAndMode,
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.centerItem._$x) + "px",
+                            fromY: "0",
+                            toY: "0",
+                            fromScale: undefined,
                             toScale: this.scale,
                             keepValue: true
                         },
                         {
                             ele: this.$custsom.preItem,
                             timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.preItem._$x) + "px",
                             fromY: "0",
                             toY: "0",
-                            fromScale: this.$custsom.preItem._$scale,
+                            fromScale: undefined,
                             toScale: this.maxScale,
                             keepValue: true
                         },
                         {
                             ele: this.$custsom.preItem2,
                             timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
+                            fromX: undefined,
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.preItem2 ? this.$custsom.preItem2._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
-                            fromScale: this.scale,
-                            toScale: this.scale,
-                            keepValue: true
-                        },
-                        {
-                            ele: this.$custsom.nextItem,
-                            timeAndMode: timeAndMode,
-                            fromX: "0",
-                            toX: (target - this.$custsom.translateX) + "px",
-                            fromY: "0",
-                            toY: "0",
-                            fromScale: this.$custsom.nextItem._$scale,
+                            fromScale: undefined,
                             toScale: this.scale,
                             keepValue: true
                         }
                     ], () => {
                             this.$custsom.translateX = target;
-                            this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
-                            this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
-
 
                         this.$custsom.animationning = false;
                         if (this.$custsom.toResetDatas) {
@@ -371,8 +390,6 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 this.currentIndex = index;
 
                 this.$custsom.translateX = -this.trueItemWidth * this.datas.length + mod;
-                this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
-                this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
 
                 this.$custsom.centerItem = this.$custsom.itemContainer.children[this.datas.length + index];
                 this.$custsom.preItem = this.$custsom.itemContainer.children[this.datas.length + index - 1];
@@ -387,7 +404,18 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     else {
                         item._$scale = this.scale;
                     }
-                    item.style.transform = `scale(${item._$scale},${item._$scale})`;
+
+                    item._$x = this.$custsom.translateX + this.trueItemWidth * i;
+                    item.style.left = this.$custsom.margin + "px";
+                    if (this.trueItemHeight == 0) {
+                        item.style.top = "0px";
+                        item.style.width = "100%";
+                        item.style.height = "100%";
+                    }
+                    else {
+                        item.style.top = parseInt(<any>((this.$custsom.itemContainer.offsetHeight - this.trueItemHeight) / 2)) + "px";
+                    }
+                    item.style.transform = `translate3d(${item._$x}px,0,0) scale(${item._$scale},${item._$scale})`;
                     item.style.webkitTransform = item.style.transform;
                 }
 
@@ -417,6 +445,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     return;
                 }
 
+                this.$custsom.panStart_translateX = this.$custsom.translateX;
                 this.onPanEnd(-1);
             }
         },
@@ -424,7 +453,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
             datas: function (newValue, oldValue) {
                 console.log("ScaleSwiper datas changed");
 
-                if (this.$custsom.isPanning) {
+                if (this.$custsom.isPanning || this.$custsom.animationning) {
                     this.$custsom.toResetDatas = newValue;
                 }
                 else {
@@ -445,7 +474,12 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
             },
             scale: {
                 handler(newValue) {
-                    this.maxScale = 1 + (1 - newValue) / 2;
+                    if (this.itemheight == 0 || this.itemwidth == 0) {
+                        this.maxScale = 1;
+                    }
+                    else {
+                        this.maxScale = 1 + (1 - newValue) / 2;
+                    }
                 },
                 immediate: true,
             }

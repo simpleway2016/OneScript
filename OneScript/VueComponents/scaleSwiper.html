@@ -57,14 +57,14 @@
 </head>
 <body>
     <div style="width:100%;overflow:hidden;position:relative;">
-        <div id="itemContainer" class="display-flex flex-direction-row align-items-center" style="width:9999999px;height:100%;">
-            <div :style="{width:trueItemWidth+'px',height:trueItemHeight+'px'}" v-for="item,index in listDatas">
+        <div id="itemContainer" style="width:100%;height:100%;position:relative;">
+            <div style="position:absolute;" :style="{width:trueItemWidth+'px',height:trueItemHeight+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
-            <div :style="{width:trueItemWidth+'px',height:trueItemHeight+'px'}" v-for="item,index in listDatas">
+            <div style="position:absolute;" :style="{width:trueItemWidth+'px',height:trueItemHeight+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
-            <div :style="{width:trueItemWidth+'px',height:trueItemHeight+'px'}" v-for="item,index in listDatas">
+            <div style="position:absolute;" :style="{width:trueItemWidth+'px',height:trueItemHeight+'px'}" v-for="item,index in listDatas">
                 <slot v-bind:item="item" v-bind:index="index"></slot>
             </div>
         </div>

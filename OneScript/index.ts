@@ -1,6 +1,5 @@
 ﻿import { Navigation, NavigationEvent } from "./Navigation";
 import { PullToRefresh } from "./PullToRefresh";
-import { Swiper } from "./Swiper";
 
 import { ModelValidator, ModelValidate, ValidateType } from "./ModelValidator";
 
@@ -23,7 +22,6 @@ export {
     Navigation,
     NavigationEvent,
     PullToRefresh,
-    Swiper,
     ModelValidator,
     ModelValidate, ValidateType,
     HttpClient,

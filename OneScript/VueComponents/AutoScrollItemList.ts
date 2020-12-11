@@ -87,7 +87,7 @@ export function registerAutoScrollItemList(tagname: string) {
                 }
 
                 this.$custsom.animationning = true;
-                AnimationHelper.moveElement(this.$custsom.itemContainer, "0.25s linear", this.$custsom.translateX + "px", target + "px", "0", "0", 1, 1, true, ()=> {
+                AnimationHelper.moveElement(this.$custsom.itemContainer, "0.25s linear", this.$custsom.translateX + "px", target + "px", "0", "0", undefined, undefined, true, () => {
                     this.$custsom.translateX = target;
                     this.$custsom.animationning = false;
                     if (this.$custsom.toResetDatas) {
@@ -182,7 +182,7 @@ export function registerAutoScrollItemList(tagname: string) {
                 }
 
                 this.$custsom.animationning = true;
-                AnimationHelper.moveElement(this.$custsom.itemContainer, "0.5s linear", this.$custsom.translateX + "px", (this.$custsom.translateX - this.itemWidth) + "px", "0", "0", 1, 1, true, ()=> {
+                AnimationHelper.moveElement(this.$custsom.itemContainer, "0.5s linear", this.$custsom.translateX + "px", (this.$custsom.translateX - this.itemWidth) + "px", "0", "0", undefined, undefined, true, ()=> {
                     this.$custsom.translateX = this.$custsom.translateX - this.itemWidth;
                     this.$custsom.animationning = false;
                     if (this.$custsom.toResetDatas) {
@@ -199,7 +199,7 @@ export function registerAutoScrollItemList(tagname: string) {
             datas: function (newValue, oldValue) {
                 console.log("AutoScrollItemList datas changed");
 
-                if (this.$custsom.isPanning) {
+                if (this.$custsom.isPanning || this.$custsom.animationning) {
                     this.$custsom.toResetDatas = newValue;
                 }
                 else {

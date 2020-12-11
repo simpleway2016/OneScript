@@ -1,10 +1,13 @@
 ﻿export interface AnimationElementOption {
     ele: HTMLElement;
     timeAndMode: string;
+    /**可以是undeinfed，表示从当前位置开始 */
     fromX: string;
+    /**可以是undeinfed，表示不用移动 */
     toX: string;
     fromY: string;
     toY: string;
+    /**，可以是undeinfed，表示从当前位置开始 */
     fromScale: number | number[];
     toScale: number | number[];
     keepValue: boolean;
@@ -15,10 +18,12 @@ export class AnimationHelper {
      * 移动元素
      * @param ele
      * @param timeAndMode 如 0.3s ease-out 或者  0.7s linear
-     * @param fromX 从什么位置开始（这是ele的相对位置表示），如 100px 或者 10%
-     * @param toX 在什么位置结束（这是ele的相对位置表示），如 500px 或者 100%
+     * @param fromX 从什么位置开始（这是ele的相对位置表示），如 100px 或者 10%，可以是undeinfed，表示从当前位置开始
+     * @param toX 在什么位置结束（这是ele的相对位置表示），如 500px 或者 100%，可以是undeinfed，表示不用移动
      * @param fromY
      * @param toY
+     * @param fromScale 可以是undeinfed，表示从当前位置开始
+     * @param toScale
      * @param keepValue 动画结束后，是否保持位置
      * @param completedCallBack
      */
@@ -49,14 +54,24 @@ export class AnimationHelper {
             }
         }
 
-        if (Array.isArray(fromScale))
+        if (toScale && Array.isArray(toScale))
             toScale = `${toScale[0]},${toScale[1]}`;
 
         if (fromStr.length > 0)
             fromStr = "from {" + fromStr + "}";
 
-        keyframeStyle.innerHTML = "@keyframes " + keyname + " {" + fromStr + " to{transform: translate3d(" + toX + ", " + toY + ",0) scale(" + toScale + ");}}\r\n" +
-            "@-webkit-keyframes " + keyname + " {" + fromStr + " to{-webkit-transform: translate3d(" + toX + ", " + toY + ",0) scale(" + toScale + ");}}\r\n";
+        var toScaleStr = "";
+        if (toScale) {
+            toScaleStr = "scale(" + toScale + ")";
+        }
+
+        var toStr = "";
+        if (toX != undefined && toX != null) {
+            toStr = "translate3d(" + toX + ", " + toY + ",0) ";
+        }
+
+        keyframeStyle.innerHTML = "@keyframes " + keyname + " {" + fromStr + " to{transform: " + toStr + toScaleStr + ";}}\r\n" +
+            "@-webkit-keyframes " + keyname + " {" + fromStr + " to{-webkit-transform: " + toStr + toScaleStr + ";}}\r\n";
         document.head.appendChild(keyframeStyle);
 
         ele.style.transform = "translate3d(" + fromX + "," + fromY + ",0)";
@@ -65,8 +80,8 @@ export class AnimationHelper {
 
         var funcEnd = () => {
             if (keepValue) {
-                ele.style.transform = "translate3d(" + toX + "," + toY + ",0) scale(" + toScale + ")";
-                ele.style.webkitTransform = "translate3d(" + toX + "," + toY + ",0) scale(" + toScale + ")";
+                ele.style.transform = toStr + toScaleStr ;
+                ele.style.webkitTransform = toStr + toScaleStr ;
             }
             else {
                 ele.style.transform = "";
