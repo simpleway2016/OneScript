@@ -18,6 +18,14 @@ export class ScaleSwiperTest extends Component {
             },
             {
                 name: "abc3"
+            }, {
+                name: "abc4"
+            },
+            {
+                name: "abc5"
+            },
+            {
+                name: "abc6"
             }
         ],
         colors: ['#cccccc', '#b03232','#3162ae']

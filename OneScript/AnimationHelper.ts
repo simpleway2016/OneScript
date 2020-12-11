@@ -23,6 +23,11 @@ export class AnimationHelper {
      * @param completedCallBack
      */
     static moveElement(ele: HTMLElement, timeAndMode: string, fromX: string, toX: string, fromY: string, toY: string, fromScale, toScale, keepValue: boolean, completedCallBack: () => void) {
+        if (!ele) {
+            if (completedCallBack)
+                completedCallBack();
+            return;
+        }
         //创建样式
         var keyname = "_AnimationHelper" + (AnimationHelper.flag++) + "_" + new Date().getTime();
         var keyframeStyle = document.createElement("STYLE");

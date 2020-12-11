@@ -173,21 +173,26 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 //});
                 if (x < 0) {
                     this.$custsom.nextItem.style.transform = `scale(${nextflag},${nextflag})`;
+                    this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
                     this.$custsom.nextItem._$scale = nextflag;
 
                     this.$custsom.preItem.style.transform = `scale(${this.scale},${this.scale})`;
+                    this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
                     this.$custsom.preItem._$scale = this.scale;
 
                 }
                 else {
                     this.$custsom.preItem.style.transform = `scale(${nextflag},${nextflag})`;
+                    this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
                     this.$custsom.preItem._$scale = nextflag;
 
                     this.$custsom.nextItem.style.transform = `scale(${this.scale},${this.scale})`;
+                    this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
                     this.$custsom.nextItem._$scale = this.scale;
                 }
 
                 this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
             },
             onPanEnd: function (x) {
                 var index;
@@ -203,7 +208,19 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
 
                 this.$custsom.centerItem = this.$custsom.itemContainer.children[index];
                 this.$custsom.preItem = this.$custsom.itemContainer.children[index - 1];
+                try {
+                    this.$custsom.preItem2 = this.$custsom.itemContainer.children[index - 2];
+                } catch (e) {
+                    this.$custsom.preItem2 = undefined;
+                }
+               
                 this.$custsom.nextItem = this.$custsom.itemContainer.children[index + 1];
+                try {
+                    this.$custsom.nextItem2 = this.$custsom.itemContainer.children[index + 2];
+                } catch (e) {
+                    this.$custsom.nextItem2 = undefined;
+                }
+                
 
                 var target;
                 this.$custsom.animationning = true;
@@ -216,21 +233,10 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
 
                     AnimationHelper.moveElements([
                         {
-                            ele: this.$custsom.itemContainer,
-                            timeAndMode: timeAndMode,
-                            fromX: this.$custsom.translateX + "px",
-                            toX: target + "px",
-                            fromY: "0",
-                            toY: "0",
-                            fromScale: 1,
-                            toScale: 1,
-                            keepValue:true
-                        },
-                        {
                             ele: this.$custsom.centerItem,
                             timeAndMode: timeAndMode,
                             fromX: "0",
-                            toX: "0",
+                            toX: (target - this.$custsom.translateX) +  "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: this.$custsom.centerItem._$scale,
@@ -241,7 +247,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             ele: this.$custsom.nextItem,
                             timeAndMode: timeAndMode,
                             fromX: "0",
-                            toX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: this.$custsom.nextItem._$scale,
@@ -249,10 +255,21 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             keepValue: true
                         },
                         {
+                            ele: this.$custsom.nextItem2,
+                            timeAndMode: timeAndMode,
+                            fromX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
+                            fromY: "0",
+                            toY: "0",
+                            fromScale: this.scale,
+                            toScale: this.scale,
+                            keepValue: true
+                        },
+                        {
                             ele: this.$custsom.preItem,
                             timeAndMode: timeAndMode,
                             fromX: "0",
-                            toX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: this.$custsom.preItem._$scale,
@@ -260,14 +277,17 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             keepValue: true
                         }
                     ], () => {
-                        this.$custsom.translateX = target;
-                        this.$custsom.animationning = false;
-                        if (this.$custsom.toResetDatas) {
-                            this.resetDatas(this.$custsom.toResetDatas);
-                            this.$custsom.toResetDatas = undefined;
-                        }
+                            this.$custsom.translateX = target;
+                            this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                            this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
 
-                        this.calculatorX();
+                            this.$custsom.animationning = false;
+                            if (this.$custsom.toResetDatas) {
+                                this.resetDatas(this.$custsom.toResetDatas);
+                                this.$custsom.toResetDatas = undefined;
+                            }
+
+                            this.calculatorX();
 
                     });
                 }
@@ -278,21 +298,10 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
 
                     AnimationHelper.moveElements([
                         {
-                            ele: this.$custsom.itemContainer,
-                            timeAndMode: timeAndMode,
-                            fromX: this.$custsom.translateX + "px",
-                            toX: target + "px",
-                            fromY: "0",
-                            toY: "0",
-                            fromScale: 1,
-                            toScale: 1,
-                            keepValue: true
-                        },
-                        {
                             ele: this.$custsom.centerItem,
                             timeAndMode: timeAndMode,
                             fromX: "0",
-                            toX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: this.$custsom.centerItem._$scale,
@@ -303,7 +312,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             ele: this.$custsom.preItem,
                             timeAndMode: timeAndMode,
                             fromX: "0",
-                            toX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: this.$custsom.preItem._$scale,
@@ -311,10 +320,21 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             keepValue: true
                         },
                         {
+                            ele: this.$custsom.preItem2,
+                            timeAndMode: timeAndMode,
+                            fromX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
+                            fromY: "0",
+                            toY: "0",
+                            fromScale: this.scale,
+                            toScale: this.scale,
+                            keepValue: true
+                        },
+                        {
                             ele: this.$custsom.nextItem,
                             timeAndMode: timeAndMode,
                             fromX: "0",
-                            toX: "0",
+                            toX: (target - this.$custsom.translateX) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: this.$custsom.nextItem._$scale,
@@ -322,7 +342,11 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             keepValue: true
                         }
                     ], () => {
-                        this.$custsom.translateX = target;
+                            this.$custsom.translateX = target;
+                            this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                            this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
+
+
                         this.$custsom.animationning = false;
                         if (this.$custsom.toResetDatas) {
                             this.resetDatas(this.$custsom.toResetDatas);
@@ -348,7 +372,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
 
                 this.$custsom.translateX = -this.trueItemWidth * this.datas.length + mod;
                 this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
-                this.$custsom.itemContainer.style.webkitTransform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
+                this.$custsom.itemContainer.style.webkitTransform = this.$custsom.itemContainer.style.transform;
 
                 this.$custsom.centerItem = this.$custsom.itemContainer.children[this.datas.length + index];
                 this.$custsom.preItem = this.$custsom.itemContainer.children[this.datas.length + index - 1];
@@ -364,6 +388,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                         item._$scale = this.scale;
                     }
                     item.style.transform = `scale(${item._$scale},${item._$scale})`;
+                    item.style.webkitTransform = item.style.transform;
                 }
 
                 if (this.autoplay)
