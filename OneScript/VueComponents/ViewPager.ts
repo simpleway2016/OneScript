@@ -246,13 +246,13 @@ export function registerViewPager(option: ViewPagerOption, tagname: string) {
                 if (this.$custsom.translateX > 0) {
                     var mod = this.$custsom.container.offsetWidth * this.listDatas.length - this.$custsom.translateX % (this.$custsom.container.offsetWidth * this.listDatas.length);
                     this.currentIndex = Math.floor(<any>(Math.abs(mod) / this.$custsom.container.offsetWidth));
-                    this.$custsom.translateX = -this.currentIndex * this.$custsom.container.offsetWidth;
-                    this.$custsom.itemContainer.style.transform = `translate3d(${this.$custsom.translateX}px,0,0)`;
+                    this.$custsom.translateX = -this.currentIndex * this.$custsom.container.offsetWidth;                   
                 }
                 else {
                     var mod = this.$custsom.translateX % (this.$custsom.container.offsetWidth * this.listDatas.length);
                     this.currentIndex = Math.floor(<any>(Math.abs(mod) / this.$custsom.container.offsetWidth));
                 }
+                this.$custsom.itemContainer.style.transform = `translate3d(${this.$custsom.translateX}px,0,0)`;
                
                 if (this.autoplay)
                     this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
