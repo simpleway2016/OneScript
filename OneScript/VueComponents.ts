@@ -5,6 +5,7 @@ import { registerTouchClick } from "./TouchClickHandler";
 import { registerVerifyPattern } from "./VerifyPattern";
 import { registerAutoScrollItemList } from "./VueComponents/AutoScrollItemList";
 import { registerScaleSwiper, ScaleSwiperOption } from "./VueComponents/ScaleSwiper";
+import { registerViewPager, ViewPagerOption } from "./VueComponents/ViewPager";
 
 export class VueComponents {
 
@@ -242,5 +243,31 @@ export class VueComponents {
      */
     static useScaleSwiper(option?: ScaleSwiperOption,tagname: string = "scale-swiper") {
         registerScaleSwiper(option , tagname);
+    }
+
+    /**
+     * 组件属性:
+     * 样式内容需加入!important标识，如： color:#ccc !important;
+     *
+     * paginationContainerClass   分页器容器的样式
+     * paginationItemClass        分页器个体的样式
+     * paginationActiveItemClass  分页器聚焦个体的样式
+     * 
+     * can-Move-Back  是否允许往回翻页
+     * loop           是否循环播放
+     * 
+     * 例子：通过slotProps.item可访问子项的数据，slotProps.index对应索引
+     *  <scale-swiper :datas="list" :autoplay="true" :can-Move-Back="true" :loop="true" :interval="3000" :show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
+            <template  v-slot:default="slotProps">
+                <div style="height:100%;">
+                    {{slotProps.item.name}}
+                </div>
+            </template>
+        </scale-swiper>
+     * @param option
+     * @param tagname
+     */
+    static useViewPager(option?: ViewPagerOption, tagname: string = "view-pager") {
+        registerViewPager(option, tagname);
     }
 }

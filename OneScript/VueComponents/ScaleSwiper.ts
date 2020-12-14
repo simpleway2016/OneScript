@@ -536,7 +536,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 if (this.$custsom.animationning)
                     return;
 
-                if (this.$custsom.autoPlayTimeNumber) {
+                if (ev.type !== "tap" && this.$custsom.autoPlayTimeNumber) {
                     window.clearTimeout(this.$custsom.autoPlayTimeNumber);
                     this.$custsom.autoPlayTimeNumber = 0;
                 }
