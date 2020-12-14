@@ -207,7 +207,10 @@ export class VueComponents {
         registerAlertWindow(tagname, option);
     }
 
-    /**例子：通过slotProps.item可访问子项的数据，slotProps.index对应索引
+    /**
+     * 自动滚动一个子项的组件
+     * 
+     * 例子：通过slotProps.item可访问子项的数据，slotProps.index对应索引
      * 
      * <auto-scroll-item-list :datas="listdatas" :itemcount="3" :autoplay="true" :interval="3000" style="width:50%;height:100px;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
@@ -223,6 +226,7 @@ export class VueComponents {
     }
 
     /**
+     * 轮播组件
      * 组件属性:
      * 样式内容需加入!important标识，如： color:#ccc !important;
      *
@@ -246,6 +250,7 @@ export class VueComponents {
     }
 
     /**
+     * 滑屏翻页组件
      * 组件属性:
      * 样式内容需加入!important标识，如： color:#ccc !important;
      *
