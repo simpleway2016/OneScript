@@ -46,4 +46,7 @@ export class ViewPagerTest extends Component {
             name: "newitem" + (this.model.list.length + 1)
         });
     }
+    onchange(index) {
+        console.log("index changed:" + index);
+    }
 }

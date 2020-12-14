@@ -489,6 +489,12 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     }
                 },
                 immediate: true,
+            },
+            currentIndex: {
+                handler(newVal) {
+                    this.$emit("indexchange", newVal);
+                },
+                immediate: true,
             }
         },
         beforeCreate: function () {            

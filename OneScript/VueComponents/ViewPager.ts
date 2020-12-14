@@ -315,6 +315,12 @@ export function registerViewPager(option: ViewPagerOption, tagname: string) {
                     }
                 },
                 immediate: true,
+            },
+            currentIndex: {
+                handler(newVal) {
+                    this.$emit("indexchange", newVal);
+                },
+                immediate: true,
             }
         },
         beforeCreate: function () {            

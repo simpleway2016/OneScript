@@ -233,9 +233,12 @@ export class VueComponents {
      * paginationContainerClass   分页器容器的样式
      * paginationItemClass        分页器个体的样式
      * paginationActiveItemClass  分页器聚焦个体的样式
+     * indexchange   index变更事件
+     * itemwidth      如果是图片轮播，itemwidth和itemheight建议设置为图片的真实尺寸
+     * itemheight
      * 
-     * 例子：如果是图片轮播，itemwidth和itemheight建议设置为图片的真实尺寸,通过slotProps.item可访问子项的数据，slotProps.index对应索引
-     *  <scale-swiper :datas="list" :autoplay="true" :itemwidth="100" :itemheight="50" :interval="3000" :scale="0.8" :show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
+     * 例子：通过slotProps.item可访问子项的数据，slotProps.index对应索引
+     *  <scale-swiper :datas="list" @indexchange="onchange" :autoplay="true" :itemwidth="100" :itemheight="50" :interval="3000" :scale="0.8" :show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;">
                     {{slotProps.item.name}}
@@ -260,9 +263,10 @@ export class VueComponents {
      * 
      * can-Move-Back  是否允许往回翻页
      * loop           是否循环播放
+     * indexchange   index变更事件
      * 
      * 例子：通过slotProps.item可访问子项的数据，slotProps.index对应索引
-     *  <scale-swiper :datas="list" :autoplay="true" :can-Move-Back="true" :loop="true" :interval="3000" :show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
+     *  <scale-swiper :datas="list" @indexchange="onchange" :autoplay="true" :can-Move-Back="true" :loop="true" :interval="3000" :show-Pagination="true" pagination-Active-Item-Class="myClass" style="width:100%;border:1px solid #ccc;">
             <template  v-slot:default="slotProps">
                 <div style="height:100%;">
                     {{slotProps.item.name}}
