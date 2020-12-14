@@ -55,6 +55,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
         template: myhtml,
         data: function () {
             return {
+                lastChildrenLength:0,
                 currentIndex:0,
                 trueItemWidth: 0,
                 trueItemHeight:0,
@@ -385,15 +386,15 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 }
 
                 //不管实际移动到了那里，最后都更改为，以中间一排为基准，移动到了什么位置
-                var mod = this.$custsom.translateX % (this.trueItemWidth * this.datas.length);
+                var mod = this.$custsom.translateX % (this.trueItemWidth * this.listDatas.length);
                 var index = Math.floor(<any>(Math.abs(mod) / this.trueItemWidth));
                 this.currentIndex = index;
 
-                this.$custsom.translateX = -this.trueItemWidth * this.datas.length + mod;
+                this.$custsom.translateX = -this.trueItemWidth * this.listDatas.length + mod;
 
-                this.$custsom.centerItem = this.$custsom.itemContainer.children[this.datas.length + index];
-                this.$custsom.preItem = this.$custsom.itemContainer.children[this.datas.length + index - 1];
-                this.$custsom.nextItem = this.$custsom.itemContainer.children[this.datas.length + index + 1];
+                this.$custsom.centerItem = this.$custsom.itemContainer.children[this.listDatas.length + index];
+                this.$custsom.preItem = this.$custsom.itemContainer.children[this.listDatas.length + index - 1];
+                this.$custsom.nextItem = this.$custsom.itemContainer.children[this.listDatas.length + index + 1];
                 for (var i = 0; i < this.$custsom.itemContainer.children.length; i++) {
                     var item = this.$custsom.itemContainer.children[i];
                     if (item === this.$custsom.centerItem) {
@@ -423,12 +424,18 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
             },
             resetDatas: function (newValue) {
+                //先计算当前停在哪里了
+                var mod = this.$custsom.translateX % (this.trueItemWidth * this.listDatas.length);
+                var index = Math.floor(<any>(Math.abs(mod) / this.trueItemWidth));
+
                 for (var i = 0; i < newValue.length; i++) {
                     var sitem = newValue[i];
                     if (this.listDatas.length > i) {
                         var titem = this.listDatas[i];
                         if (titem != sitem) {
                             this.listDatas.splice(i, 0, sitem);
+                            if (i <= index)
+                                this.$custsom.translateX -= this.trueItemWidth*2;
                         }
                     }
                     else {
@@ -488,6 +495,12 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
             (<any>this).$custsom = {
                 autoPlayTimeNumber: 0
             };
+        },
+        updated: function () {
+            if (this.lastChildrenLength != this.$custsom.itemContainer.children.length) {
+                this.lastChildrenLength = this.$custsom.itemContainer.children.length;
+                this.calculatorX();
+            }
         },
         beforeMount: function () {            
 

@@ -3,6 +3,7 @@ import Vue from "vue";
 import Hammer from "../hammer.min.js"
 import { ResizeListener } from "../ResizeListener";
 import { AnimationHelper } from "../AnimationHelper";
+import { convertCompilerOptionsFromJson } from "typescript";
 
 var html = require("./autoScrollItemList.html");
 
@@ -32,6 +33,7 @@ export function registerAutoScrollItemList(tagname: string) {
         template: myhtml,
         data: function () {
             return {
+                lastChildrenLength: 0,
                 itemWidth: 0,
                 listDatas:[]
             };
@@ -147,6 +149,10 @@ export function registerAutoScrollItemList(tagname: string) {
                 });  
             },
             calculatorX: function () {
+                if (this.$custsom.autoPlayTimeNumber) {
+                    window.clearTimeout(this.$custsom.autoPlayTimeNumber);
+                    this.$custsom.autoPlayTimeNumber = 0;
+                }
                 //不管实际移动到了那里，最后都更改为，以中间一排为基准，移动到了什么位置
                 var mod = this.$custsom.translateX % (this.itemWidth * this.datas.length);
                 this.$custsom.translateX = -this.itemWidth * this.datas.length * 2 + mod;
@@ -157,12 +163,18 @@ export function registerAutoScrollItemList(tagname: string) {
                     this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
             },
             resetDatas: function (newValue) {
+                var mod = this.$custsom.translateX % (this.itemWidth * this.datas.length);
+                var index = Math.floor(<any>(Math.abs(mod) / this.itemWidth));
+
                 for (var i = 0; i < newValue.length; i++) {
                     var sitem = newValue[i];
                     if (this.listDatas.length > i) {
                         var titem = this.listDatas[i];
                         if (titem != sitem) {
                             this.listDatas.splice(i, 0, sitem);
+                            if (i <= index) {
+                                this.$custsom.translateX -= this.itemWidth * 3;
+                            }
                         }
                     }
                     else {
@@ -223,6 +235,13 @@ export function registerAutoScrollItemList(tagname: string) {
             (<any>this).$custsom = {
                 autoPlayTimeNumber: 0
             };
+        },
+        updated: function () {
+            if (this.lastChildrenLength != this.$custsom.itemContainer.children.length) {
+                this.lastChildrenLength = this.$custsom.itemContainer.children.length;
+                this.calculatorX();
+                console.log("children updated");
+            }
         },
         beforeMount: function () {            
 
