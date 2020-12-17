@@ -2,7 +2,7 @@
 import { PullToRefresh } from "./PullToRefresh";
 
 import { ModelValidator, ModelValidate, ValidateType } from "./ModelValidator";
-
+import { Swiper } from "./Swiper";
 import { HttpClient } from "./HttpClient";
 import { IHttpClientUsing } from "./IHttpClientUsing";
 
@@ -17,6 +17,7 @@ import { ImageEditorMaskStyle, ImageEditorOption } from "./ImageEditor";
 import { ResizeListener } from "./ResizeListener";
 
 export {
+    Swiper,
     AnimationHelper,
     AnimationElementOption,
     Navigation,

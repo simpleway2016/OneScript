@@ -149,6 +149,9 @@ export function registerAutoScrollItemList(tagname: string) {
                 });  
             },
             calculatorX: function () {
+                if (this.$custsom.translateX == undefined)
+                    return;
+
                 if (this.$custsom.autoPlayTimeNumber) {
                     window.clearTimeout(this.$custsom.autoPlayTimeNumber);
                     this.$custsom.autoPlayTimeNumber = 0;
