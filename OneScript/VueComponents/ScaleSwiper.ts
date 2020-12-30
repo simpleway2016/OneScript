@@ -187,9 +187,11 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 //    movingflag
                 //});
                 if (x < 0) {
-                    this.$custsom.nextItem.style.transform = `translate3d(${this.$custsom.nextItem._$x + x}px,0,0) scale(${nextflag},${nextflag})`;
-                    this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
-                    this.$custsom.nextItem._$scale = nextflag;
+                    if (this.$custsom.nextItem) {
+                        this.$custsom.nextItem.style.transform = `translate3d(${this.$custsom.nextItem._$x + x}px,0,0) scale(${nextflag},${nextflag})`;
+                        this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
+                        this.$custsom.nextItem._$scale = nextflag;
+                    }
 
                     if (this.$custsom.nextItem2) {
                         this.$custsom.nextItem2.style.transform = `translate3d(${this.$custsom.nextItem2._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
@@ -197,25 +199,31 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                         this.$custsom.nextItem2._$scale = this.scale;
                     }
 
-                    this.$custsom.preItem.style.transform = `translate3d(${this.$custsom.preItem._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
-                    this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
-                    this.$custsom.preItem._$scale = this.scale;
+                    if (this.$custsom.preItem) {
+                        this.$custsom.preItem.style.transform = `translate3d(${this.$custsom.preItem._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
+                        this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
+                        this.$custsom.preItem._$scale = this.scale;
+                    }
 
                 }
                 else {
-                    this.$custsom.preItem.style.transform = `translate3d(${this.$custsom.preItem._$x + x}px,0,0) scale(${nextflag},${nextflag})`;
-                    this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
-                    this.$custsom.preItem._$scale = nextflag;
+
+                    if (this.$custsom.preItem) {
+                        this.$custsom.preItem.style.transform = `translate3d(${this.$custsom.preItem._$x + x}px,0,0) scale(${nextflag},${nextflag})`;
+                        this.$custsom.preItem.style.webkitTransform = this.$custsom.preItem.style.transform;
+                        this.$custsom.preItem._$scale = nextflag;
+                    }
 
                     if (this.$custsom.preItem2) {
                         this.$custsom.preItem2.style.transform = `translate3d(${this.$custsom.preItem2._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
                         this.$custsom.preItem2.style.webkitTransform = this.$custsom.preItem2.style.transform;
                         this.$custsom.preItem2._$scale = this.scale;
                     }
-
-                    this.$custsom.nextItem.style.transform = `translate3d(${this.$custsom.nextItem._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
-                    this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
-                    this.$custsom.nextItem._$scale = this.scale;
+                    if (this.$custsom.nextItem) {
+                        this.$custsom.nextItem.style.transform = `translate3d(${this.$custsom.nextItem._$x + x}px,0,0) scale(${this.scale},${this.scale})`;
+                        this.$custsom.nextItem.style.webkitTransform = this.$custsom.nextItem.style.transform;
+                        this.$custsom.nextItem._$scale = this.scale;
+                    }
                 }
 
             },
@@ -255,13 +263,15 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     target = this.$custsom.translateX / this.trueItemWidth;
                     target = Math.floor(Math.abs(target)) + 1;
                     target = -target * this.trueItemWidth;
-                    
+
+                   
+
                     AnimationHelper.moveElements([
                         {
                             ele: this.$custsom.preItem,
                             timeAndMode: timeAndMode,
                             fromX: undefined,
-                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.preItem._$x) + "px",
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.preItem ? this.$custsom.preItem._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: undefined,
@@ -272,7 +282,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             ele: this.$custsom.centerItem,
                             timeAndMode: timeAndMode,
                             fromX: undefined,
-                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.centerItem._$x) + "px",
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.centerItem ? this.$custsom.centerItem._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: undefined,
@@ -283,7 +293,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             ele: this.$custsom.nextItem,
                             timeAndMode: timeAndMode,
                             fromX: undefined,
-                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.nextItem._$x) + "px",
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.nextItem ? this.$custsom.nextItem._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: undefined,
@@ -319,12 +329,14 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     target = Math.floor(Math.abs(target));
                     target = -target * this.trueItemWidth;
 
+                    
+
                     AnimationHelper.moveElements([
                         {
                             ele: this.$custsom.nextItem,
                             timeAndMode: timeAndMode,
                             fromX: undefined,
-                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.nextItem._$x) + "px",
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.nextItem ? this.$custsom.nextItem._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: undefined,
@@ -335,7 +347,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             ele: this.$custsom.centerItem,
                             timeAndMode: timeAndMode,
                             fromX: undefined,
-                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.centerItem._$x) + "px",
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.centerItem ? this.$custsom.centerItem._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: undefined,
@@ -346,7 +358,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                             ele: this.$custsom.preItem,
                             timeAndMode: timeAndMode,
                             fromX: undefined,
-                            toX: (target - this.$custsom.panStart_translateX + this.$custsom.preItem._$x) + "px",
+                            toX: (target - this.$custsom.panStart_translateX + (this.$custsom.preItem ? this.$custsom.preItem._$x : 0)) + "px",
                             fromY: "0",
                             toY: "0",
                             fromScale: undefined,
@@ -426,6 +438,15 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                     this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
             },
             resetDatas: function (newValue) {
+                if (this.$custsom.translateX == undefined) {
+                    this.listDatas = [];
+                    for (var i = 0; i < newValue.length; i++) {
+                        var sitem = newValue[i];
+                        this.listDatas.push(sitem);
+                    }
+                    return;
+                }
+
                 //先计算当前停在哪里了
                 var mod = this.$custsom.translateX % (this.trueItemWidth * this.listDatas.length);
                 var index = Math.floor(<any>(Math.abs(mod) / this.trueItemWidth));
@@ -436,7 +457,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                         var titem = this.listDatas[i];
                         if (titem != sitem) {
                             this.listDatas.splice(i, 0, sitem);
-                            if (i <= index)
+                            if (i <= index && newValue.indexOf(titem) >= 0)
                                 this.$custsom.translateX -= this.trueItemWidth*2;
                         }
                     }

@@ -12,9 +12,6 @@ export class ScaleSwiperTest extends Component {
         list: [
             {
                 name:"abc1"
-            },
-            {
-                name: "abc2"
             }
         ],
         colors: ['#cccccc', '#b03232','#3162ae']
@@ -30,7 +27,11 @@ export class ScaleSwiperTest extends Component {
             methods: this.getMethodObjectForVue(),
         });
 
-       
+        this.model.list = [
+            {
+                name: "abc2"
+            }
+        ];
     }
     clickfunc(text) {
         alert(text);

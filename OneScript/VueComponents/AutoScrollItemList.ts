@@ -175,7 +175,7 @@ export function registerAutoScrollItemList(tagname: string) {
                         var titem = this.listDatas[i];
                         if (titem != sitem) {
                             this.listDatas.splice(i, 0, sitem);
-                            if (i <= index) {
+                            if (i <= index && newValue.indexOf(titem) >= 0) {
                                 this.$custsom.translateX -= this.itemWidth * 3;
                             }
                         }
