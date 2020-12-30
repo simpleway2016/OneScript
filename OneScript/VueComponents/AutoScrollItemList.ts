@@ -158,6 +158,9 @@ export function registerAutoScrollItemList(tagname: string) {
                 }
                 //不管实际移动到了那里，最后都更改为，以中间一排为基准，移动到了什么位置
                 var mod = this.$custsom.translateX % (this.itemWidth * this.datas.length);
+                if (isNaN(mod))
+                    mod = 0;
+
                 this.$custsom.translateX = -this.itemWidth * this.datas.length * 2 + mod;
                 this.$custsom.itemContainer.style.transform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
                 this.$custsom.itemContainer.style.webkitTransform = "translate3d(" + this.$custsom.translateX + "px,0,0)";
@@ -190,7 +193,11 @@ export function registerAutoScrollItemList(tagname: string) {
                 }
             },
             autoTranslateToNext: function () {
-                if (this.$custsom.animationning || this.$custsom.isPanning || this.datas.length <= this.itemcount) {
+                if (this.$custsom.animationning || this.$custsom.isPanning) {
+                    return;
+                }
+
+                if (!this.datas || this.datas.length <= this.itemcount) {
                     if (this.autoplay)
                         this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
                     return;
@@ -277,7 +284,7 @@ export function registerAutoScrollItemList(tagname: string) {
 
             //swipeleft在手机上还有些bug
             this.$custsom.hammer.on('pan panstart panend pancancel tap', (ev) => {
-                if (this.$custsom.animationning || this.datas.length <= this.itemcount)
+                if (this.$custsom.animationning || !this.datas || this.datas.length <= this.itemcount)
                     return;
 
                 if (this.$custsom.autoPlayTimeNumber) {

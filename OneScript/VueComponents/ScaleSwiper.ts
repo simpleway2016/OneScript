@@ -402,6 +402,10 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
                 //不管实际移动到了那里，最后都更改为，以中间一排为基准，移动到了什么位置
                 var mod = this.$custsom.translateX % (this.trueItemWidth * this.listDatas.length);
                 var index = Math.floor(<any>(Math.abs(mod) / this.trueItemWidth));
+                if (isNaN(index)) {
+                    index = 0;
+                    mod = 0;
+                }
                 this.currentIndex = index;
 
                 this.$custsom.translateX = -this.trueItemWidth * this.listDatas.length + mod;
@@ -472,6 +476,12 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
             },
             autoTranslateToNext: function () {
                 if (this.$custsom.animationning || this.$custsom.isPanning) {
+                    return;
+                }
+
+                if (!this.datas || this.datas.length == 0) {
+                    if (this.autoplay)
+                        this.$custsom.autoPlayTimeNumber = window.setTimeout(() => this.autoTranslateToNext(), this.interval);
                     return;
                 }
 
@@ -562,7 +572,7 @@ export function registerScaleSwiper(option: ScaleSwiperOption, tagname: string) 
             });
 
             this.$custsom.hammer.on('pan panstart panend pancancel tap', (ev) => {
-                if (this.$custsom.animationning)
+                if (this.$custsom.animationning || !this.datas || this.datas.length == 0)
                     return;
 
                 if (ev.type !== "tap" && this.$custsom.autoPlayTimeNumber) {
