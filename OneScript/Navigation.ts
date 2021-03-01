@@ -13,6 +13,8 @@ export class NavigationEvent {
 class NavigationEventHandler {
     event: NavigationEvent;
     action: (component: Component) => any;
+    /**是否只是执行一次*/
+    onlyOnce: boolean;
 }
 export class Navigation extends Component {
     /**目前显示的队列*/
@@ -47,19 +49,33 @@ export class Navigation extends Component {
     rasieEvent(eventType: NavigationEvent, component: Component) {
         for (var i = 0; i < this.eventHandlers.length; i++) {
             try {
-                if (this.eventHandlers[i].event == eventType)
-                    this.eventHandlers[i].action(component);
+                var item = this.eventHandlers[i];
+                if (item.event == eventType) {
+                    if (item.onlyOnce) {
+                        this.eventHandlers.splice(i, 1);
+                        i--;
+                    }
+                    item.action(component);
+                }
             }
             catch (e) {
 
             }
         }
     }
-    addEventListener(eventType: NavigationEvent, func: (component: Component) => any): void {
+
+    /**
+     * 注册事件监听
+     * @param eventType
+     * @param func
+     * @param onlyOnce 监听器是否只是触发一次
+     */
+    addEventListener(eventType: NavigationEvent, func: (component: Component) => any , onlyOnce = false): void {
 
         var handler = new NavigationEventHandler();
         handler.event = eventType;
         handler.action = func;
+        handler.onlyOnce = onlyOnce;
 
         this.eventHandlers.push(handler);
     }
