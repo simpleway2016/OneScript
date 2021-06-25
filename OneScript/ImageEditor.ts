@@ -337,6 +337,33 @@ export class ImageEditor {
      
         this.print();
     }
+
+    async loadImageByUrl(url: string, scale = undefined, offset = undefined): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.offset = { x: 0, y: 0 };
+            if (offset != undefined)
+                this.offset = offset;
+
+            this.image = new Image();
+            this.image.onload = () => {
+                try {
+                    if (scale == undefined) {
+                        this.scale = 0;
+                    }
+                    else {
+                        this.scale = scale;
+                    }
+                    this.print();
+                    resolve();
+                } catch (e) {
+                    reject(e);
+                }
+
+            }
+            this.image.src = url;
+        });
+    }
+
     async loadImage(input: HTMLInputElement): Promise<void> {
         return new Promise((resolve, reject) => {
             var reader = new FileReader();
@@ -424,7 +451,12 @@ export class ImageEditor {
     private print() {
         if (!this.image)
             return;
-
+        if (!this.canvas) {
+            window.requestAnimationFrame(() => {
+                this.print();
+            });
+            return;
+        }
 
         this.printScale = this.canvasWidth / this.canvas.offsetWidth;
 
