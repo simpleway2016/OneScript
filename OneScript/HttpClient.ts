@@ -1,5 +1,4 @@
 ﻿import { IHttpClientUsing } from "./IHttpClientUsing";
-import { isArray } from "util";
 
 export interface HttpClientOption {
     url: string;
@@ -211,7 +210,7 @@ export class HttpClient {
                     for (var p in option.data) {
                         if (option.data[p] != undefined) {
                             var val = option.data[p];
-                            if (isArray(val)) {
+                            if (Array.isArray(val)) {
                                 for (var m = 0; m < val.length; m++) {
                                     content += p + "=" + encodeURIComponent(val[m]) + "&";
                                 }
