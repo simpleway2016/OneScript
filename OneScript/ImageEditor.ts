@@ -211,8 +211,10 @@ export class ImageEditor {
 
                         //使用toDataURL将canvas上的图片转换为base64格式
                         var data = canvas.toDataURL('image/jpeg');
-
-                        resolve(ImageEditor.dataURLtoBlob(data));
+                        var ret : any = ImageEditor.dataURLtoBlob(data);
+                        ret.name = file.name;
+                        ret.type = file.type;
+                        resolve(ret);
                     };
                     (<any>image).src = e.target.result;
                 };
