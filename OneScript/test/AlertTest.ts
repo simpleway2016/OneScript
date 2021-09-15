@@ -19,7 +19,11 @@ export class AlertTest extends Component {
                 }
             },
             {
-                text: "取消"
+                text: "取消",
+                bold: false,
+                click: () => {
+                    this.model.buttons[0].text = "<font color=red>确定</font>" + new Date().getTime();
+                }
             }
         ],
         buttonClick: () => {
@@ -42,5 +46,9 @@ export class AlertTest extends Component {
             },
         });
 
+    }
+
+    bottomClick() {
+        alert(222);
     }
 }

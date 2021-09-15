@@ -4,13 +4,14 @@ import Vue from "vue";
 var html = require("./alertWindow.html");
 
 export interface AlertWindowButton {
+    /**按钮文字，支持html文本 */
     text: string;
     /**文字样式 */
     textClass?: string;
     /**是否粗体 */
     bold?: boolean;
-    /**点击回调 */
-    click?: () => void;
+    /**点击回调,如果返回true，表示不再按钮已经自己处理事件，不再往上触发 */
+    click?: () => boolean;
 }
 export interface AlertWindowOption {
     /**主显示框的样式 */
@@ -117,7 +118,8 @@ export function registerAlertWindow(tagname: string,option: AlertWindowOption) {
                 this.$emit('change', false);
                 
                 if (btn.click && typeof btn.click === "function") {
-                    btn.click();
+                    if (btn.click())
+                        return;
                 }
                 if (this.buttonclick) {
                     this.buttonclick(btn);
