@@ -34,7 +34,7 @@ if ((<any>window).api)
 
 Component.registerForVue(CustomComponet2, "pTest");
 Component.registerForVue(CustomComponet2_1, "pTest2");
-var page = new AlertTest();
+var page = new SelectorTest();
 page.setParent(document.body.querySelector("#main"));
 
 page.onNavigationActived(false);

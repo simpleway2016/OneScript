@@ -62,6 +62,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
         },
         data: function () {
             return {
+                hasSelectionSlot:false,
                 curValue: undefined,
                 bodyHeight: 0,
                 maskBottom: "-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,1)),to(rgba(0,0,0,0)),color-stop(0.7,rgba(0,0,0,1)))",
@@ -197,7 +198,7 @@ export function registerSelector(tagname: string, option: SelectorOption) {
                     
                 this.layerEle.style.visibility = "visible";
             }
-        },
+       },
         watch: {
             value: function (newValue) {
                 this.curValue = newValue;
@@ -207,6 +208,13 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             this.getBodyHeight();
         },
        mounted: function () {
+
+           this.hasSelectionSlot = this.$scopedSlots.selection != undefined;
+           //for (var p in this) {
+           //    console.log(p);
+           //    console.log(this[p]);
+           //}
+          
            var self = this;
            (<HTMLElement>this.$el).addEventListener("click", function () {
                self.open();
