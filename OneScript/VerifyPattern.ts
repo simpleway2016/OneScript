@@ -9,14 +9,20 @@
 
         var val = inputEle.value;
         if (val) {
-            var arr = inputEle._jpattern.exec(val);
-            if (Array.isArray(arr))
-                arr = arr[0];
-            if (val != arr) {
-                inputEle.value = arr;
-                var theEvent = document.createEvent('Event');
-                theEvent.initEvent('input', true, true);
-                e.target.dispatchEvent(theEvent);
+            var pattern = inputEle.getAttribute("jpattern");
+            if (pattern) {
+                pattern = eval("/" + pattern + "/");
+                if (pattern) {
+                    var arr = pattern.exec(val);
+                    if (Array.isArray(arr))
+                        arr = arr[0];
+                    if (val !== arr) {
+                        inputEle.value = arr;
+                        var theEvent = document.createEvent('Event');
+                        theEvent.initEvent('input', true, true);
+                        e.target.dispatchEvent(theEvent);
+                    }
+                }
             }
         }
        
@@ -29,8 +35,6 @@
 
         var pattern = element.getAttribute("jpattern");
         if (pattern) {
-            pattern = eval("/" + pattern + "/");
-            element._jpattern = pattern;
             element.addEventListener("input", oninput);
         }
     }

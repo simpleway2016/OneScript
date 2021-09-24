@@ -8,8 +8,8 @@
 <body>
     <div>
         <button @click="show=true">show</button>
-        <input jpattern="([0-9]|\.){1,6}" v-model="time">{{time}}
-    <alert-window :buttonclick="buttonClick" title="my title" :buttons="buttons">
+        <input jpattern="[0-9]+" v-model="time">{{time}}
+    <alert-window :buttonclick="buttonClick" v-model="show" title="my title" :buttons="buttons">
         <div slot="bottomButton" style="margin-top:50px;" @click="bottomClick"><button>下面定制</button></div>
 
         <div class="display-flex flex-direction-column align-items-center">
