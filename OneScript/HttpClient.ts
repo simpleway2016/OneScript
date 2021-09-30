@@ -180,9 +180,7 @@ export class HttpClient {
         if (!option.header)
             option.header = {};
 
-        if (option.header["Content-Type"] === undefined && option.method === "POST")
-            option.header["Content-Type"] = "application/x-www-form-urlencoded";
-
+        
         //if (option.header["Access-Control-Allow-Origin"] === undefined)
         //    option.header["Access-Control-Allow-Origin"] = "*";
         
@@ -205,6 +203,24 @@ export class HttpClient {
                     else {
                         content = JSON.stringify(option.data);
                     }
+                }
+                else if (option.method === "POST") {
+                    var formData = new FormData();
+
+                    for (var p in option.data) {
+                        if (option.data[p] != undefined) {
+                            var val = option.data[p];
+                            if (Array.isArray(val)) {
+                                for (var m = 0; m < val.length; m++) {
+                                    formData.append(p, val[m]);
+                                }
+                            }
+                            else {
+                                formData.append(p, val);
+                            }
+                        }
+                    }
+                    content = <any>formData;
                 }
                 else {
                     for (var p in option.data) {
