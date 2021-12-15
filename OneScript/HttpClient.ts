@@ -46,7 +46,10 @@ export class HttpClient {
                     }
 
                     if (option && option.callback) {
-                        option.callback(http.responseText, null);
+                        var cb = option.callback;
+                        option.callback = null;
+                        cb(http.responseText, null);
+                       
                     }
                 }
                 else {
@@ -256,7 +259,9 @@ export class HttpClient {
                 (<any>http)._timer = setTimeout(() => {
                     http.abort();
                     if (option.callback) {
-                        option.callback(null, "timeout");
+                        var cb = option.callback;
+                        option.callback = null;
+                        cb(null, "timeout");
                     }
                 }, option.timeout);
             }
