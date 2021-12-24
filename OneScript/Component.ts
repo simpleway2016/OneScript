@@ -15,6 +15,9 @@ export class Component implements IHttpClientUsing {
     element: HTMLElement;
     owner: Navigation;
     onDisposed: () => void;
+    /**页面的position
+     */
+    position = "absolute";
     /**样式表id名字 */
     private static StyleFlag = 0;
 
@@ -312,7 +315,7 @@ export class Component implements IHttpClientUsing {
         //为了兼容android 5.0 flex布局，这里做些处理
         var position = (<HTMLElement>parentEle).style.position;
         if (position === "relative" || position === "absolute" || position === "fixed") {
-            this.element.style.position = "absolute";
+            this.element.style.position = this.position;
             this.element.style.left = "0px";
             this.element.style.top = "0px";
         }
