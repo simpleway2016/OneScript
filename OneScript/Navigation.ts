@@ -33,7 +33,7 @@ export class Navigation extends Component {
 
     constructor() {
         super("");
-        
+        this.position = "absolute";
         this.element.style.width = "100%";
         this.element.style.height = "100%";
         this.element.style.position = "relative";
