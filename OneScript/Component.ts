@@ -17,7 +17,7 @@ export class Component implements IHttpClientUsing {
     onDisposed: () => void;
     /**页面的position
      */
-    position = "fixed";
+    position = "";
     /**样式表id名字 */
     private static StyleFlag = 0;
 
@@ -309,28 +309,33 @@ export class Component implements IHttpClientUsing {
      * 设置element的parentElement
      */
     setParent(parentEle: Element | string): void {
-        if (typeof parentEle === "string")
-            parentEle = <any>document.body.querySelector(parentEle);
+        if (parentEle) {
 
-        //为了兼容android 5.0 flex布局，这里做些处理
-        var position = (<HTMLElement>parentEle).style.position;
-        var myposition = undefined;
+            if (typeof parentEle === "string")
+                parentEle = <any>document.body.querySelector(parentEle);
 
-        if (parentEle == document.body) {
-            myposition = this.position;           
-        }
-        else if (position === "relative" || position === "absolute" || position === "fixed") {
-            myposition = "absolute";
-        }
-      
-        if (myposition) {
-            this.element.style.position = myposition;
-            this.element.style.left = "0px";
-            this.element.style.top = "0px";
-        }
+            //为了兼容android 5.0 flex布局，这里做些处理
+            var position = (<HTMLElement>parentEle).style.position;
+            var myposition = this.position;
 
-        (<HTMLElement>parentEle).appendChild(this.element);
-        this.onViewReady();
+            if (!myposition) {
+                if (parentEle == document.body) {
+                    myposition = "fixed";
+                }
+                else if (position === "relative" || position === "absolute" || position === "fixed") {
+                    myposition = "absolute";
+                }
+            }
+
+            if (myposition) {
+                this.element.style.position = myposition;
+                this.element.style.left = "0px";
+                this.element.style.top = "0px";
+            }
+
+            (<HTMLElement>parentEle).appendChild(this.element);
+            this.onViewReady();
+        }       
     }
 
 

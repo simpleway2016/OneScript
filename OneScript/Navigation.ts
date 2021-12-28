@@ -106,11 +106,21 @@ export class Navigation extends Component {
 
     /**
      * 
+     * @param parentEle 如果是null，表示使用document.body来管理子元素
+     */
+    setParent(parentEle: Element | string) {
+        super.setParent(parentEle);
+        if (!parentEle) {
+            this.element = document.body;
+        }
+    }
+
+    /**
+     * 
      * @param component
      */
     private preload(component: Component): void {
-      
-        component.element.style.position = "absolute";
+
         component.element.style.left = "0px";
         component.element.style.top = "0px";
         component.element.style.width = "100%";
@@ -316,7 +326,6 @@ export class Navigation extends Component {
     async push(curComponent: Component, animation: boolean = true, callback: () => void = null): Promise<void> {
         //需要设置zIndex，否则，如果另一个Component里面的子元素有更高zIndex，则会覆盖这个curComponent
         curComponent.element.style.zIndex = "1";
-        curComponent.element.style.position = "absolute";
         curComponent.element.style.left = "0px";
         curComponent.element.style.top = "0px";
         curComponent.element.style.width = "100%";
