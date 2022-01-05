@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="../css/flex.css">
+</head>
+<body>
+    <div style="width:100%;height:100%;overflow:hidden;">
+        <div id="root" style="width:100%;">
+            <div v-for="item in datas" :style="{height:itemHeight + 'px'}">
+                <slot v-bind:item="item"></slot>
+            </div>
+            <div v-if="datas && datas.length" :style="{height:itemHeight + 'px'}">
+                <slot v-bind:item="datas[0]"></slot>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

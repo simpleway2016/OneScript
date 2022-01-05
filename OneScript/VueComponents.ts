@@ -6,6 +6,7 @@ import { registerVerifyPattern } from "./VerifyPattern";
 import { registerAutoScrollItemList } from "./VueComponents/AutoScrollItemList";
 import { registerScaleSwiper, ScaleSwiperOption } from "./VueComponents/ScaleSwiper";
 import { registerViewPager, ViewPagerOption } from "./VueComponents/ViewPager";
+import { registerAutoScrollPlay } from "./VueComponents/AutoScrollPlay";
 
 export class VueComponents {
 
@@ -284,5 +285,22 @@ export class VueComponents {
      */
     static useViewPager(option?: ViewPagerOption, tagname: string = "view-pager") {
         registerViewPager(option, tagname);
+    }
+
+    /**
+     * 垂直滚动的广告词
+     * 
+     * 例子：
+     * <auto-scroll-play :datas="list" :interval="2000" :autoplay="play" style="width:200px;height:30px;border:1px solid #ccc;">
+            <template v-slot:default="data">
+                <div style="width:100%;height:100%;">
+                    {{data.item}}
+                </div>
+            </template>
+        </auto-scroll-play>
+     * @param tagname
+     */
+    static useAutoScrollPlay(tagname: string = "auto-scroll-play") {
+        registerAutoScrollPlay(tagname);
     }
 }

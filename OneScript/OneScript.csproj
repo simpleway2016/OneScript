@@ -87,6 +87,7 @@
     <Content Include="dist\VueComponents\Loading.js" />
     <Content Include="hammer.min.js" />
     <Content Include="test.config.js" />
+    <Content Include="test\autoScrollPlayTest.html" />
     <Content Include="test\viewPagerTest.html" />
     <Content Include="test\scaleSwiperTest.html" />
     <Content Include="test\autoScrollItemListTest.html" />
@@ -98,6 +99,7 @@
     <Content Include="test\alertTest.html" />
     <Content Include="test\pullToRefreshTest.html" />
     <Content Include="test\selectorTest.html" />
+    <Content Include="VueComponents\autoScrollPlay.html" />
     <Content Include="VueComponents\viewPager.html" />
     <Content Include="VueComponents\scaleSwiper.html" />
     <Content Include="VueComponents\autoScrollItemList.html" />
@@ -139,6 +141,7 @@
     <TypeScriptCompile Include="ScrollSelector.ts" />
     <TypeScriptCompile Include="StyleParser.ts" />
     <TypeScriptCompile Include="Swiper.ts" />
+    <TypeScriptCompile Include="test\AutoScrollPlayTest.ts" />
     <TypeScriptCompile Include="test\ViewPagerTest.ts" />
     <TypeScriptCompile Include="test\ScaleSwiperTest.ts" />
     <TypeScriptCompile Include="test\AutoScrollItemListTest.ts" />
@@ -153,6 +156,7 @@
     <TypeScriptCompile Include="TouchClickHandler.ts" />
     <TypeScriptCompile Include="VerifyPattern.ts" />
     <TypeScriptCompile Include="VueComponents\AlertWindow.ts" />
+    <TypeScriptCompile Include="VueComponents\AutoScrollPlay.ts" />
     <TypeScriptCompile Include="VueComponents\ViewPager.ts" />
     <TypeScriptCompile Include="VueComponents\ScaleSwiper.ts" />
     <TypeScriptCompile Include="VueComponents\AutoScrollItemList.ts" />

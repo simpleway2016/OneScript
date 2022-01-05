@@ -12,6 +12,7 @@ import { PullToRefreshTest } from "./PullToRefreshTest";
 import { AutoScrollItemListTest } from "./AutoScrollItemListTest";
 import { ScaleSwiperTest } from "./ScaleSwiperTest";
 import { ViewPagerTest } from "./ViewPagerTest";
+import { AutoScrollPlayTest } from "./AutoScrollPlayTest";
 
 VueComponents.useInputJPattern();
 VueComponents.useTouchClick();
@@ -28,13 +29,14 @@ VueComponents.useAlertWindow({
 VueComponents.useAutoScrollItemList();
 VueComponents.useScaleSwiper();
 VueComponents.useViewPager();
+VueComponents.useAutoScrollPlay();
 
 if ((<any>window).api)
     (<any>window).api.removeLaunchView();
 
 Component.registerForVue(CustomComponet2, "pTest");
 Component.registerForVue(CustomComponet2_1, "pTest2");
-var page = new AlertTest();
+var page = new AutoScrollPlayTest();
 page.setParent(document.body.querySelector("#main"));
 
 page.onNavigationActived(false);
