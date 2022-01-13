@@ -40,7 +40,7 @@ export class HttpClient {
                     (<any>http)._timer = undefined;
                 }
 
-                if (http.status == 200) {
+                if (http.status >= 200 && http.status < 300) {
                     if (option && option.component) {
                         option.component.freeHttp(http);
                     }
