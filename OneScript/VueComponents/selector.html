@@ -50,14 +50,14 @@
                     <div id="divTitle" :class="'jack-one-script-selector-title '+titleclass" :style="{height:title?'':'0px',borderBottom:title?'':'0px'}">{{title}}</div>
                     <div v-if="hasSelectionSlot" id="divContainer" style="-webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto;" :style="{maxHeight:bodyHeight,webkitMaskImage:maskFinally}">
                         <template v-for="option in options">
-                            <div v-if="option[valuemember||'value']!=curValue" touchmode @click.stop="optionClick(option)" :class="'jack-one-script-selector-option ' + optionclass" _selected="0" :style="{borderBottom:option!==options[options.length-1]?'':'0px !important'}" v-html="option[textmember||'text'].replace(/\n/g,'<br>')"></div>
+                            <div v-if="getValue(option)!=curValue" touchmode @click.stop="optionClick(option)" :class="'jack-one-script-selector-option ' + optionclass" _selected="0" :style="{borderBottom:option!==options[options.length-1]?'':'0px !important'}" v-html="getText(option,true)"></div>
                             <div v-else :class="'jack-one-script-selector-option ' + optionclass" _selected="1" :style="{borderBottom:option!==options[options.length-1]?'':'0px !important'}">
                                 <slot name="selection" :option="option"></slot>
                             </div>
                         </template>
                     </div>
                     <div v-else id="divContainer" style="-webkit-overflow-scrolling: touch; overflow-x: hidden; overflow-y: auto;" :style="{maxHeight:bodyHeight,webkitMaskImage:maskFinally}">
-                        <div touchmode @click.stop="optionClick(option)" :class="'jack-one-script-selector-option ' + optionclass + ' '+ (option[valuemember||'value']!=curValue?'':selectedclass)" :_selected="option[valuemember||'value']!=curValue?0:1" v-for="option in options" :style="{borderBottom:option!==options[options.length-1]?'':'0px !important'}" v-html="option[textmember||'text'].replace(/\n/g,'<br>')"></div>
+                        <div touchmode @click.stop="optionClick(option)" :class="'jack-one-script-selector-option ' + optionclass + ' '+ (getValue(option)!=curValue?'':selectedclass)" :_selected="getValue(option)!=curValue?0:1" v-for="option in options" :style="{borderBottom:option!==options[options.length-1]?'':'0px !important'}" v-html="getText(option,true)"></div>
                     </div>
                 </div>
                 <div touchmode @click.stop="cancelClick" id="btnCancel" :class="'jack-one-script-selector-option jack-one-script-selector-cancel ' + optionclass+' '+ cancelclass">{{canceltext}}</div>

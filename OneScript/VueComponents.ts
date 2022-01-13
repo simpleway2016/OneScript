@@ -175,14 +175,15 @@ export class VueComponents {
      * optionclass 选项的样式
      * show-option-on-init 初始化后，是否直接弹出显示框，默认false
      * oncancel 取消时的回调
-     * @param option
-     * @param tagname html标签名字，默认<selector>
      * 
-     * 
-     * <selector>里面可以用下面的插件，定义被选中项的呈现内容
+     *
+     * <selector @hide="" @clickoption="">里面可以用下面的插件，定义被选中项的呈现内容
      *      <template v-slot:selection="data">
                 <span style="color:blue;">{{data.option.text}} selected</span>
             </template>
+        </selector>
+     * @param option
+     * @param tagname html标签名字，默认<selector>
      */
     static useSelector(option: SelectorOption = {}, tagname: string = "selector") {
         VueComponents.addStyleToBody();

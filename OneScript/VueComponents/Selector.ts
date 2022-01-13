@@ -131,9 +131,29 @@ export function registerSelector(tagname: string, option: SelectorOption) {
                 default: undefined,
             },
         },
-        methods: {
-            optionClick: function (option) {
-                this.curValue = option[this.valuemember ||"value"];
+       methods: {
+           getText: function (option, replace) {
+               var ret;
+               if (!this.textmember)
+                   ret = option;
+               else
+                   ret = option[this.textmember];
+
+               if (replace && typeof ret == "string") {
+                   ret = ret.replace(/\n/g, '<br>');
+               }
+               
+               return ret;
+           },
+           getValue: function (option) {
+               if (!this.valuemember)
+                   return option;
+               return option[this.valuemember];
+           },
+           optionClick: function (option) {
+               this.$emit('clickoption', option);
+
+                this.curValue = this.getValue(option);
                 this.$emit('change', this.curValue);
                 this.layerEle.style.visibility = "hidden";
                 this.$emit('hide', true);
