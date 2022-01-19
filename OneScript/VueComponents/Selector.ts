@@ -124,20 +124,25 @@ export function registerSelector(tagname: string, option: SelectorOption) {
             },
             textmember: {
                 type: String,
-                default: undefined,
+                default: "text",
             },
             valuemember: {
                 type: String,
-                default: undefined,
+                default: "value",
             },
         },
        methods: {
            getText: function (option, replace) {
                var ret;
-               if (!this.textmember)
+               if (typeof option == "string") {
                    ret = option;
-               else
-                   ret = option[this.textmember];
+               }
+               else {
+                   if (!this.textmember)
+                       ret = option;
+                   else
+                       ret = option[this.textmember];
+               }
 
                if (replace && typeof ret == "string") {
                    ret = ret.replace(/\n/g, '<br>');
@@ -146,6 +151,10 @@ export function registerSelector(tagname: string, option: SelectorOption) {
                return ret;
            },
            getValue: function (option) {
+               if (typeof option == "string") {
+                   return option;
+               }
+
                if (!this.valuemember)
                    return option;
                return option[this.valuemember];
