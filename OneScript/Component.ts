@@ -272,6 +272,27 @@ export class Component implements IHttpClientUsing {
         this.abortHttps();
 
         try {
+            if (this.owner) {
+                this.onNavigationUnActived(true);
+                this.onBeforeNavigationPoped();
+
+                var index = this.owner.queue.indexOf(this);
+                if (index >= 0) {
+                    this.owner.queue.splice(index, 1);
+                    if (index >= this.owner.queue.length && this.owner.queue.length > 0) {
+                        var lastitem = this.owner.queue[this.owner.queue.length - 1];
+                        lastitem.onNavigationActived(true);
+                    }
+                }
+            }
+        } catch (e) {
+
+        }
+        finally {
+            this.owner = null;
+        }
+
+        try {
             if (this.element.parentElement)
                 this.element.parentElement.removeChild(this.element);
         }
