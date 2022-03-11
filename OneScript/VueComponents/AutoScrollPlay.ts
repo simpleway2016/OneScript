@@ -46,6 +46,10 @@ export function registerAutoScrollPlay(tagname: string) {
                 if (this.itemHeight) {
                     var currentEle: HTMLElement = this._el_container.children[this._offsetIndex];
                     var nextEle: HTMLElement = this._el_container.children[this._offsetIndex + 1];
+                    if (!nextEle) {
+                        this._timer = window.setTimeout(this.run, this.interval);
+                        return;
+                    }
                     var tomoveY = nextEle.getBoundingClientRect().y - currentEle.getBoundingClientRect().y;
                     this._offset -= tomoveY;
                     this._offsetIndex++;
