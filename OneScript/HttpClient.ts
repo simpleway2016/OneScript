@@ -4,6 +4,8 @@ export interface HttpClientOption {
     url: string;
     data?: any;
     header?: any;
+    /**这个由HttpClient自动赋值 */
+    httpObj?: XMLHttpRequest;
     callback?: (ret: any, err: any) => void;
     timeout?: number;
     async?: boolean;
@@ -64,7 +66,7 @@ export class HttpClient {
                             //cb(null, "http aborted");
                         }
                         else {
-                            cb(null, { status: http.status, msg: http.responseText});
+                            cb(null, { status: http.status, msg: http.responseText });
                         }
                     }
                 }
@@ -252,6 +254,7 @@ export class HttpClient {
             }
 
             var http = HttpClient.createRequest(option);
+            option.httpObj = http;
             http.withCredentials = option.withCredentials;
             if (option.async) {
                 //http.timeout = option.timeout;
