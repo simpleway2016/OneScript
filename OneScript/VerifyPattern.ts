@@ -16,6 +16,8 @@
                     var arr = pattern.exec(val);
                     if (Array.isArray(arr))
                         arr = arr[0];
+                    else if (arr == null || arr == undefined)
+                        arr = "";
                     if (val !== arr) {
                         inputEle.value = arr;
                         var theEvent = document.createEvent('Event');
