@@ -192,7 +192,16 @@ export class Component implements IHttpClientUsing {
                 var obj = new componentType(this.data);
                 obj.setParent(this.$el);
                 this.$OneScriptComponent = obj;
+
                 console.debug("loaded " + componentType.name);
+
+                if (this.active) {
+                    (<Component>this.$OneScriptComponent).onNavigationActived(undefined);
+                }
+                else
+                    (<Component>this.$OneScriptComponent).onNavigationUnActived(undefined);
+
+                
             },
             methods: {
                 onActiveChange: function (newVal) {
@@ -212,6 +221,8 @@ export class Component implements IHttpClientUsing {
             destroyed: function () {
                 console.debug("destroyed " + componentType.name);
                 if (this.$OneScriptComponent) {
+                    if ((<Component>this.$OneScriptComponent).actived)
+                        (<Component>this.$OneScriptComponent).onNavigationUnActived(undefined);
                     this.$OneScriptComponent.dispose();
                     this.$OneScriptComponent = null;
                 }
